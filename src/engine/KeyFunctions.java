@@ -63,6 +63,10 @@ public class KeyFunctions {
 			if(keys.get(i) == KeyEvent.VK_Q)
 				moveY -= speed * .005;
 			
+			if (keys.get(i)== KeyEvent.VK_SPACE){
+				jump();
+			}
+			
 			if(moveX / 500 < 0)
 				moveX = 0;
 			if(moveX / 500 > 100)
@@ -89,6 +93,10 @@ public class KeyFunctions {
 				else
 					walk("Swim");
 		}
+	}
+	
+	public void jump(){
+		//TODO add here
 	}
 	
 	public void setMouse(float x, float y) {

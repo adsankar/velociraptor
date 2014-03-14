@@ -1,5 +1,6 @@
 package engine;
 
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class Control {
 	public float mouseX = 0;
 	public float mouseY = 0;
 	public float deltaMouseX = 0;
-	public float deltaMouseY = 0;
+	public float deltaMouseY = (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2);
 	
 	public Control() {
 	}
