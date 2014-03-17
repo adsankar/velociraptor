@@ -1,5 +1,7 @@
 package engine;
 
+import java.awt.Cursor;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -8,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -18,6 +21,7 @@ import javax.media.opengl.glu.GLU;
 import javax.swing.JFrame;
 
 import com.sun.opengl.util.Animator;
+import com.sun.opengl.util.GLUT;
 
 
 
@@ -42,6 +46,7 @@ public class Source extends JFrame {
 	public Source() {
 		setTitle("Velociraptor Hunter");
 		setUndecorated(true);
+		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB) , new Point(0,0), "none"));
 		setSize((int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth()),
 				(int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
 		GraphicListener listener = new GraphicListener();
@@ -95,7 +100,7 @@ public class Source extends JFrame {
 		kFunc.setSpeed(speed);
 		kFunc.setMap(world.getMap());
 		mFunc.setSpeed(speed);
-		setMusic("What I'm Made Of");
+		//setMusic("What I'm Made Of");
 	}
 	
 	public class GraphicListener implements GLEventListener {
@@ -110,6 +115,11 @@ public class Source extends JFrame {
 			gl.glMatrixMode(GL.GL_MODELVIEW);
 			gl.glLoadIdentity();
 			GLU glu = new GLU();
+			
+			
+			//TODO
+			GLUT glut = new GLUT();
+			//glut.glutSetCursor(); 
 			glu.gluLookAt(eye.getXPosition(), eye.getYPosition(), eye.getZPosition(),
 					eye.getXView(), eye.getYView(), eye.getZView(),
 					0, 1, 0);

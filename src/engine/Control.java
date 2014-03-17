@@ -1,5 +1,7 @@
 package engine;
 
+import java.awt.AWTException;
+import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -12,10 +14,17 @@ public class Control {
 	public ArrayList<Integer> keysOff = new ArrayList<Integer>(0);
 	public float mouseX = 0;
 	public float mouseY = 0;
-	public float deltaMouseX = 0;
+	public float deltaMouseX = (int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2);
 	public float deltaMouseY = (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2);
+	public Robot rob;
 	
 	public Control() {
+		try {
+			rob=new Robot();
+		} catch (AWTException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void pressKey(KeyEvent e) {
@@ -70,10 +79,11 @@ public class Control {
 	
 	
 	public void move(MouseEvent e) {
-		mouseX += e.getX() - mouseX - deltaMouseX;
-		mouseY += e.getY() - mouseY - deltaMouseY;
-
-	}
+		mouseX += e.getX()  - deltaMouseX;
+		mouseY += e.getY() - deltaMouseY;
+		rob.mouseMove((int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2),
+				(int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2));
+		}
 	
 	public float getMouseX() {
 		return mouseX;
