@@ -1,6 +1,5 @@
 package engine;
 
-import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -21,7 +20,6 @@ import javax.media.opengl.glu.GLU;
 import javax.swing.JFrame;
 
 import com.sun.opengl.util.Animator;
-import com.sun.opengl.util.GLUT;
 
 
 
@@ -56,7 +54,7 @@ public class Source extends JFrame {
 		
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				control.click(e);
+				///control.click(e);
 			}
 		});
 		
@@ -116,10 +114,6 @@ public class Source extends JFrame {
 			gl.glLoadIdentity();
 			GLU glu = new GLU();
 			
-			
-			//TODO
-			GLUT glut = new GLUT();
-			//glut.glutSetCursor(); 
 			glu.gluLookAt(eye.getXPosition(), eye.getYPosition(), eye.getZPosition(),
 					eye.getXView(), eye.getYView(), eye.getZView(),
 					0, 1, 0);

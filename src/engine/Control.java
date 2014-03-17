@@ -14,15 +14,14 @@ public class Control {
 	public ArrayList<Integer> keysOff = new ArrayList<Integer>(0);
 	public float mouseX = 0;
 	public float mouseY = 0;
-	public float deltaMouseX = (int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2);
-	public float deltaMouseY = (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2);
+	public float midX = (int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2);
+	public float midY = (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2);
 	public Robot rob;
 	
 	public Control() {
 		try {
 			rob=new Robot();
 		} catch (AWTException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -72,17 +71,11 @@ public class Control {
 		mouseY = y;
 	}
 	
-	public void click(MouseEvent e) {
-		deltaMouseX = e.getX() - mouseX;
-		deltaMouseY = e.getY() - mouseY;
-	}
-	
 	
 	public void move(MouseEvent e) {
-		mouseX += e.getX()  - deltaMouseX;
-		mouseY += e.getY() - deltaMouseY;
-		rob.mouseMove((int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2),
-				(int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2));
+		mouseX += e.getX()  - midX;
+		mouseY += e.getY() - midY;
+		rob.mouseMove((int) midX,(int) midY);
 		}
 	
 	public float getMouseX() {

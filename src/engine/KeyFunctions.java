@@ -96,8 +96,15 @@ public class KeyFunctions {
 	}
 	
 	public void jump(){
-		//TODO add here
+	
+		
+	//	moveY += speed * .005;
+	
+		
+		
+		
 	}
+
 	
 	public void setMouse(float x, float y) {
 		mx = x;
