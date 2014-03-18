@@ -3,23 +3,38 @@ package engine;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 
+/**
+ * Program creates a 3D environment from height map for player in games
+ * @author 930983
+ *
+ */
 public class World {
 
 	float space;
 	Map map;
 	int size = 100;
 
+	/**
+	 * Creates a new instance of world with a map of given size.
+	 */
 	public World() {
 		space = 1;
 		size++;
 		map = new Map(size);
 	}
-
+	/**
+	 * draws and renders the world to the screen
+	 * @param glad
+	 */
 	public void makeWorld(GLAutoDrawable glad) {
 		GL gl = glad.getGL();
 		drawColoredTerrain(gl);
 	}
-
+	/**
+	 * Determines the appropriate color for the space of height map
+	 * @param color
+	 * @return double array of colors
+	 */
 	public double[] calcColor(double color) {
 		if (color < 0.3)
 			return new double[] {0.2, 0.2, 0.5 + color};
@@ -27,7 +42,10 @@ public class World {
 			return new double[] {color * 3 / 4, 1 * color, 3 / 4 * color};
 		return new double[] {1.2 * color, color, color * 6/7};
 	}
-
+	/**
+	 * Draws the terrain with colors
+	 * @param gl
+	 */
 	public void drawColoredTerrain(GL gl){
 
 		double[][] hmap = map.getMap();
@@ -76,11 +94,17 @@ public class World {
 		}
 		gl.glEnd();
 	}
-
+	/**
+	 * returns the average height of inclines in map
+	 * @return
+	 */
 	public double getAverage() {
 		return map.getAverage();
 	}
-
+	/**
+	 * Returns the height map
+	 * @return
+	 */
 	public double[][] getMap() {
 		return map.getMap();
 	}

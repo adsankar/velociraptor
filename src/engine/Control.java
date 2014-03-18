@@ -17,7 +17,9 @@ public class Control {
 	public float midX = (int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2);
 	public float midY = (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2);
 	public Robot rob;
-	
+	/**
+	 * 
+	 */
 	public Control() {
 		try {
 			rob=new Robot();
