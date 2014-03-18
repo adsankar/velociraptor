@@ -21,7 +21,6 @@ import javax.swing.JFrame;
 
 import com.sun.opengl.util.Animator;
 
-pent
 
 public class Source extends JFrame {
 	
