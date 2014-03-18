@@ -10,7 +10,11 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCanvas;
@@ -24,6 +28,8 @@ import com.sun.opengl.util.Animator;
 
 public class Source extends JFrame 
 {
+	
+	BufferedImage crosshairs = new BufferedImage(300, 300, BufferedImage.TYPE_INT_ARGB);
 	World world = new World();
 	Eye eye = new Eye();
 	Control control = new Control();
@@ -51,8 +57,21 @@ public class Source extends JFrame
 	public Source() {
 		setTitle("Velociraptor Hunter");
 		setUndecorated(true);
-		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB) , new Point(0,0), "none"));
-		setSize((int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth()),
+		
+		
+	
+			try {
+				crosshairs = ImageIO.read(new File("crosshairwhite.png"));
+			} catch (IOException e) {
+				System.err.println("File Not Found!");
+				e.printStackTrace();
+			}
+	
+		//TODO load in new image for cursor
+		//setCursor(Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB) , new Point(0,0), "none"));
+			setCursor(Toolkit.getDefaultToolkit().createCustomCursor(crosshairs, new Point(0,0), "cross"));
+		
+			setSize((int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth()),
 				(int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
 		GraphicListener listener = new GraphicListener();
 		GLCanvas canvas = new GLCanvas(new GLCapabilities());
