@@ -1,5 +1,10 @@
 package engine;
 
+/**
+ * Program that holds the values for the height map
+ * @author 930983
+ *
+ */
 public class Map {
 
 	private double[][] map;
@@ -155,7 +160,7 @@ public class Map {
 	 * @param min the minimum value
 	 * @param size the size of the map used
 	 * @param map the map used
-	 * @param variation the maximium variation allowed
+	 * @param variation the maximum variation allowed
 	 */
 	public static void diamondStep(int min, int size, double[][] map, double variation) {
 		for (int x = min; x < (map.length - min); x += size) {

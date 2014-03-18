@@ -2,9 +2,16 @@ package engine;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
-
+/**
+ * Sets up the lighting
+ * @author 930983
+ *
+ */
 public class Lighting {
-	
+	/**
+	 * Sets up lighting within the 3D environment
+	 * @param glad
+	 */
 	public static void light(GLAutoDrawable glad) {
 		GL gl = glad.getGL();
 		gl.glEnable(GL.GL_DEPTH_TEST); 

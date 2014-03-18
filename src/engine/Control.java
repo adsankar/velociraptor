@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-//TODO center mouse
+
 public class Control {
 	
 	public ArrayList<Integer> keysDown = new ArrayList<Integer>(0);
@@ -18,7 +18,7 @@ public class Control {
 	public float midY = (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2);
 	public Robot rob;
 	/**
-	 * 
+	 * Constructor that initializes the robot tool (used to move mouse)
 	 */
 	public Control() {
 		try {
@@ -27,7 +27,10 @@ public class Control {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * Handles keyEvents including when keys are pressed, or held down
+	 * @param e
+	 */
 	public void pressKey(KeyEvent e) {
 		boolean add = true;
 		ArrayList<Integer> newDown = new ArrayList<Integer>(0);
@@ -46,7 +49,10 @@ public class Control {
 			keysDown = newDown;
 		}
 	}
-	
+	/**
+	 * handles key events when key is released by user
+	 * @param e
+	 */
 	public void releaseKey(KeyEvent e) {
 		ArrayList<Integer> newDown = new ArrayList<Integer>(0);
 		for (int i = 0; i < keysDown.size(); i++)
@@ -59,31 +65,48 @@ public class Control {
 				newDown.add(keysOff.get(i));
 		keysOff = newDown;
 	}
-	
+	/**
+	 * Stops the keys from functioning (when game has ended) or when screen loses focus
+	 */
 	public void stopKeys() {
 		keysDown = new ArrayList<Integer>(0);
 	}
-	
+	/**
+	 * Returns what keys are being pressed down
+	 * @return
+	 */
 	public ArrayList<Integer> getKeysDown() {
 		return keysDown;
 	}
-	
+	/**
+	 * Returns position of mouse
+	 * @param x
+	 * @param y
+	 */
 	public void setMouse(float x, float y) {
 		mouseX = x;
 		mouseY = y;
 	}
-	
-	
+	/**
+	 * Updates new location/position of camera and moves mouse back to center
+	 * @param e
+	 */
 	public void move(MouseEvent e) {
 		mouseX += e.getX()  - midX;
 		mouseY += e.getY() - midY;
 		rob.mouseMove((int) midX,(int) midY);
 		}
-	
+	/**
+	 * Gets the X position of the mouse
+	 * @return
+	 */
 	public float getMouseX() {
 		return mouseX;
 	}
-	
+	/**
+	 * Returns the Y postion of the mouse
+	 * @return
+	 */
 	public float getMouseY() {
 		return mouseY;
 	}

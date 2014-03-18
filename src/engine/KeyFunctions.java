@@ -6,7 +6,11 @@ import java.util.ArrayList;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-
+/**
+ * Handles key functions used during program
+ * @author 930983
+ *
+ */
 public class KeyFunctions {
 	
 	private boolean move = true;
@@ -21,22 +25,41 @@ public class KeyFunctions {
 	double[][] map;
 	Eye refer = new Eye();
 	MP3 jet = new MP3("/Soundtrack/Jet.mp3");
-	
+	/**
+	 * Creates a new instance of KeyFunctions
+	 */
 	public KeyFunctions() {
 	}
-	
+	/**
+	 * Sets the moving speed of the character in regard to keys being pressed
+	 * @param f
+	 */
 	public void setSpeed(float f) {
 		speed = f;
 	}
-	
+	/**
+	 * Sets up the map
+	 * @param m
+	 */
 	public void setMap(double[][] m) {
 		map = m;
 	}
-	
+	/**
+	 * Handles all key inputs (if key is pressed, result is what happens)
+	 * @param keys
+	 */
 	public void processKeys(ArrayList<Integer> keys) {
+		boolean run = false;
 		for(int i = 0; i < keys.size(); i++) {
 			float sin = (float) Math.sin(mx * .01) * 3 * speed;
 			float cos = (float) Math.cos(mx * .01) * 3 * speed;
+			if(keys.get(i) == KeyEvent.VK_SHIFT) {
+				run = true;
+			}
+			if(run) {
+				sin *= 2;
+				cos *= 2;
+			}
 			if(keys.get(i) == KeyEvent.VK_W) {
 				moveZ -= cos;
 				moveX += sin;
@@ -94,23 +117,32 @@ public class KeyFunctions {
 					walk("Swim");
 		}
 	}
-	
-	public void jump(){
-	
-		
-	//	moveY += speed * .005;
-	
-		
-		
+	/**
+	 * Allows character to jump
+	 */
+	public void jump(){	
+	//	moveY += speed * .005;	
+	}
+	/**
+	 * Allows character to crouch down
+	 */
+	public void crouch(){
 		
 	}
-
-	
+	/**
+	 * Sets the position of the mouse
+	 * @param x
+	 * @param y
+	 */
 	public void setMouse(float x, float y) {
 		mx = x;
 		my = y;
 	}
-	
+	/**
+	 * Changes camera location (eye) of character in regards to key interaction
+	 * @param eye
+	 * @return
+	 */
 	public Eye moveEye(Eye eye) {
 		
 		int x = (int) (moveX / 500);
@@ -147,12 +179,18 @@ public class KeyFunctions {
 		
 		return eye;
 	}
-	
-	void walk(String str) {
+	/**
+	 * Plays the music and allows the character to walk
+	 * @param str
+	 */
+	public void walk(String str) {
 		play(str + ".wav");
 		step = 150;
 	}
-	
+	/**
+	 * Plays the music
+	 * @param filename
+	 */
 	public static void play(String filename) {
 		try {
 			Clip clip = AudioSystem.getClip();

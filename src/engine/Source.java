@@ -30,7 +30,7 @@ public class Source extends JFrame
 	KeyFunctions kFunc = new KeyFunctions();
 	MouseFunctions mFunc = new MouseFunctions();
 	float zoom = 0;
-	float speed = 15f;
+	float speed = 25f;
 	String currentTrack = "";
 	MP3 mp3;
 	
