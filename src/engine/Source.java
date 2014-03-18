@@ -22,8 +22,8 @@ import javax.swing.JFrame;
 import com.sun.opengl.util.Animator;
 
 
-public class Source extends JFrame {
-	
+public class Source extends JFrame 
+{
 	World world = new World();
 	Eye eye = new Eye();
 	Control control = new Control();
@@ -34,12 +34,20 @@ public class Source extends JFrame {
 	String currentTrack = "";
 	MP3 mp3;
 	
-	public static void main(String[] args) {
+	/**
+	 * Creates a new window and displays to the user. Makes it visible.
+	 * @param args
+	 */
+	public static void main(String[] args) 
+	{
 		Source frame = new Source();
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
-	
+	/**
+	 * Titles the program, sets the Window Size to full screen, imports and sets up JOGL graphics
+	 * Adds listeners to the window pane
+	 */
 	public Source() {
 		setTitle("Velociraptor Hunter");
 		setUndecorated(true);
@@ -50,8 +58,10 @@ public class Source extends JFrame {
 		GLCanvas canvas = new GLCanvas(new GLCapabilities());
 		canvas.addGLEventListener(listener);
 		getContentPane().add(canvas);
-		
 		canvas.addMouseListener(new MouseAdapter() {
+			/**
+			 * Calls the fire method
+			 */
 			public void mousePressed(MouseEvent e) {
 				///control.click(e);
 			}
@@ -59,18 +69,27 @@ public class Source extends JFrame {
 		
 			
 		canvas.addMouseMotionListener(new MouseAdapter() {
+			/**
+			 * Calls the camera and moves it based on user-mouse movement
+			 */
 			public void mouseMoved(MouseEvent e) {
 				control.move(e);
 			}
 		});
 		
 		canvas.addMouseWheelListener(new MouseAdapter() {
+			/**
+			 * If mouse wheel is moved, calls the switchWeapon method
+			 */
 			public void mouseWheelMoved(MouseWheelEvent e) {
 				
 			}
 		});
 		
 		addKeyListener(new KeyListener() {
+			/**
+			 * Exits the program if Esc key is pressed
+			 */
 			public void keyPressed(KeyEvent e) {
 				control.pressKey(e);
 				if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -85,6 +104,9 @@ public class Source extends JFrame {
 		});
 		
 		addWindowFocusListener(new WindowAdapter() {
+			/**
+			 * Controls are inactive when window loses focus
+			 */
 			public void windowLostFocus(WindowEvent e) {
 				control.stopKeys();
 			}
@@ -99,8 +121,14 @@ public class Source extends JFrame {
 		mFunc.setSpeed(speed);
 		//setMusic("What I'm Made Of");
 	}
-	
+	/**
+	 * Implements the default OpenGL methods into the program
+	 *
+	 */
 	public class GraphicListener implements GLEventListener {
+		/**
+		 * Sets up mouse movement to correspond with character, sets up perspective matrix, calibrates camera movement
+		 */
 		public void display(GLAutoDrawable glad) {
 			kFunc.setMouse(control.getMouseX(), control.getMouseY());
 			kFunc.processKeys(control.getKeysDown());
@@ -112,20 +140,31 @@ public class Source extends JFrame {
 			gl.glMatrixMode(GL.GL_MODELVIEW);
 			gl.glLoadIdentity();
 			GLU glu = new GLU();
-			
+			/**
+			 * Moves the camera to where viewer is looking
+			 */
 			glu.gluLookAt(eye.getXPosition(), eye.getYPosition(), eye.getZPosition(),
 					eye.getXView(), eye.getYView(), eye.getZView(),
 					0, 1, 0);
+			/**
+			 * Creates and draws the player environment
+			 */
 			world.makeWorld(glad);
 		}
-		
+		/**
+		 *Calls if you change resolution or monitors
+		 */
 		public void displayChanged(GLAutoDrawable arg0, boolean arg1, boolean arg2) {
 		}
-		
+		/**
+		 * Initializes lighting
+		 */
 		public void init(GLAutoDrawable glad) {
 			Lighting.light(glad);
 		}
-		
+		/**
+		 * Called when window is resized (which it won't be)
+		 */
 		public void reshape(GLAutoDrawable glad, int arg1, int arg2, int arg3, int arg4) {
 			GLU glu = new GLU();
 			GL gl = glad.getGL();
@@ -134,7 +173,10 @@ public class Source extends JFrame {
 			glu.gluPerspective(60, 1, 1, 500000); 	
 		}
 	}
-	
+	/**
+	 * Jam to your bad backgroudn music while you kill velociraptors
+	 * @param mp3 file name
+	 */
 	public void setMusic(String str) {
 		if(!str.equals(currentTrack)) {
 			mp3 = new MP3("/Soundtrack/" + str + ".mp3");
@@ -142,7 +184,9 @@ public class Source extends JFrame {
 			currentTrack = str;
 		}
 	}
-	
+	/**
+	 * Stops the music
+	 */
 	public void stopMusic() {
 		mp3.close();
 		currentTrack = "";
