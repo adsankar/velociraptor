@@ -11,11 +11,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCanvas;
@@ -26,7 +22,11 @@ import javax.swing.JFrame;
 
 import com.sun.opengl.util.Animator;
 
-
+/**
+ * yo
+ * @author 929837
+ *
+ */
 public class Source extends JFrame 
 {
 
