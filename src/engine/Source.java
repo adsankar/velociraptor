@@ -40,6 +40,8 @@ public class Source extends JFrame
 	float speed = 25f;
 	String currentTrack = "";
 	MP3 mp3;
+	private int windowWidth;
+	private int windowHeight;
 
 	/**
 	 * Creates a new window and displays to the user. Makes it visible.
@@ -58,8 +60,8 @@ public class Source extends JFrame
 	public Source() {
 		setTitle("Velociraptor Hunter");
 		setUndecorated(true);
-
-
+		windowWidth = (int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth());
+		windowHeight = (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight());
 
 			/*try {
 				crosshairs = ImageIO.read(new File("crosshairwhite.png"));
@@ -74,8 +76,7 @@ public class Source extends JFrame
 			//
 		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(crosshairs, new Point(0,0), "cross"));
 
-			setSize((int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth()),
-				(int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
+		setSize(windowWidth, windowHeight);
 		GraphicListener listener = new GraphicListener();
 		GLCanvas canvas = new GLCanvas(new GLCapabilities());
 		canvas.addGLEventListener(listener);
@@ -160,10 +161,16 @@ public class Source extends JFrame
 			GL myGL = glad.getGL();
 			GLU glu = new GLU();
 		
-			
+		
 			myGL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 			myGL.glMatrixMode(GL.GL_MODELVIEW);
 			myGL.glLoadIdentity();
+			
+			myGL.glPushMatrix();
+			myGL.glLoadIdentity();
+			myGL.glOrtho(0.0f, windowWidth, windowHeight, 0.0f, 0.0f, 1.0f);
+			drawStatics(myGL);
+			myGL.glPopMatrix();
 		
 		//	myGL.glRotated(90,0,0,1);
 			/**
@@ -179,6 +186,7 @@ public class Source extends JFrame
 		
 			world.makeWorld(glad);
 			myGL.glPopMatrix();
+			
 		}
 		/**
 		 *Calls if you change resolution or monitors
@@ -196,10 +204,11 @@ public class Source extends JFrame
 		 */
 		public void reshape(GLAutoDrawable glad, int arg1, int arg2, int arg3, int arg4) {
 			GLU glu = new GLU();
-			GL gl = glad.getGL();
-			gl.glMatrixMode(GL.GL_PROJECTION);
-			gl.glLoadIdentity();
+			GL myGL = glad.getGL();
+			myGL.glMatrixMode(GL.GL_PROJECTION);
+			myGL.glLoadIdentity();
 			glu.gluPerspective(60, 1, 1, 500000); 	
+		
 		}
 	}
 	/**
@@ -219,6 +228,15 @@ public class Source extends JFrame
 	public void stopMusic() {
 		mp3.close();
 		currentTrack = "";
+	}
+	
+	public void drawStatics(GL myGL){
+		myGL.glBegin(GL.GL_LINES);
+		myGL.glColor3f(1, 0, 0);
+		myGL.glVertex2d(0,0);
+		myGL.glVertex2d(1,0);
+		myGL.glVertex2d(0,1);
+		myGL.glEnd();
 	}
 
 }

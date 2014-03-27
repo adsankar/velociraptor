@@ -99,18 +99,21 @@ public class World {
 
 				//almost the same procedure as before
 				vert.put(i);
-				vert.put(j);
 				vert.put((float) height[i][j]);
+				vert.put(j);
+				
 				getColor(height[i][j]);
 
 				vert.put(i+1);
-				vert.put(j);
 				vert.put((float) height[i+1][j]);
+				vert.put(j);
+				
 				getColor(height[i+1][j]);
 
 				vert.put(i+1);
-				vert.put(j+1);
 				vert.put((float) height[i+1][j+1]);
+				vert.put(j+1);
+				
 				getColor(height[i+1][j+1]);
 
 				//calculate surface normals and add them to the normals array
@@ -120,8 +123,9 @@ public class World {
 				norms.put(nextNormals[2]);
 
 				vert.put(i);
-				vert.put(j+1);
 				vert.put((float) height[i][j+1]);
+				vert.put(j+1);
+				
 				getColor(height[i][j+1]);
 
 			}//end for
@@ -163,9 +167,9 @@ public class World {
 			colors.put(1f);
 			colors.put(1f);
 		}else if( height < 30){//in the middle, green "forest"
-			colors.put(.0f);
+			colors.put(0f);
 			colors.put(.5f);
-			colors.put(.0f);
+			colors.put(0f);
 		}else{//lowest "body of water"
 			colors.put(0f);
 			colors.put(0.3f);
