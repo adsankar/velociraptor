@@ -1,3 +1,4 @@
+
 package engine;
 
 import java.awt.Point;
@@ -28,7 +29,7 @@ import com.sun.opengl.util.Animator;
 
 public class Source extends JFrame 
 {
-	
+
 	BufferedImage crosshairs = new BufferedImage(300, 300, BufferedImage.TYPE_INT_ARGB);
 	World world = new World();
 	Eye eye = new Eye();
@@ -39,7 +40,7 @@ public class Source extends JFrame
 	float speed = 25f;
 	String currentTrack = "";
 	MP3 mp3;
-	
+
 	/**
 	 * Creates a new window and displays to the user. Makes it visible.
 	 * @param args
@@ -57,20 +58,22 @@ public class Source extends JFrame
 	public Source() {
 		setTitle("Velociraptor Hunter");
 		setUndecorated(true);
-		
-		
-	
-			try {
+
+
+
+			/*try {
 				crosshairs = ImageIO.read(new File("crosshairwhite.png"));
 			} catch (IOException e) {
 				System.err.println("File Not Found!");
 				e.printStackTrace();
 			}
-	
+		*/
+
 		//TODO load in new image for cursor
 		//setCursor(Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB) , new Point(0,0), "none"));
-			setCursor(Toolkit.getDefaultToolkit().createCustomCursor(crosshairs, new Point(0,0), "cross"));
-		
+			//
+		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(crosshairs, new Point(0,0), "cross"));
+
 			setSize((int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth()),
 				(int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
 		GraphicListener listener = new GraphicListener();
@@ -85,8 +88,8 @@ public class Source extends JFrame
 				///control.click(e);
 			}
 		});
-		
-			
+
+
 		canvas.addMouseMotionListener(new MouseAdapter() {
 			/**
 			 * Calls the camera and moves it based on user-mouse movement
@@ -95,16 +98,16 @@ public class Source extends JFrame
 				control.move(e);
 			}
 		});
-		
+
 		canvas.addMouseWheelListener(new MouseAdapter() {
 			/**
 			 * If mouse wheel is moved, calls the switchWeapon method
 			 */
 			public void mouseWheelMoved(MouseWheelEvent e) {
-				
+
 			}
 		});
-		
+
 		addKeyListener(new KeyListener() {
 			/**
 			 * Exits the program if Esc key is pressed
@@ -121,7 +124,7 @@ public class Source extends JFrame
 			public void keyTyped(KeyEvent e) {
 			}
 		});
-		
+
 		addWindowFocusListener(new WindowAdapter() {
 			/**
 			 * Controls are inactive when window loses focus
@@ -130,7 +133,7 @@ public class Source extends JFrame
 				control.stopKeys();
 			}
 		});
-		
+
 		Animator animator = new Animator(canvas);
 		animator.start();
 		requestFocus();
@@ -154,11 +157,15 @@ public class Source extends JFrame
 			eye = kFunc.moveEye(eye);
 			mFunc.setMouse(control.getMouseX(), control.getMouseY());
 			eye = mFunc.moveEye(eye);
-			GL gl = glad.getGL();
-			gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
-			gl.glMatrixMode(GL.GL_MODELVIEW);
-			gl.glLoadIdentity();
+			GL myGL = glad.getGL();
 			GLU glu = new GLU();
+		
+			
+			myGL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+			myGL.glMatrixMode(GL.GL_MODELVIEW);
+			myGL.glLoadIdentity();
+		
+		//	myGL.glRotated(90,0,0,1);
 			/**
 			 * Moves the camera to where viewer is looking
 			 */
@@ -168,7 +175,10 @@ public class Source extends JFrame
 			/**
 			 * Creates and draws the player environment
 			 */
+			myGL.glPushMatrix();
+		
 			world.makeWorld(glad);
+			myGL.glPopMatrix();
 		}
 		/**
 		 *Calls if you change resolution or monitors
@@ -193,7 +203,7 @@ public class Source extends JFrame
 		}
 	}
 	/**
-	 * Jam to your bad backgroudn music while you kill velociraptors
+	 * Jam to your bad background music while you kill velociraptors
 	 * @param mp3 file name
 	 */
 	public void setMusic(String str) {
@@ -210,5 +220,5 @@ public class Source extends JFrame
 		mp3.close();
 		currentTrack = "";
 	}
-	
+
 }

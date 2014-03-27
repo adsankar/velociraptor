@@ -1,3 +1,4 @@
+
 package engine;
 
 import java.awt.AWTException;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 
 
 public class Control {
-	
+
 	public ArrayList<Integer> keysDown = new ArrayList<Integer>(0);
 	public ArrayList<Integer> keysOff = new ArrayList<Integer>(0);
 	public float mouseX = 0;

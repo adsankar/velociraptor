@@ -1,3 +1,4 @@
+
 package engine;
 
 /**
@@ -8,16 +9,16 @@ package engine;
 public class Map {
 
 	private double[][] map;
-
+	private final int MAX_HEIGHT = 40;
+			
+			
 	public Map(int size) {
 		map = new double[size][size];
-		for(int x = 0; x < size; x++)
-			for(int y = 0; y < size; y++)
-				map[x][y] = 0;
-		generateFlatHmap(size + 1, 4);
-		//makeHeightMap(iterations, seed1, seed2, seed3, seed4, variation)
+		//generateFlatHmap(size + 1, 4);
+		map = makeHeightMap((int)(Math.log(size)/Math.log(2)), MAX_HEIGHT*Math.random(), MAX_HEIGHT*Math.random(), MAX_HEIGHT*Math.random(), MAX_HEIGHT*Math.random(), MAX_HEIGHT);
 	}
 
+	
 	public void generateFlatHmap(int dimension, double roughness) {
 		map = new double[dimension][dimension];
 		roughness = roughness * Math.pow(dimension, .5);
@@ -97,13 +98,9 @@ public class Map {
 		return finalHmap;
 	}
 
-	public double[][] getMap() {
-		return map;
-	}
 
-	public double getPoint(int x, int z) {
-		return map[x][z];
-	}
+
+
 
 	public double getAverage() {
 		double average = 0;
@@ -113,8 +110,20 @@ public class Map {
 		average /= (map.length * map.length);
 		return average;
 	}
-	/********************************************************************?
+
+	
+	/********************************************************************
 	 */
+	
+	public double getPoint(int x, int z) {
+		return map[x][z];
+	}
+	
+	public double[][] getMap() {
+		return map;
+	}
+	
+	
 
 	/**
 	 * The first of the square step parts of the diamond-square algorithm for generating the terrain
@@ -297,5 +306,5 @@ public class Map {
 		return Math.random();
 	}//end betterRandom
 
-	
+
 }

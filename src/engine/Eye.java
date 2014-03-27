@@ -1,3 +1,4 @@
+
 package engine;
 /**
  * Determines where the camera is looking
@@ -5,7 +6,7 @@ package engine;
  *
  */
 public class Eye {
-	
+
 	public float atX = 0;
 	public float atY = 0;
 	public float atZ = 0;
@@ -14,7 +15,7 @@ public class Eye {
 	public float lookZ = 0;
 	public float height = 0;
 	public float force = 0;
-	
+
 	/**
 	 * Creates new instance of eye
 	 */
@@ -77,7 +78,7 @@ public class Eye {
 	public float getZPosition() {
 		return atZ;
 	}
-	
+
 	/**
 	 * Finds the X position of where the character is looking
 	 * @return
@@ -85,7 +86,7 @@ public class Eye {
 	public float getXView() {
 		return lookX;
 	}
-	
+
 	/**
 	 * Finds the Y position of where the character is looking
 	 * @return
@@ -93,7 +94,7 @@ public class Eye {
 	public float getYView() {
 		return lookY;
 	}
-	
+
 	/**
 	 * Finds the Z position of where the character is looking
 	 * @return
@@ -101,7 +102,7 @@ public class Eye {
 	public float getZView() {
 		return lookZ;
 	}
-	
+
 	/**
 	 * Finds the height of the camera
 	 * @return
@@ -109,7 +110,7 @@ public class Eye {
 	public float getHeight() {
 		return height;
 	}
-	
+
 	/**
 	 * Finds the force (like gravity)
 	 * @return

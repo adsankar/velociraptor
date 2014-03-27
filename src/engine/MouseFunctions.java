@@ -1,12 +1,13 @@
+
 package engine;
 /**
  * handles the mouse movements
  * @author 930983
  *
  */
-		
+
 public class MouseFunctions {
-	
+
 	public float mx;
 	public float my;
 	public float speed = 1;

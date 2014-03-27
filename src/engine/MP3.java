@@ -1,5 +1,4 @@
 package engine;
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,7 +10,6 @@ import javazoom.jl.player.Player;
  *
  */
 public class MP3 {
-	
 	private boolean playing = false;
 	private int mode = 0;
 	private Player playMP3;
@@ -19,18 +17,18 @@ public class MP3 {
 	private BufferedInputStream bis = null;
 	private String filename = "";
 	private File file = null;
-/**
- * Creates new instance of MP3, using a file as input
- * @param f
- */
+	/**
+	 * Creates new instance of MP3, using a file as input
+	 * @param f
+	 */
 	public MP3(File f) {
 		file = f;
 		mode = 1;
 	}
-/**
- * Creates new instance of MP3, using a string as input
- * @param str
- */
+	/**
+	 * Creates new instance of MP3, using a string as input
+	 * @param str
+	 */
 	public MP3(String str) {
 		filename = str;
 		mode = 2;
@@ -41,7 +39,6 @@ public class MP3 {
 	public void play() {
 		play(0);
 	}
-	
 	/**
 	 * Plays the music for a given number of times
 	 * @param loop
@@ -76,7 +73,6 @@ public class MP3 {
 			}
 		}.start();
 	}
-
 	/**
 	 * Checks to see if the file is valid and starts to play it if it is
 	 */
@@ -88,7 +84,6 @@ public class MP3 {
 			} catch (Exception e) {
 			}
 	}
-
 	/**
 	 * Stops the music from playing
 	 */
@@ -98,7 +93,6 @@ public class MP3 {
 			playMP3.close();
 		}
 	}
-
 	/**
 	 * Checks if the music is playing
 	 * @return

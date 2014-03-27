@@ -1,3 +1,5 @@
+ 
+
 package engine;
 
 import java.awt.event.KeyEvent;
@@ -12,7 +14,7 @@ import javax.sound.sampled.Clip;
  *
  */
 public class KeyFunctions {
-	
+
 	private boolean move = true;
 	private float step = 0;
 	public float speed = 1;
@@ -76,7 +78,7 @@ public class KeyFunctions {
 				moveZ -= sin;
 				moveX -= cos;
 			}
-			
+
 			if(keys.get(i) == KeyEvent.VK_E) {
 				moveY += speed * .005;
 				landed = false;
@@ -85,11 +87,11 @@ public class KeyFunctions {
 			}
 			if(keys.get(i) == KeyEvent.VK_Q)
 				moveY -= speed * .005;
-			
+
 			if (keys.get(i)== KeyEvent.VK_SPACE){
 				jump();
 			}
-			
+
 			if(moveX / 500 < 0)
 				moveX = 0;
 			if(moveX / 500 > 100)
@@ -98,14 +100,14 @@ public class KeyFunctions {
 				moveZ = 0;
 			if(moveZ / 500 > 100)
 				moveZ = 50000;
-			
+
 			if(step > 0) {
 				step -= 1;
 				move = false;
 			}
 			if(step == 0)
 				move = true;
-			
+
 			if((keys.get(i) == KeyEvent.VK_W ||
 					keys.get(i) == KeyEvent.VK_S ||
 					keys.get(i) == KeyEvent.VK_D ||
@@ -127,7 +129,7 @@ public class KeyFunctions {
 	 * Allows character to crouch down
 	 */
 	public void crouch(){
-		
+
 	}
 	/**
 	 * Sets the position of the mouse
@@ -144,10 +146,10 @@ public class KeyFunctions {
 	 * @return
 	 */
 	public Eye moveEye(Eye eye) {
-		
+
 		int x = (int) (moveX / 500);
 		int z = (int) (moveZ / 500);
-		
+
 		float bl = (float) map[x][z];
 		float br = (float) map[x + 1][z];
 		float tl = (float) map[x][z + 1];
@@ -156,12 +158,12 @@ public class KeyFunctions {
 		float tb = (moveZ - (z * 500));
 		float height = ((bl * (1 - rl) * (1 - tb)) + (br * rl * (1 - tb)) +
 				(tl * (1 - rl) * tb) + (tr * rl * tb)) / 4;
-		
+
 		height = (float) map[x][z] + 5;
 		if(height < -5)
 			height = -5f;
 		eye.setHeight(height);
-		
+
 		if(moveY < eye.getHeight() && !landed) {
 			landed = true;
 			jet.close();
@@ -172,11 +174,11 @@ public class KeyFunctions {
 		}
 		if(landed)
 			moveY = eye.getHeight();
-		
+
 		eye.setPosition(moveX / 500, moveY, (moveZ / 500));
-		
+
 		refer = eye;
-		
+
 		return eye;
 	}
 	/**
@@ -201,4 +203,4 @@ public class KeyFunctions {
 			exc.printStackTrace(System.out);
 		}
 	}
-}
+}	 
