@@ -1,4 +1,4 @@
- 
+
 
 package engine;
 
@@ -15,6 +15,7 @@ import javax.sound.sampled.Clip;
  */
 public class KeyFunctions {
 
+	private final float MOVE_SMOOTH = 0.4f;
 	private boolean move = true;
 	private float step = 0;
 	public float speed = 1;
@@ -123,7 +124,7 @@ public class KeyFunctions {
 	 * Allows character to jump
 	 */
 	public void jump(){	
-	//	moveY += speed * .005;	
+		//	moveY += speed * .005;	
 	}
 	/**
 	 * Allows character to crouch down
@@ -143,23 +144,18 @@ public class KeyFunctions {
 	/**
 	 * Changes camera location (eye) of character in regards to key interaction
 	 * @param eye
-	 * @return
 	 */
-	public Eye moveEye(Eye eye) {
-
+	public void moveEye(Eye eye) {
 		int x = (int) (moveX / 500);
 		int z = (int) (moveZ / 500);
 
-		float bl = (float) map[x][z];
-		float br = (float) map[x + 1][z];
-		float tl = (float) map[x][z + 1];
-		float tr = (float) map[x + 1][z + 1];
-		float rl = (moveX - (x * 500));
-		float tb = (moveZ - (z * 500));
-		float height = ((bl * (1 - rl) * (1 - tb)) + (br * rl * (1 - tb)) +
-				(tl * (1 - rl) * tb) + (tr * rl * tb)) / 4;
+		float bottomLeft = (float) map[x][z];
+		float bottomRight = (float) map[x + 1][z];
+		float topLeft = (float) map[x][z + 1];
+		float topRight = (float) map[x + 1][z + 1];
+		float height = MOVE_SMOOTH*((bottomLeft+bottomRight+topLeft+topRight)/4 +5)+
+				(1-MOVE_SMOOTH)*eye.getHeight();
 
-		height = (float) map[x][z] + 5;
 		if(height < -5)
 			height = -5f;
 		eye.setHeight(height);
@@ -178,8 +174,6 @@ public class KeyFunctions {
 		eye.setPosition(moveX / 500, moveY, (moveZ / 500));
 
 		refer = eye;
-
-		return eye;
 	}
 	/**
 	 * Plays the music and allows the character to walk

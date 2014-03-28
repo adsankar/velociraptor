@@ -155,9 +155,9 @@ public class Source extends JFrame
 		public void display(GLAutoDrawable glad) {
 			kFunc.setMouse(control.getMouseX(), control.getMouseY());
 			kFunc.processKeys(control.getKeysDown());
-			eye = kFunc.moveEye(eye);
+			kFunc.moveEye(eye);
 			mFunc.setMouse(control.getMouseX(), control.getMouseY());
-			eye = mFunc.moveEye(eye);
+			mFunc.moveEye(eye);
 			GL myGL = glad.getGL();
 			GLU glu = new GLU();
 		
