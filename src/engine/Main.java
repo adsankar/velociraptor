@@ -27,21 +27,22 @@ import com.sun.opengl.util.Animator;
  * @author 929837
  *
  */
-public class Source extends JFrame 
+public class Main extends JFrame 
 {
 
-	BufferedImage crosshairs = new BufferedImage(300, 300, BufferedImage.TYPE_INT_ARGB);
-	World world = new World();
-	Eye eye = new Eye();
-	Control control = new Control();
-	KeyFunctions kFunc = new KeyFunctions();
-	MouseFunctions mFunc = new MouseFunctions();
-	float zoom = 0;
-	float speed = 25f;
-	String currentTrack = "";
-	MP3 mp3;
+	private BufferedImage crosshairs = new BufferedImage(300, 300, BufferedImage.TYPE_INT_ARGB);
+	
+	//private float zoom = 0;
+	private float speed = 25f;
+	private String currentTrack = "";
+	private MP3 mp3;
 	private int windowWidth;
 	private int windowHeight;
+	private World world;
+	private Eye eye;
+	private Control control;
+	private KeyFunctions kFunc;
+	private MouseFunctions mFunc;
 
 	/**
 	 * Creates a new window and displays to the user. Makes it visible.
@@ -49,7 +50,7 @@ public class Source extends JFrame
 	 */
 	public static void main(String[] args) 
 	{
-		Source frame = new Source();
+		Main frame = new Main();
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
@@ -57,12 +58,16 @@ public class Source extends JFrame
 	 * Titles the program, sets the Window Size to full screen, imports and sets up JOGL graphics
 	 * Adds listeners to the window pane
 	 */
-	public Source() {
+	public Main() {
 		setTitle("Velociraptor Hunter");
 		setUndecorated(true);
 		windowWidth = (int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth());
 		windowHeight = (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight());
-
+		world = new World();
+		eye = new Eye();
+		control = new Control();
+		kFunc = new KeyFunctions();
+		mFunc = new MouseFunctions();
 			/*try {
 				crosshairs = ImageIO.read(new File("crosshairwhite.png"));
 			} catch (IOException e) {
