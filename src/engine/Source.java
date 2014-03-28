@@ -23,7 +23,7 @@ import javax.swing.JFrame;
 import com.sun.opengl.util.Animator;
 
 /**
- * yo
+ * ywho
  * @author 929837
  *
  */
