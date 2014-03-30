@@ -14,13 +14,14 @@ import com.sun.opengl.util.BufferUtil;
  */
 public class World {
 
-	Map map;
-	int size = 128;
+	private Map map;
+	private int size = 256;
 	private FloatBuffer vert;
 	private FloatBuffer colors;
 	private FloatBuffer norms;
 	private float[] nextNormals = new float[3];
-
+	private final float TILE_SCALE = 1f;
+	
 	/**
 	 * 
 	 */
@@ -31,12 +32,11 @@ public class World {
 
 	/**
 	 * 
-	 * @param glad
+	 * @param myGL
 	 */
-	public void makeWorld(GLAutoDrawable glad) {
-		GL gl = glad.getGL();
+	public void makeWorld(GL myGL) {
 		setupArrays();
-		drawMap(gl);
+		drawMap(myGL);
 	}
 
 
@@ -56,21 +56,31 @@ public class World {
 			for(int j = 0 ; j < height[0].length-1 ; j++){
 
 				//almost the same procedure as before
-				vert.put(i);
+				vert.put(i*TILE_SCALE);
 				vert.put((float) height[i][j]);
-				vert.put(j);
+				vert.put(j*TILE_SCALE);
 
 				getColor(height[i][j]);
 
-				vert.put(i+1);
+				calculateNormal(i, j, height[i][j], i+1, j, height[i+1][j], i+1, j+1, height[i+1][j+1]);
+				norms.put(nextNormals[0]);
+				norms.put(nextNormals[1]);
+				norms.put(nextNormals[2]);
+
+				vert.put((i+1)*TILE_SCALE);
 				vert.put((float) height[i+1][j]);
-				vert.put(j);
+				vert.put(j*TILE_SCALE);
 
 				getColor(height[i+1][j]);
 
-				vert.put(i+1);
+				calculateNormal(i, j, height[i][j], i+1, j, height[i+1][j], i+1, j+1, height[i+1][j+1]);
+				norms.put(nextNormals[0]);
+				norms.put(nextNormals[1]);
+				norms.put(nextNormals[2]);
+
+				vert.put((i+1)*TILE_SCALE);
 				vert.put((float) height[i+1][j+1]);
-				vert.put(j+1);
+				vert.put((j+1)*TILE_SCALE);
 
 				getColor(height[i+1][j+1]);
 
@@ -80,11 +90,16 @@ public class World {
 				norms.put(nextNormals[1]);
 				norms.put(nextNormals[2]);
 
-				vert.put(i);
+				vert.put(i*TILE_SCALE);
 				vert.put((float) height[i][j+1]);
-				vert.put(j+1);
+				vert.put((j+1)*TILE_SCALE);
 
 				getColor(height[i][j+1]);
+
+				calculateNormal(i, j, height[i][j], i+1, j, height[i+1][j], i+1, j+1, height[i+1][j+1]);
+				norms.put(nextNormals[0]);
+				norms.put(nextNormals[1]);
+				norms.put(nextNormals[2]);
 
 			}//end for
 		}//end for
@@ -120,7 +135,7 @@ public class World {
 	 * @param height the height for which the color is calculated for
 	 */
 	public void getColor(double height){
-		if(height < 0){//highest "snow"
+		if(height < 0){ //lowest "body of water"
 			colors.put(0f);
 			colors.put(0.3f);
 			colors.put(1f);
@@ -128,7 +143,7 @@ public class World {
 			colors.put(0f);
 			colors.put(.5f);
 			colors.put(0f);
-		}else{//lowest "body of water"
+		}else{//highest "snow"
 			colors.put(1f);
 			colors.put(1f);
 			colors.put(1f);
@@ -149,6 +164,8 @@ public class World {
 		myGL.glNormalPointer(GL.GL_FLOAT, 0, norms);
 		myGL.glColorPointer(3, GL.GL_FLOAT, 0, colors);
 		myGL.glVertexPointer(3, GL.GL_FLOAT, 0, vert);
+
+		//myGL.glDrawArrays(GL.GL_LINES,0,vert.capacity()/3);
 		myGL.glDrawArrays(GL.GL_QUADS,0,vert.capacity()/3);
 
 		//disable arrays when done

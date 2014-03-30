@@ -93,6 +93,7 @@ public class KeyFunctions {
 				jump();
 			}
 
+
 			if(moveX / 500 < 0)
 				moveX = 0;
 			if(moveX / 500 > 100)
