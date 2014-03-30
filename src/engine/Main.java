@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -13,6 +15,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 import javax.media.opengl.GL;
@@ -23,6 +26,7 @@ import javax.media.opengl.GLEventListener;
 import javax.media.opengl.GLException;
 import javax.media.opengl.glu.GLU;
 import javax.swing.JFrame;
+import javax.swing.Timer;
 
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
@@ -36,7 +40,7 @@ import com.sun.opengl.util.texture.TextureIO;
  *
  */
 public class Main extends GLCanvas{
-	//TODO per vertex normals, player movement height, move dimensions, enemies, shoot, help window
+	//TODO per vertex normals, player movement height, move dimensions, enemies, spawn, shoot, help window
 
 	private Texture cross;
 	private BufferedImage crosshairs = new BufferedImage(300, 300, BufferedImage.TYPE_INT_ARGB);
@@ -44,6 +48,7 @@ public class Main extends GLCanvas{
 	//private float zoom = 0;
 	private float speed = 25f;
 	private final int crossSize  = 50;
+	private final int ENEMY_DELAY_TIME = 10000;
 	private TextRenderer renderer;
 	private String currentTrack = "";
 	private MP3 mp3;
@@ -54,7 +59,9 @@ public class Main extends GLCanvas{
 	private Control control;
 	private KeyFunctions kFunc;
 	private MouseFunctions mFunc;
+	private Player p;
 	private static Animator an;
+	private Timer enemyTimer;
 
 	//Temporary
 	private int ammo = 100;
@@ -95,6 +102,8 @@ public class Main extends GLCanvas{
 		control = new Control();
 		kFunc = new KeyFunctions();
 		mFunc = new MouseFunctions();
+		p = new Player();
+
 		try {
 			crosshairs = ImageIO.read(new File("crosshairwhite.png"));
 		} catch (IOException e) {
@@ -103,7 +112,14 @@ public class Main extends GLCanvas{
 			System.exit(1);
 		}
 
+		enemyTimer = new Timer (ENEMY_DELAY_TIME, new ActionListener(){
 
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Enemy.drawEnemy(Math.random(),Math.random(),getGL());
+			}
+
+		});
 		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB) , new Point(0,0), "none"));
 
 		//setCursor(Toolkit.getDefaultToolkit().createCustomCursor(crosshairs, new Point(0,0), "cross"));
@@ -115,7 +131,7 @@ public class Main extends GLCanvas{
 			 */
 			public void mousePressed(MouseEvent e) {
 				///control.click(e);
-				ammo--;
+				p.fire();
 			}
 		});
 
@@ -134,7 +150,7 @@ public class Main extends GLCanvas{
 			 * If mouse wheel is moved, calls the switchWeapon method
 			 */
 			public void mouseWheelMoved(MouseWheelEvent e) {
-
+				p.switchWeapons(e.getWheelRotation());
 			}
 		});
 
@@ -164,8 +180,6 @@ public class Main extends GLCanvas{
 			}
 		});*/
 
-		////Animator animator = new Animator(canvas);
-		//animator.start();
 		kFunc.setSpeed(speed);
 		kFunc.setMap(world.getMap());
 		mFunc.setSpeed(speed);
@@ -250,8 +264,8 @@ public class Main extends GLCanvas{
 		renderer.setColor(1,1,.6f,.7f);//RGBA colors
 		renderer.beginRendering(w, h);
 		//display some basic information
-		renderer.draw("Health: "+100, windowWidth-300, windowHeight-80); //get player health
-		renderer.draw("Ammo: "+ammo,windowWidth-300,windowHeight-120); //get ammo
+		renderer.draw("Health: "+Player.getHealth(), windowWidth-300, windowHeight-80); //get player health
+		renderer.draw("Ammo: "+Player.getAmmo(),windowWidth-300,windowHeight-120); //get ammo
 		myGL.glClearColor(0f,0f,0f,1f);//so that not all of the shapes have this color
 		renderer.endRendering();
 	}
@@ -308,7 +322,7 @@ public class Main extends GLCanvas{
 		myGL.glVertex2d(0,10);
 		myGL.glEnd();*/
 
-		
+
 		myGL.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 		myGL.glMatrixMode(GL.GL_PROJECTION);
 		myGL.glPushMatrix();
@@ -330,7 +344,7 @@ public class Main extends GLCanvas{
 		cross.bind();
 		// Draw a textured quad
 		myGL.glBegin(GL.GL_QUADS);
-		
+
 		//TODO resize
 		myGL.glTexCoord2f(0, 0);
 		myGL.glVertex3f(windowWidth/2-crossSize, windowHeight/2-crossSize, 0);
@@ -354,7 +368,7 @@ public class Main extends GLCanvas{
 		myGL.glEnable(GL.GL_LIGHTING);
 
 	}
-	
+
 	public void loadTextures(GL myGL){
 		myGL.glTexParameterf(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR );
 		myGL.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR_MIPMAP_LINEAR);
@@ -372,6 +386,6 @@ public class Main extends GLCanvas{
 		}//end catch
 
 	}//end loadTextures
-	
+
 
 }

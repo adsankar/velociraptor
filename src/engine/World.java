@@ -3,7 +3,6 @@ package engine;
 import java.nio.FloatBuffer;
 
 import javax.media.opengl.GL;
-import javax.media.opengl.GLAutoDrawable;
 
 import com.sun.opengl.util.BufferUtil;
 
@@ -14,7 +13,7 @@ import com.sun.opengl.util.BufferUtil;
  */
 public class World {
 
-	private Map map;
+	private static Map map;
 	private int size = 256;
 	private FloatBuffer vert;
 	private FloatBuffer colors;
@@ -50,8 +49,9 @@ public class World {
 		vert = BufferUtil.newFloatBuffer(12*(height[0].length-1)*(height.length-1));
 		colors = BufferUtil.newFloatBuffer(12*(height[0].length-1)*(height.length-1));
 		norms = BufferUtil.newFloatBuffer(12*(height[0].length-1)*(height.length-1));
+		Vector3 normal;
 
-
+		//TODO, smoother map
 		for(int i = 0 ; i < height.length-1 ; i++){
 			for(int j = 0 ; j < height[0].length-1 ; j++){
 
@@ -60,12 +60,23 @@ public class World {
 				vert.put((float) height[i][j]);
 				vert.put(j*TILE_SCALE);
 
-				getColor(height[i][j]);
+				getColor(height[i][j]); 
 
-				calculateNormal(i, j, height[i][j], i+1, j, height[i+1][j], i+1, j+1, height[i+1][j+1]);
-				norms.put(nextNormals[0]);
-				norms.put(nextNormals[1]);
-				norms.put(nextNormals[2]);
+				if (i >0 && i<height.length+1 && j>0 && j<height.length+1){
+				Vector3 a = new Vector3(0,0, (float)(height[i][j]));
+				Vector3 b = new Vector3(0, 1, (float)(height[i][j+1]));
+				Vector3 c = new Vector3(1, 0, (float)(height[i+1][j]));
+				Vector3 d = new Vector3(0, -1, (float)(height[i][j-1]));
+				Vector3 e = new Vector3(-1, 0, (float)(height[i-1][j]));
+				normal = Vector3.calcAvgNormal(a, b, c, d, e);
+				}
+				else normal = new Vector3();
+				//calculateNormal(i, j, height[i][j], i+1, j, height[i+1][j], i+1, j+1, height[i+1][j+1]);
+				
+				
+				norms.put(normal.getX());
+				norms.put(normal.getY());
+				norms.put(normal.getZ());
 
 				vert.put((i+1)*TILE_SCALE);
 				vert.put((float) height[i+1][j]);
@@ -73,10 +84,14 @@ public class World {
 
 				getColor(height[i+1][j]);
 
-				calculateNormal(i, j, height[i][j], i+1, j, height[i+1][j], i+1, j+1, height[i+1][j+1]);
+			/*	calculateNormal(i, j, height[i][j], i+1, j, height[i+1][j], i+1, j+1, height[i+1][j+1]);
 				norms.put(nextNormals[0]);
 				norms.put(nextNormals[1]);
-				norms.put(nextNormals[2]);
+				norms.put(nextNormals[2]);*/
+				
+				norms.put(normal.getX());
+				norms.put(normal.getY());
+				norms.put(normal.getZ());
 
 				vert.put((i+1)*TILE_SCALE);
 				vert.put((float) height[i+1][j+1]);
@@ -85,10 +100,13 @@ public class World {
 				getColor(height[i+1][j+1]);
 
 				//calculate surface normals and add them to the normals array
-				calculateNormal(i, j, height[i][j], i+1, j, height[i+1][j], i+1, j+1, height[i+1][j+1]);
+		/*		calculateNormal(i, j, height[i][j], i+1, j, height[i+1][j], i+1, j+1, height[i+1][j+1]);
 				norms.put(nextNormals[0]);
 				norms.put(nextNormals[1]);
-				norms.put(nextNormals[2]);
+				norms.put(nextNormals[2]);*/
+				norms.put(normal.getX());
+				norms.put(normal.getY());
+				norms.put(normal.getZ());
 
 				vert.put(i*TILE_SCALE);
 				vert.put((float) height[i][j+1]);
@@ -96,10 +114,13 @@ public class World {
 
 				getColor(height[i][j+1]);
 
-				calculateNormal(i, j, height[i][j], i+1, j, height[i+1][j], i+1, j+1, height[i+1][j+1]);
+				/*calculateNormal(i, j, height[i][j], i+1, j, height[i+1][j], i+1, j+1, height[i+1][j+1]);
 				norms.put(nextNormals[0]);
 				norms.put(nextNormals[1]);
-				norms.put(nextNormals[2]);
+				norms.put(nextNormals[2]);*/
+				norms.put(normal.getX());
+				norms.put(normal.getY());
+				norms.put(normal.getZ());
 
 			}//end for
 		}//end for
@@ -107,10 +128,12 @@ public class World {
 		vert.rewind();
 		colors.rewind();
 		norms.rewind();
+		
+		//for (int)
 	}// end setupArrays
 
 	/**
-	 * Calculate the surface normal given two lines, defined by a total of 9 points 
+	 * Calculate the surface normal given two lines, defined by a total of 9 values
 	 * @param x1 the first x coordinate
 	 * @param y1 the first y coordinate
 	 * @param z1 the first z coordinate
@@ -156,6 +179,7 @@ public class World {
 	 */
 	public void drawMap(GL myGL){
 		//enable the arrays
+		myGL.glEnable(GL.GL_NORMALIZE);
 		myGL.glEnableClientState(GL.GL_COLOR_ARRAY);
 		myGL.glEnableClientState(GL.GL_VERTEX_ARRAY);
 		myGL.glEnableClientState(GL.GL_NORMAL_ARRAY);
@@ -177,9 +201,9 @@ public class World {
 
 	/**
 	 * 
-	 * @return
+	 * @return map
 	 */
-	public double[][] getMap() {
+	public static double[][] getMap() {
 		return map.getMap();
 	}
 }
