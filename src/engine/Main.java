@@ -36,13 +36,14 @@ import com.sun.opengl.util.texture.TextureIO;
  *
  */
 public class Main extends GLCanvas{
-	//TODO per vertex normals, player movement height, move dimensions, enemies, shoot, stats, help window
+	//TODO per vertex normals, player movement height, move dimensions, enemies, shoot, help window
 
 	private Texture cross;
 	private BufferedImage crosshairs = new BufferedImage(300, 300, BufferedImage.TYPE_INT_ARGB);
 
 	//private float zoom = 0;
 	private float speed = 25f;
+	private final int crossSize  = 50;
 	private TextRenderer renderer;
 	private String currentTrack = "";
 	private MP3 mp3;
@@ -330,11 +331,15 @@ public class Main extends GLCanvas{
 		// Draw a textured quad
 		myGL.glBegin(GL.GL_QUADS);
 		
-		//TODO reposition, resize
-		myGL.glTexCoord2f(0, 0); myGL.glVertex3f(0, 0, 0);
-		myGL.glTexCoord2f(0, 1); myGL.glVertex3f(0, 100, 0);
-		myGL.glTexCoord2f(1, 1); myGL.glVertex3f(100, 100, 0);
-		myGL.glTexCoord2f(1, 0); myGL.glVertex3f(100, 0, 0);
+		//TODO resize
+		myGL.glTexCoord2f(0, 0);
+		myGL.glVertex3f(windowWidth/2-crossSize, windowHeight/2-crossSize, 0);
+		myGL.glTexCoord2f(0, 1);
+		myGL.glVertex3f(windowWidth/2-crossSize, windowHeight/2+crossSize, 0);
+		myGL.glTexCoord2f(1, 1);
+		myGL.glVertex3f(windowWidth/2+crossSize, windowHeight/2+crossSize, 0);
+		myGL.glTexCoord2f(1, 0);
+		myGL.glVertex3f(windowWidth/2+crossSize, windowHeight/2-crossSize, 0);
 		myGL.glEnd();
 
 
@@ -352,7 +357,8 @@ public class Main extends GLCanvas{
 	
 	public void loadTextures(GL myGL){
 		myGL.glTexParameterf(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR );
-
+		myGL.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR_MIPMAP_LINEAR);
+		myGL.glGenerateMipmapEXT(GL.GL_TEXTURE_2D);
 		try{
 			//load a TextureData object from a picture and then create a texture from it
 			cross =TextureIO.newTexture(new File("crosshairwhite.png"),true);
