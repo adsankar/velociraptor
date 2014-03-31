@@ -26,7 +26,7 @@ public class KeyFunctions {
 	public float my = 0;
 	boolean landed = true;
 	double[][] map;
-	Eye refer = new Eye();
+	Player refer = new Player();
 	MP3 jet = new MP3("/Soundtrack/Jet.mp3");
 	/**
 	 * Creates a new instance of KeyFunctions
@@ -148,9 +148,9 @@ public class KeyFunctions {
 	}
 	/**
 	 * Changes camera location (eye) of character in regards to key interaction
-	 * @param eye
+	 * @param player
 	 */
-	public void moveEye(Eye eye) {
+	public void moveEye(Player player) {
 		int x = (int) (moveX / 500);
 		int z = (int) (moveZ / 500);
 
@@ -162,13 +162,13 @@ public class KeyFunctions {
 		float topLeft = (float) map[x][z + 1];
 		float topRight = (float) map[x + 1][z + 1];
 		float height = MOVE_SMOOTH*((bottomLeft+bottomRight+topLeft+topRight)/4 +5)+
-				(1-MOVE_SMOOTH)*eye.getHeight();
+				(1-MOVE_SMOOTH)*player.getHeight();
 
 		if(height < -40)
 			height = -40f;
-		eye.setHeight(height);
+		player.setHeight(height);
 
-		if(moveY < eye.getHeight() && !landed) {
+		if(moveY < player.getHeight() && !landed) {
 			landed = true;
 			jet.close();
 			if(height > -1)
@@ -177,11 +177,11 @@ public class KeyFunctions {
 				walk("Splash");
 		}
 		if(landed)
-			moveY = eye.getHeight();
+			moveY = player.getHeight();
 
-		eye.setPosition(moveX / 500, moveY, (moveZ / 500));
+		player.setPosition(moveX / 500, moveY, (moveZ / 500));
 
-		refer = eye;
+		refer = player;
 	}
 	/**
 	 * Plays the music and allows the character to walk

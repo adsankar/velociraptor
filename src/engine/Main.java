@@ -53,7 +53,6 @@ public class Main extends GLCanvas{
 	private static int windowWidth;
 	private static int windowHeight;
 	private World world;
-	private Eye eye;
 	private Control control;
 	private KeyFunctions kFunc;
 	private MouseFunctions mFunc;
@@ -92,7 +91,6 @@ public class Main extends GLCanvas{
 		windowWidth = (int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth());
 		windowHeight = (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight());
 		world = new World();
-		eye = new Eye();
 		control = new Control();
 		kFunc = new KeyFunctions();
 		mFunc = new MouseFunctions();
@@ -230,9 +228,9 @@ public class Main extends GLCanvas{
 	public void doDisplay(GL myGL, int w, int h) {
 		kFunc.setMouse(control.getMouseX(), control.getMouseY());
 		kFunc.processKeys(control.getKeysDown());
-		kFunc.moveEye(eye);
+		kFunc.moveEye(p);
 		mFunc.setMouse(control.getMouseX(), control.getMouseY());
-		mFunc.moveEye(eye);
+		mFunc.eye(p);
 		GLU glu = new GLU();
 
 
@@ -245,8 +243,8 @@ public class Main extends GLCanvas{
 		/**
 		 * Moves the camera to where viewer is looking
 		 */
-		glu.gluLookAt(eye.getXPosition(), eye.getYPosition(), eye.getZPosition(),
-				eye.getXView(), eye.getYView(), eye.getZView(),
+		glu.gluLookAt(p.getXPosition(), p.getYPosition(), p.getZPosition(),
+				p.getXView(), p.getYView(), p.getZView(),
 				0, 1, 0);
 		Lighting.setLightPosition(myGL, new float[] {-0.4f, 0.5f, 0.7f, 0});
 		/**

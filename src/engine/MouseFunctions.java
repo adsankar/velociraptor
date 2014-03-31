@@ -34,13 +34,12 @@ public class MouseFunctions {
 	}
 	/**
 	 * Moves the camera position in regards to the mouse.
-	 * @param eye
+	 * @param player
 	 * @return
 	 */
-	public Eye moveEye(Eye eye) {
-		eye.setView((float) (eye.getXPosition() + (Math.sin(mx * .01f) * 3)),
-				(-my * .01f) + eye.getYPosition(),
-				(float) (eye.getZPosition() - (Math.cos(mx * .01f) * 3)));
-		return eye;
+	public void eye(Player player) {
+		player.setView((float) (player.getXPosition() + (Math.sin(mx * .01f) * 3)),
+				(-my * .01f) + player.getYPosition(),
+				(float) (player.getZPosition() - (Math.cos(mx * .01f) * 3)));
 	}
 }
