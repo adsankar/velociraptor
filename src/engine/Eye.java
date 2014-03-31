@@ -5,6 +5,7 @@ package engine;
  * @author 930983
  *
  */
+//TODO possibly combine with Player
 public class Eye {
 
 	public float atX = 0;

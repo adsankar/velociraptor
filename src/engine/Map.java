@@ -27,6 +27,10 @@ public class Map {
 	public double[][] getMap() {
 		return map;
 	}
+	
+	public void setMap(double[][] m){
+		map =m;
+	}
 
 
 

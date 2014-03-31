@@ -64,7 +64,7 @@ public class Player {
 	/**
 	 * Crouch down, lowering the view of the camera and slowing the player's speed
 	 */
-	public void crouch(){
+	public static void crouch(){
 		isCrouched = !isCrouched;
 	}
 	

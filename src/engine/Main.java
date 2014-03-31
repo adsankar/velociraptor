@@ -15,9 +15,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
-import javax.imageio.ImageIO;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCanvas;
@@ -35,20 +33,20 @@ import com.sun.opengl.util.texture.Texture;
 import com.sun.opengl.util.texture.TextureIO;
 
 /**
- * ywho
+ * 
  * @author 929837
  *
  */
 public class Main extends GLCanvas{
-	//TODO per vertex normals, player movement height, move dimensions, enemies, spawn, shoot, help window
+	//TODO fix per vertex normals, crouch, run, enemies, spawn, shoot, help window
 
 	private Texture cross;
-	private BufferedImage crosshairs = new BufferedImage(300, 300, BufferedImage.TYPE_INT_ARGB);
+	//private BufferedImage crosshairs = new BufferedImage(300, 300, BufferedImage.TYPE_INT_ARGB);
 
 	//private float zoom = 0;
 	private float speed = 25f;
 	private final int crossSize  = 50;
-	private final int ENEMY_DELAY_TIME = 10000;
+	private final int ENEMY_DELAY_TIME = 3000;
 	private TextRenderer renderer;
 	private String currentTrack = "";
 	private MP3 mp3;
@@ -62,10 +60,6 @@ public class Main extends GLCanvas{
 	private Player p;
 	private static Animator an;
 	private Timer enemyTimer;
-
-	//Temporary
-	private int ammo = 100;
-
 
 	/**
 	 * Creates a new window and displays to the user. Makes it visible.
@@ -104,19 +98,19 @@ public class Main extends GLCanvas{
 		mFunc = new MouseFunctions();
 		p = new Player();
 
-		try {
+		/*try {
 			crosshairs = ImageIO.read(new File("crosshairwhite.png"));
 		} catch (IOException e) {
 			System.err.println("File Not Found!");
 			e.printStackTrace();
 			System.exit(1);
-		}
+		}*/
 
 		enemyTimer = new Timer (ENEMY_DELAY_TIME, new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Enemy.drawEnemy(Math.random(),Math.random(),getGL());
+				Enemy.drawEnemy(256*Math.random(),256*Math.random(),getGL());
 			}
 
 		});
@@ -168,6 +162,9 @@ public class Main extends GLCanvas{
 				control.releaseKey(e);
 			}
 			public void keyTyped(KeyEvent e) {
+				if (e.getKeyCode()==KeyEvent.VK_H){
+				helpWindow();
+				}
 			}
 		});
 
@@ -181,9 +178,10 @@ public class Main extends GLCanvas{
 		});*/
 
 		kFunc.setSpeed(speed);
-		kFunc.setMap(world.getMap());
+		kFunc.setMap(World.getMap());
 		mFunc.setSpeed(speed);
 		//setMusic("What I'm Made Of");
+		enemyTimer.start();
 
 		addGLEventListener(new GLEventListener(){
 
@@ -312,17 +310,12 @@ public class Main extends GLCanvas{
 		mp3.close();
 		currentTrack = "";
 	}
+	
+	public void helpWindow(){
+		//joptionpane help screen pop-up
+	}
 
 	public void drawStatics(GL myGL){
-		/*myGL.glBegin(GL.GL_LINES);
-		myGL.glColor3f(1, 0, 0);
-		myGL.glLineWidth(4);
-		myGL.glVertex2d(0,0);
-		myGL.glVertex2d(10,0);
-		myGL.glVertex2d(0,10);
-		myGL.glEnd();*/
-
-
 		myGL.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 		myGL.glMatrixMode(GL.GL_PROJECTION);
 		myGL.glPushMatrix();
@@ -338,14 +331,12 @@ public class Main extends GLCanvas{
 
 		myGL.glColor3f(1,1,1);
 		myGL.glEnable(GL.GL_TEXTURE_2D);
-		//myGL.glBindTexture(GL.GL_TEXTURE_2D, );
 
 		cross.enable();
 		cross.bind();
 		// Draw a textured quad
 		myGL.glBegin(GL.GL_QUADS);
 
-		//TODO resize
 		myGL.glTexCoord2f(0, 0);
 		myGL.glVertex3f(windowWidth/2-crossSize, windowHeight/2-crossSize, 0);
 		myGL.glTexCoord2f(0, 1);
@@ -359,16 +350,29 @@ public class Main extends GLCanvas{
 
 		myGL.glDisable(GL.GL_TEXTURE_2D);
 		myGL.glPopMatrix();
-
+		
+		drawWeapon(myGL);
 
 		myGL.glMatrixMode(GL.GL_PROJECTION);
 		myGL.glPopMatrix();
 
 		myGL.glMatrixMode(GL.GL_MODELVIEW);
 		myGL.glEnable(GL.GL_LIGHTING);
+	
+	
 
 	}
 
+	public void drawWeapon(GL myGL){
+		myGL.glBegin(GL.GL_QUADS);
+		myGL.glColor3f(0.8f, 0.8f, 0.8f);
+		myGL.glVertex3d(0,0,0);
+		myGL.glVertex3d(0,10,0);
+		myGL.glVertex3d(10,0,0);
+		myGL.glVertex3d(10,10,0);
+		myGL.glEnd();
+	}
+	
 	public void loadTextures(GL myGL){
 		myGL.glTexParameterf(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR );
 		myGL.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR_MIPMAP_LINEAR);

@@ -11,7 +11,7 @@ import javax.media.opengl.GLAutoDrawable;
 public class Lighting {
 	/**
 	 * Sets up lighting within the 3D environment
-	 * @param myGL2
+	 * @param myGL
 	 */
 	public static void light(GL myGL) {
 	
@@ -24,7 +24,7 @@ public class Lighting {
 		myGL.glEnable (GL.GL_POLYGON_SMOOTH); 
 		myGL.glHint(GL.GL_POLYGON_SMOOTH_HINT, GL.GL_NICEST); 
 		myGL.glShadeModel(GL.GL_SMOOTH);
-		//myGL.glDisable(GL.GL_COLOR_MATERIAL);
+		myGL.glDisable(GL.GL_COLOR_MATERIAL);
 		myGL.glEnable(GL.GL_LIGHT0);
 		
 		float ambient[]= {0.2f, 0.2f, 0.2f, 1};
@@ -32,7 +32,7 @@ public class Lighting {
 		float specular[]= {1, 1, 1, 1};
 		
 		
-		//myGL.glEnable(GL.GL_FOG);
+		myGL.glEnable(GL.GL_FOG);
 		myGL.glFogi (GL.GL_FOG_MODE, GL.GL_EXP2);
 		myGL.glFogf (GL.GL_FOG_DENSITY, .02f);
 		myGL.glFogfv(GL.GL_FOG_COLOR, new float[]{0,0,0, 1}, 0);

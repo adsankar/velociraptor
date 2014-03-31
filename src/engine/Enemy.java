@@ -87,11 +87,15 @@ public class Enemy {
 		this.gold = gold;
 	}
 
-	public static void drawEnemy(int x, int y, GL myGL){
+	public static void drawEnemy(double x, double y, GL myGL){
 		//TODO make enemy here
-		myGL.glBegin(GL.GL_QUADS);
+	/*	myGL.glBegin(GL.GL_QUADS);
 		myGL.glVertex3f(x,y, (float)World.getMap()[x][y]-10);
-		myGL.glVertex3f(x+10,y, (float)World.getMap()[x][y]-10);
+		myGL.glVertex3f(x+10,y, (float)World.getMap()[x][y]-10);*/
+		
+		myGL.glTranslated(x, y, (float)World.getMap()[(int) x][(int) y]);
+	
+		
 	}
 
 

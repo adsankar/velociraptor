@@ -16,7 +16,7 @@ import javax.sound.sampled.Clip;
 public class KeyFunctions {
 
 	private final float MOVE_SMOOTH = 0.4f;
-	private boolean move = true;
+	//private boolean move = true;
 	private float step = 0;
 	public float speed = 10;
 	public float moveX = 25000;
@@ -92,6 +92,10 @@ public class KeyFunctions {
 			if (keys.get(i)== KeyEvent.VK_SPACE){
 				jump();
 			}
+			
+			if (keys.get(i)== KeyEvent.VK_C){
+				Player.crouch();
+			}
 
 
 			if(moveX / 500 < 0)
@@ -105,17 +109,17 @@ public class KeyFunctions {
 
 			if(step > 0) {
 				step -= 1;
-				move = false;
+				//move = false;
 			}
 			if(step == 0)
-				move = true;
+				//move = true;
 
 			if((keys.get(i) == KeyEvent.VK_W ||
 					keys.get(i) == KeyEvent.VK_S ||
 					keys.get(i) == KeyEvent.VK_D ||
 					keys.get(i) == KeyEvent.VK_A) &&
-					move && landed)
-				if(refer.getHeight() > -2.5)
+					/*move &&*/ landed)
+				if(refer.getHeight() > -1)
 					walk("Walk");
 				else
 					walk("Swim");
@@ -160,14 +164,14 @@ public class KeyFunctions {
 		float height = MOVE_SMOOTH*((bottomLeft+bottomRight+topLeft+topRight)/4 +5)+
 				(1-MOVE_SMOOTH)*eye.getHeight();
 
-		if(height < -10)
-			height = -10f;
+		if(height < -40)
+			height = -40f;
 		eye.setHeight(height);
 
 		if(moveY < eye.getHeight() && !landed) {
 			landed = true;
 			jet.close();
-			if(height > -2.5)
+			if(height > -1)
 				walk("Land");
 			else
 				walk("Splash");
@@ -185,7 +189,7 @@ public class KeyFunctions {
 	 */
 	public void walk(String str) {
 		play(str + ".wav");
-		step = 150;
+		step = 20;
 	}
 	/**
 	 * Plays the music
