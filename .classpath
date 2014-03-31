@@ -13,6 +13,6 @@
 			<attribute name="javadoc_location" value="http://worldwind.arc.nasa.gov/java/jogl/docs/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Aleksander/Documents/Comp Sci/eclipse stuff/jl1.0.1.jar"/>
+	<classpathentry kind="lib" path="H:/Downloads/jl1.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

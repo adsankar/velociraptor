@@ -44,7 +44,7 @@ public class Main extends GLCanvas{
 	//private BufferedImage crosshairs = new BufferedImage(300, 300, BufferedImage.TYPE_INT_ARGB);
 
 	//private float zoom = 0;
-	private float speed = 25f;
+	private float speed = 150f;
 	private final int crossSize  = 50;
 	private final int ENEMY_DELAY_TIME = 3000;
 	private TextRenderer renderer;
