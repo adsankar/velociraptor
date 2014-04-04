@@ -27,8 +27,8 @@ public class Lighting {
 		myGL.glDisable(GL.GL_COLOR_MATERIAL);
 		myGL.glEnable(GL.GL_LIGHT0);
 		
-		float ambient[]= {0.2f, 0.2f, 0.2f, 1};
-		float diffuse[] = {0.8f,0.8f,0.8f,1};
+		float ambient[]= {0.7f, 0.7f, 0.7f, 1};
+		float diffuse[] = {0.4f,0.4f,0.4f,1};
 		float specular[]= {1, 1, 1, 1};
 		
 		

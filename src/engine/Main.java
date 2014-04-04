@@ -46,7 +46,7 @@ public class Main extends GLCanvas{
 	//private float zoom = 0;
 	private float speed = 40f;
 	private final int crossSize  = 50;
-	private final int ENEMY_DELAY_TIME = 3000;
+	private final int ENEMY_DELAY_TIME = 3;
 	private TextRenderer renderer;
 	private String currentTrack = "";
 	private MP3 mp3;
@@ -108,7 +108,8 @@ public class Main extends GLCanvas{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Enemy.drawEnemy(256*Math.random(),256*Math.random(),getGL());
+				//Enemy.drawEnemy(256*Math.random(),256*Math.random(),getGL());
+				Enemy.drawEnemy(250,250,getGL());
 			}
 
 		});
@@ -344,12 +345,12 @@ public class Main extends GLCanvas{
 		myGL.glTexCoord2f(1, 0);
 		myGL.glVertex3f(windowWidth/2+crossSize, windowHeight/2-crossSize, 0);
 		myGL.glEnd();
-
+		drawWeapon(myGL);
 
 		myGL.glDisable(GL.GL_TEXTURE_2D);
 		myGL.glPopMatrix();
 		
-		drawWeapon(myGL);
+		
 
 		myGL.glMatrixMode(GL.GL_PROJECTION);
 		myGL.glPopMatrix();

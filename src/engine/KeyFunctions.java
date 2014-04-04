@@ -79,16 +79,16 @@ public class KeyFunctions {
 			}
 			//else moveY = 0;
 			if(keys.get(i) == KeyEvent.VK_W) {
-				moveZ -= cos;
-				moveX += sin;
+				moveZ -= 1.8*cos;
+				moveX += 1.8*sin;
 			}
 			if(keys.get(i) == KeyEvent.VK_SPACE) {
 				moveY+=speed*0.05;//TODO jump
 			}
 			
 			if(keys.get(i) == KeyEvent.VK_S) {
-				moveZ += cos;
-				moveX -= sin;
+				moveZ += 1.8*cos;
+				moveX -= 1.8*sin;
 			}
 			if(keys.get(i) == KeyEvent.VK_D) {
 				moveZ += sin;

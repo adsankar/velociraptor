@@ -89,11 +89,43 @@ public class Enemy {
 
 	public static void drawEnemy(double x, double y, GL myGL){
 		//TODO make enemy here
-	/*	myGL.glBegin(GL.GL_QUADS);
-		myGL.glVertex3f(x,y, (float)World.getMap()[x][y]-10);
-		myGL.glVertex3f(x+10,y, (float)World.getMap()[x][y]-10);*/
+		myGL.glColor3d(1,0,0);
+
+		/*
+		myGL.glBegin(GL.GL_QUADS);
+		myGL.glVertex3d(x,y, (float)World.getMap()[(int) x][(int) y]-10);
+		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
+		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
+		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
 		
-		myGL.glTranslated(x, y, (float)World.getMap()[(int) x][(int) y]);
+		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
+		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
+		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
+		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
+		
+		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
+		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
+		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
+		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
+		
+		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
+		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
+		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
+		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
+		
+		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
+		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
+		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
+		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
+		*/
+		//TODO fix here
+		myGL.glBegin(GL.GL_LINE);
+		myGL.glVertex3d(x,(float)World.getMap()[(int) Math.floor(x)][(int) Math.floor(y)]+20, y);
+		myGL.glVertex3d(x,(float)World.getMap()[(int) Math.floor(x)][(int) Math.floor(y)]-20, y);
+		System.out.println("draw");
+		myGL.glEnd();
+		
+		//myGL.glTranslated(x, y, (float)World.getMap()[(int) x][(int) y]);
 	
 		
 	}

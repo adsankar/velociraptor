@@ -51,7 +51,7 @@ public class World {
 		norms = BufferUtil.newFloatBuffer(12*(height[0].length-1)*(height.length-1));
 		Vector3 normal;
 
-		//TODO, smoother map
+		//TODO, smoother map by repetition, each vertex (length and width-1)
 		for(int i = 0 ; i < height.length-1 ; i++){
 			for(int j = 0 ; j < height[0].length-1 ; j++){
 
