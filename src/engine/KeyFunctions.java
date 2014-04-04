@@ -24,6 +24,7 @@ public class KeyFunctions {
 	public float moveZ = 25000;
 	public float mx = 0;
 	public float my = 0;
+	private float gravity = -1;
 	boolean landed = true;
 	double[][] map;
 	Player refer = new Player();
@@ -53,20 +54,38 @@ public class KeyFunctions {
 	 */
 	public void processKeys(ArrayList<Integer> keys) {
 		boolean run = false;
+		boolean crouched = false;
 		for(int i = 0; i < keys.size(); i++) {
 			float sin = (float) Math.sin(mx * .01) * 3 * speed;
 			float cos = (float) Math.cos(mx * .01) * 3 * speed;
-			if(keys.get(i) == KeyEvent.VK_SHIFT) {
-				run = true;
+			for (int j = 0; j < keys.size(); j++){
+				if(keys.get(j) == KeyEvent.VK_SHIFT) {
+					run = true;
+				}
 			}
 			if(run) {
 				sin *= 2;
 				cos *= 2;
 			}
+			for (int j = 0; j < keys.size(); j++){
+				if(keys.get(j) == KeyEvent.VK_C) {
+					crouched = true;
+				}
+			}
+			if(crouched) {
+				sin /= 2;
+				cos /= 2;
+				moveY -= 10;
+			}
+			//else moveY = 0;
 			if(keys.get(i) == KeyEvent.VK_W) {
 				moveZ -= cos;
 				moveX += sin;
 			}
+			if(keys.get(i) == KeyEvent.VK_SPACE) {
+				moveY+=speed*0.05;//TODO jump
+			}
+			
 			if(keys.get(i) == KeyEvent.VK_S) {
 				moveZ += cos;
 				moveX -= sin;
@@ -92,7 +111,7 @@ public class KeyFunctions {
 			if (keys.get(i)== KeyEvent.VK_SPACE){
 				jump();
 			}
-			
+
 			if (keys.get(i)== KeyEvent.VK_C){
 				Player.crouch();
 			}
@@ -114,15 +133,15 @@ public class KeyFunctions {
 			if(step == 0)
 				//move = true;
 
-			if((keys.get(i) == KeyEvent.VK_W ||
-					keys.get(i) == KeyEvent.VK_S ||
-					keys.get(i) == KeyEvent.VK_D ||
-					keys.get(i) == KeyEvent.VK_A) &&
-					/*move &&*/ landed)
-				if(refer.getHeight() > -1)
-					walk("Walk");
-				else
-					walk("Swim");
+				if((keys.get(i) == KeyEvent.VK_W ||
+				keys.get(i) == KeyEvent.VK_S ||
+				keys.get(i) == KeyEvent.VK_D ||
+				keys.get(i) == KeyEvent.VK_A) &&
+				/*move &&*/ landed)
+					if(refer.getHeight() > -1)
+						walk("Walk");
+					else
+						walk("Swim");
 		}
 	}
 	/**

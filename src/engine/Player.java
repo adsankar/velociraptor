@@ -14,6 +14,7 @@ public class Player {
 	private static boolean isRunning;
 	private static boolean canInteract;
 	private static boolean isCrouched;
+	private static boolean canShoot;
 	public float atX = 0;
 	public float atY = 0;
 	public float atZ = 0;
@@ -31,6 +32,7 @@ public class Player {
 		isRunning=false;
 		canInteract=false;
 		isCrouched=false;
+		canShoot=true;
 	}
 	
 	/**
@@ -83,6 +85,7 @@ public class Player {
 	 */
 	public void run(){
 		isRunning = !isRunning;
+		canShoot = !canShoot;
 	}
 	
 	/**
@@ -92,6 +95,7 @@ public class Player {
 		if (canInteract){
 			//something
 		}
+		canShoot=false;
 	}
 	
 	public static int getAmmo() {
