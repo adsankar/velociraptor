@@ -18,14 +18,15 @@ public class KeyFunctions {
 	private final float MOVE_SMOOTH = 0.4f;
 	//private boolean move = true;
 	private float step = 0;
-	public float speed = 10;
+	public float speed = 1;
 	public float moveX = 25000;
 	public float moveY = 0;
 	public float moveZ = 25000;
 	public float mx = 0;
 	public float my = 0;
-	private float gravity = -1;
-	boolean landed = true;
+	public float gravity =0;
+	private boolean landed = true;
+	private boolean jump = false;
 	double[][] map;
 	Player refer = new Player();
 	MP3 jet = new MP3("/Soundtrack/Jet.mp3");
@@ -33,6 +34,7 @@ public class KeyFunctions {
 	 * Creates a new instance of KeyFunctions
 	 */
 	public KeyFunctions() {
+		//do nothing
 	}
 	/**
 	 * Sets the moving speed of the character in regard to keys being pressed
@@ -54,6 +56,7 @@ public class KeyFunctions {
 	 */
 	public void processKeys(ArrayList<Integer> keys) {
 		boolean run = false;
+		boolean fly = false;
 		boolean crouched = false;
 		for(int i = 0; i < keys.size(); i++) {
 			float sin = (float) Math.sin(mx * .01) * 3 * speed;
@@ -82,10 +85,18 @@ public class KeyFunctions {
 				moveZ -= 1.8*cos;
 				moveX += 1.8*sin;
 			}
-			if(keys.get(i) == KeyEvent.VK_SPACE) {
-				moveY+=speed*0.05;//TODO jump
+			if(keys.get(i) == KeyEvent.VK_SPACE && !fly) {
+				if(landed && !jump) {
+					jump = true;
+					gravity = .15f * (speed / 20);
+				}
+				if(!landed && !jump) {
+					jump = true;
+					gravity = 0;
+					jet.close();
+				}
 			}
-			
+
 			if(keys.get(i) == KeyEvent.VK_S) {
 				moveZ += 1.8*cos;
 				moveX -= 1.8*sin;
@@ -99,6 +110,10 @@ public class KeyFunctions {
 				moveX -= cos;
 			}
 
+			if(keys.get(i) == KeyEvent.VK_R) {
+				Player.setAmmo(100);
+			}
+
 			if(keys.get(i) == KeyEvent.VK_E) {
 				moveY += speed * .005;
 				landed = false;
@@ -107,10 +122,6 @@ public class KeyFunctions {
 			}
 			if(keys.get(i) == KeyEvent.VK_Q)
 				moveY -= speed * .005;
-
-			if (keys.get(i)== KeyEvent.VK_SPACE){
-				jump();
-			}
 
 			if (keys.get(i)== KeyEvent.VK_C){
 				Player.crouch();
@@ -136,8 +147,7 @@ public class KeyFunctions {
 				if((keys.get(i) == KeyEvent.VK_W ||
 				keys.get(i) == KeyEvent.VK_S ||
 				keys.get(i) == KeyEvent.VK_D ||
-				keys.get(i) == KeyEvent.VK_A) &&
-				/*move &&*/ landed)
+				keys.get(i) == KeyEvent.VK_A) &&landed && !jump)
 					if(refer.getHeight() > -1)
 						walk("Walk");
 					else
@@ -187,15 +197,16 @@ public class KeyFunctions {
 			height = -40f;
 		player.setHeight(height);
 
-		if(moveY < player.getHeight() && !landed) {
+		if(moveY < player.getHeight() && (!landed ||jump)) {
 			landed = true;
+			jump =false;
 			jet.close();
 			if(height > -1)
 				walk("Land");
 			else
 				walk("Splash");
 		}
-		if(landed)
+		if(landed && !jump)
 			moveY = player.getHeight();
 
 		player.setPosition(moveX / 500, moveY, (moveZ / 500));
