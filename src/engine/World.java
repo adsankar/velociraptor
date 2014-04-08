@@ -61,16 +61,14 @@ public class World {
 				vert.put(j*TILE_SCALE);
 
 				getColor(height[i][j]); 
-
-				if (i >0 && i<height.length+1 && j>0 && j<height.length+1){
-				Vector3 a = new Vector3(0,0, (float)(height[i][j]));
-				Vector3 b = new Vector3(0, 1, (float)(height[i][j+1]));
-				Vector3 c = new Vector3(1, 0, (float)(height[i+1][j]));
-				Vector3 d = new Vector3(0, -1, (float)(height[i][j-1]));
-				Vector3 e = new Vector3(-1, 0, (float)(height[i-1][j]));
-				normal = Vector3.calcAvgNormal(a, b, c, d, e);
+//TODO fix normals
+				if (i>0){
+					Vector3 a = new Vector3(0,0,(int)height[i][j+1]);
+					Vector3 b = new Vector3(0,0,(int)height[i+1][j]);
+					normal = Vector3.cross(a, b);
 				}
 				else normal = new Vector3();
+				
 				//calculateNormal(i, j, height[i][j], i+1, j, height[i+1][j], i+1, j+1, height[i+1][j+1]);
 				
 				
@@ -84,10 +82,13 @@ public class World {
 
 				getColor(height[i+1][j]);
 
-			/*	calculateNormal(i, j, height[i][j], i+1, j, height[i+1][j], i+1, j+1, height[i+1][j+1]);
-				norms.put(nextNormals[0]);
-				norms.put(nextNormals[1]);
-				norms.put(nextNormals[2]);*/
+
+				if (i>0 && j<height.length-1){
+					Vector3 a = new Vector3(0,0,(int)height[i-1][j]);
+					Vector3 b = new Vector3(0,0,(int)height[i-1][j+1]);
+					normal = Vector3.cross(a, b);
+				}
+				else normal = new Vector3();
 				
 				norms.put(normal.getX());
 				norms.put(normal.getY());
@@ -99,11 +100,14 @@ public class World {
 
 				getColor(height[i+1][j+1]);
 
-				//calculate surface normals and add them to the normals array
-		/*		calculateNormal(i, j, height[i][j], i+1, j, height[i+1][j], i+1, j+1, height[i+1][j+1]);
-				norms.put(nextNormals[0]);
-				norms.put(nextNormals[1]);
-				norms.put(nextNormals[2]);*/
+
+				if (i>1 && j<height.length-1){
+					Vector3 a = new Vector3(0,0,(int)height[i-1][j-1]);
+					Vector3 b = new Vector3(0,0,(int)height[i][j-1]);
+					normal = Vector3.cross(a, b);
+				}
+				else normal = new Vector3();
+				
 				norms.put(normal.getX());
 				norms.put(normal.getY());
 				norms.put(normal.getZ());
@@ -114,10 +118,13 @@ public class World {
 
 				getColor(height[i][j+1]);
 
-				/*calculateNormal(i, j, height[i][j], i+1, j, height[i+1][j], i+1, j+1, height[i+1][j+1]);
-				norms.put(nextNormals[0]);
-				norms.put(nextNormals[1]);
-				norms.put(nextNormals[2]);*/
+				if (i>1 && j<height.length-1){
+					Vector3 a = new Vector3(0,0,(int)height[i-1][j]);
+					Vector3 b = new Vector3(0,0,(int)height[i+1][j-1]);
+					normal = Vector3.cross(a, b);
+				}
+				else normal = new Vector3();
+				
 				norms.put(normal.getX());
 				norms.put(normal.getY());
 				norms.put(normal.getZ());

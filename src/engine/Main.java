@@ -28,6 +28,7 @@ import javax.swing.Timer;
 
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
+import com.sun.opengl.util.GLUT;
 import com.sun.opengl.util.j2d.TextRenderer;
 import com.sun.opengl.util.texture.Texture;
 import com.sun.opengl.util.texture.TextureIO;
@@ -46,7 +47,7 @@ public class Main extends GLCanvas{
 	//private float zoom = 0;
 	private float speed = 40f;
 	private final int crossSize  = 50;
-	private final int ENEMY_DELAY_TIME = 3;
+	private final int ENEMY_DELAY_TIME = 30;
 	private TextRenderer renderer;
 	private String currentTrack = "";
 	private MP3 mp3;
@@ -109,7 +110,8 @@ public class Main extends GLCanvas{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				//Enemy.drawEnemy(256*Math.random(),256*Math.random(),getGL());
-				Enemy.drawEnemy(250,250,getGL());
+				//Enemy.drawEnemy(250,250,getGL());
+				drawEnemy();
 			}
 
 		});
@@ -389,6 +391,29 @@ public class Main extends GLCanvas{
 		}//end catch
 
 	}//end loadTextures
+	
+	public void drawEnemy(){
+		//GLUT glut = new GLUT();
+		GL myGL = getGL();
+		myGL.glPushMatrix();
+		double x = 256*Math.random();
+		double y = 256*Math.random();
+		myGL.glTranslated(x, World.getMap()[(int)x][(int)y], y);
+		
+		myGL.glColor3d(1, 0, 0);
+		
+		myGL.glBegin(GL.GL_TRIANGLES);
+		
+		myGL.glVertex3d(0,40,0);
+		myGL.glVertex3d(0,-40,0);
+		myGL.glVertex3d(0,0,40);
+		
+	//glut.glutSolidCube(3);
+		myGL.glPopMatrix();
+		myGL.glEnd();
+		//TODO fix this
+		//System.out.println("test");
+	}
 
 
 }
