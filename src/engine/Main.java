@@ -14,7 +14,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.FloatBuffer;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -27,6 +32,7 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 
 import com.sun.opengl.util.Animator;
+import com.sun.opengl.util.BufferUtil;
 import com.sun.opengl.util.FPSAnimator;
 import com.sun.opengl.util.j2d.TextRenderer;
 import com.sun.opengl.util.texture.Texture;
@@ -41,6 +47,7 @@ public class Main extends GLCanvas{
 	//TODO fix per vertex normals, crouch, run, enemies, spawn, shoot, help window
 
 	private Texture cross;
+	private FloatBuffer weaponVert;
 	//private BufferedImage crosshairs = new BufferedImage(300, 300, BufferedImage.TYPE_INT_ARGB);
 
 	//private float zoom = 0;
@@ -96,6 +103,7 @@ public class Main extends GLCanvas{
 		mFunc = new MouseFunctions();
 		p = new Player();
 
+
 		/*try {
 			crosshairs = ImageIO.read(new File("crosshairwhite.png"));
 		} catch (IOException e) {
@@ -109,7 +117,7 @@ public class Main extends GLCanvas{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				//Enemy.drawEnemy(256*Math.random(),256*Math.random(),getGL());
-				Enemy.drawEnemy(250,250,getGL());
+				//	Enemy.drawEnemy(250,250,getGL());
 			}
 
 		});
@@ -162,7 +170,7 @@ public class Main extends GLCanvas{
 			}
 			public void keyTyped(KeyEvent e) {
 				if (e.getKeyCode()==KeyEvent.VK_H){
-				helpWindow();
+					helpWindow();
 				}
 			}
 		});
@@ -277,6 +285,7 @@ public class Main extends GLCanvas{
 	public void doInit(GL myGL) {
 		renderer = new TextRenderer(new Font("SansSerif", Font.BOLD, 30),true,true);
 		//myGL.glClearColor(0f,0f,0f,1f);//so that not all of the shapes have this color
+		loadVertexData(new File ("ar15.txt"));
 		loadTextures(myGL);
 		Lighting.light(myGL);
 	}
@@ -309,7 +318,7 @@ public class Main extends GLCanvas{
 		mp3.close();
 		currentTrack = "";
 	}
-	
+
 	public void helpWindow(){
 		//joptionpane help screen pop-up
 	}
@@ -345,33 +354,88 @@ public class Main extends GLCanvas{
 		myGL.glTexCoord2f(1, 0);
 		myGL.glVertex3f(windowWidth/2+crossSize, windowHeight/2-crossSize, 0);
 		myGL.glEnd();
-		drawWeapon(myGL);
+
+
 
 		myGL.glDisable(GL.GL_TEXTURE_2D);
 		myGL.glPopMatrix();
-		
-		
+
+
 
 		myGL.glMatrixMode(GL.GL_PROJECTION);
 		myGL.glPopMatrix();
 
 		myGL.glMatrixMode(GL.GL_MODELVIEW);
 		myGL.glEnable(GL.GL_LIGHTING);
-	
-	
 
+		myGL.glPushMatrix();
+		myGL.glTranslated(0, 5, 0);
+
+		drawWeapon(myGL);
+		myGL.glPopMatrix(); 
+		myGL.glEnd();
+
+
+
+	}
+
+	public void loadVertexData(File myFile){
+		ArrayList<Float> x = new ArrayList<Float>();
+		FileInputStream myStream =null;
+		try{ myStream = new FileInputStream(myFile);
+		}catch (FileNotFoundException ex){
+			System.out.println("No File Here!");
+			System.exit(0);//end process
+		}
+		int count =0;
+		Scanner myScanner = new Scanner(myStream);
+		while (myScanner.hasNext()){
+			count++;
+			String temp;
+			//float f1, f2, f3;
+			temp = myScanner.nextLine().trim();
+			if (temp.substring(0,1).equals("v") && count>36){
+				x.add(Float.parseFloat(temp.substring(2,11)));
+				x.add(Float.parseFloat(temp.substring(12,21)));
+				x.add(Float.parseFloat(temp.substring(22,29)));
+			}
+		}
+
+
+		weaponVert = BufferUtil.newFloatBuffer(x.size());
+		for(Float f: x){
+			weaponVert.put(f);
+			System.out.println(f);
+		}
 	}
 
 	public void drawWeapon(GL myGL){
-		myGL.glBegin(GL.GL_QUADS);
+		//	myGL.glBegin(GL.GL_TRIANGLES);
 		myGL.glColor3f(0.8f, 0.8f, 0.8f);
-		myGL.glVertex3d(0,0,0);
+
+
+		//	FloatBuffer colors = BufferUtil.newFloatBuffer(12*(height[0].length-1)*(height.length-1));
+		//	FloatBuffer norms = BufferUtil.newFloatBuffer(12*(height[0].length-1)*(height.length-1));
+
+		//	myGL.glEnableClientState(GL.GL_COLOR_ARRAY);
+		myGL.glEnableClientState(GL.GL_VERTEX_ARRAY);
+
+		//	myGL.glNormalPointer(GL.GL_FLOAT, 0, vert);
+		//	myGL.glColorPointer(3, GL.GL_FLOAT, 0, colors);
+
+		myGL.glDrawArrays(GL.GL_QUADS,0,weaponVert.capacity()/3);
+
+		//disable arrays when done
+		myGL.glDisableClientState(GL.GL_VERTEX_ARRAY);
+
+		/*	myGL.glVertex3d(0,0,0);
 		myGL.glVertex3d(0,10,0);
 		myGL.glVertex3d(10,0,0);
-		myGL.glVertex3d(10,10,0);
+		myGL.glVertex3d(10,10,0);*/
+		weaponVert.rewind();
 		myGL.glEnd();
 	}
-	
+
 	public void loadTextures(GL myGL){
 		myGL.glTexParameterf(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR );
 		myGL.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR_MIPMAP_LINEAR);

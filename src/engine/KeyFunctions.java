@@ -173,7 +173,7 @@ public class KeyFunctions {
 		int x = (int) (moveX / 500);
 		int z = (int) (moveZ / 500);
 
-		if (x+1 >= map.length || z+1 > map.length){
+		if (x+1 >= map.length || z+1 >= map.length){
 			return;
 		}
 		float bottomLeft = (float) map[x][z];
