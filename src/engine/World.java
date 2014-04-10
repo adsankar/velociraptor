@@ -62,10 +62,11 @@ public class World {
 
 				getColor(height[i][j]); 
 //TODO fix normals
-				if (i>0){
-					Vector3 a = new Vector3(0,0,(int)height[i][j+1]);
-					Vector3 b = new Vector3(0,0,(int)height[i+1][j]);
-					normal = Vector3.cross(a, b);
+				if (isInRange(j+1)&&isInRange(i+1)){
+					Vector3 a = new Vector3(i,j+1,(int)height[i][j+1]);
+					Vector3 b = new Vector3(i+1,j,(int)height[i+1][j]);
+					//normal = Vector3.cross(a, b);
+					normal = calcAvcalcAvgNormal()
 				}
 				else normal = new Vector3();
 				
@@ -83,9 +84,9 @@ public class World {
 				getColor(height[i+1][j]);
 
 
-				if (i>0 && j<height.length-1){
-					Vector3 a = new Vector3(0,0,(int)height[i-1][j]);
-					Vector3 b = new Vector3(0,0,(int)height[i-1][j+1]);
+				if (isInRange(j+1)&&isInRange(i+1)){ 
+					Vector3 a = new Vector3(i-1,j,(int)height[i-1][j]);
+					Vector3 b = new Vector3(i-1,j+1,(int)height[i-1][j+1]);
 					normal = Vector3.cross(a, b);
 				}
 				else normal = new Vector3();
@@ -101,9 +102,9 @@ public class World {
 				getColor(height[i+1][j+1]);
 
 
-				if (i>1 && j<height.length-1){
-					Vector3 a = new Vector3(0,0,(int)height[i-1][j-1]);
-					Vector3 b = new Vector3(0,0,(int)height[i][j-1]);
+				if (isInRange(j+1)&&isInRange(i+1)){
+					Vector3 a = new Vector3(i-1,j-1,(int)height[i-1][j-1]);
+					Vector3 b = new Vector3(i,j-1,(int)height[i][j-1]);
 					normal = Vector3.cross(a, b);
 				}
 				else normal = new Vector3();
@@ -118,9 +119,9 @@ public class World {
 
 				getColor(height[i][j+1]);
 
-				if (i>1 && j<height.length-1){
-					Vector3 a = new Vector3(0,0,(int)height[i-1][j]);
-					Vector3 b = new Vector3(0,0,(int)height[i+1][j-1]);
+				if (isInRange(j+1)&&isInRange(i+1)){
+					Vector3 a = new Vector3(i-1,j,(int)height[i-1][j]);
+					Vector3 b = new Vector3(i+1,j-1,(int)height[i+1][j-1]);
 					normal = Vector3.cross(a, b);
 				}
 				else normal = new Vector3();
@@ -138,6 +139,14 @@ public class World {
 		
 		//for (int)
 	}// end setupArrays
+	
+	public boolean isInRange(int a){
+		if (a>1 && a<size-1 ){
+			return true;
+		}
+		
+		else return false;
+	}
 
 	/**
 	 * Calculate the surface normal given two lines, defined by a total of 9 values

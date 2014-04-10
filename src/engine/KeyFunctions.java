@@ -81,7 +81,7 @@ public class KeyFunctions {
 				moveY -= 10;
 			}
 			//else moveY = 0;
-			if(keys.get(i) == KeyEvent.VK_W) {
+			if(keys.get(i) == KeyEvent.VK_W || keys.get(i) == KeyEvent.VK_UP) {
 				moveZ -= 1.8*cos;
 				moveX += 1.8*sin;
 			}
@@ -97,15 +97,15 @@ public class KeyFunctions {
 				}
 			}
 
-			if(keys.get(i) == KeyEvent.VK_S) {
+			if(keys.get(i) == KeyEvent.VK_S || keys.get(i) == KeyEvent.VK_DOWN && !((keys.get(i) == KeyEvent.VK_S) && keys.get(i) == KeyEvent.VK_DOWN)) {
 				moveZ += 1.8*cos;
 				moveX -= 1.8*sin;
 			}
-			if(keys.get(i) == KeyEvent.VK_D) {
+			if(keys.get(i) == KeyEvent.VK_D || keys.get(i) == KeyEvent.VK_RIGHT) {
 				moveZ += sin;
 				moveX += cos;
 			}
-			if(keys.get(i) == KeyEvent.VK_A) {
+			if(keys.get(i) == KeyEvent.VK_A || keys.get(i) == KeyEvent.VK_LEFT) {
 				moveZ -= sin;
 				moveX -= cos;
 			}

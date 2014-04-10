@@ -27,7 +27,8 @@ public class Vector3 {
 	
 	public static Vector3 vectorSubtract(Vector3 a, Vector3 b){
 		return new Vector3(b.getX()-a.getX(),b.getY()-a.getY(),b.getZ()-a.getZ());
-	}
+	}																		
+	
 	
 	public static Vector3 calcAvgNormal(Vector3 a, Vector3 b, Vector3 c, Vector3 d, Vector3 e){
 		//sub
