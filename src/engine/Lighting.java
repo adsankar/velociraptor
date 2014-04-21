@@ -2,7 +2,6 @@
 package engine;
 
 import javax.media.opengl.GL;
-import javax.media.opengl.GLAutoDrawable;
 /**
  * Sets up the lighting
  * @author 930983

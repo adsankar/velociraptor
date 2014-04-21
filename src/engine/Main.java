@@ -36,7 +36,6 @@ import javax.swing.Timer;
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.BufferUtil;
 import com.sun.opengl.util.FPSAnimator;
-import com.sun.opengl.util.GLUT;
 import com.sun.opengl.util.j2d.TextRenderer;
 import com.sun.opengl.util.texture.Texture;
 import com.sun.opengl.util.texture.TextureIO;
@@ -131,7 +130,7 @@ public class Main extends GLCanvas{
 				//	Enemy.drawEnemy(250,250,getGL());
 
 				//Enemy.drawEnemy(250,250,getGL());
-				drawEnemy();
+				Enemy.drawEnemy(250, 250, getGL());
 
 			}
 
@@ -551,7 +550,7 @@ public class Main extends GLCanvas{
 	public void loadTextures(GL myGL){
 		myGL.glTexParameterf(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR );
 		myGL.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR_MIPMAP_LINEAR);
-		myGL.glGenerateMipmapEXT(GL.GL_TEXTURE_2D);
+		//	myGL.glGenerateMipmapEXT(GL.GL_TEXTURE_2D);
 		//myGL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_BORDER_COLOR, GL.GL_REPEAT);
 		//	myGL.glTexEnvi(GL.GL_TEXTURE_ENV, GL.GL_TEXTURE_ENV_MODE, GL.GL_MODULATE);
 		try{
@@ -572,29 +571,6 @@ public class Main extends GLCanvas{
 		}//end catch
 
 	}//end loadTextures
-	
-	public void drawEnemy(){
-		//GLUT glut = new GLUT();
-		GL myGL = getGL();
-		myGL.glPushMatrix();
-		double x = 256*Math.random();
-		double y = 256*Math.random();
-		myGL.glTranslated(x, World.getMap()[(int)x][(int)y], y);
-		
-		myGL.glColor3d(1, 0, 0);
-		
-		myGL.glBegin(GL.GL_TRIANGLES);
-		
-		myGL.glVertex3d(0,40,0);
-		myGL.glVertex3d(0,-40,0);
-		myGL.glVertex3d(0,0,40);
-		
-	//glut.glutSolidCube(3);
-		myGL.glPopMatrix();
-		myGL.glEnd();
-		//TODO fix this
-		//System.out.println("test");
-	}
 
 
 }

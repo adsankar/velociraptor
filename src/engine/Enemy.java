@@ -90,7 +90,7 @@ public class Enemy {
 	public static void drawEnemy(double x, double y, GL myGL){
 		//TODO make enemy here
 		myGL.glColor3d(1,0,0);
-
+		
 		/*
 		myGL.glBegin(GL.GL_QUADS);
 		myGL.glVertex3d(x,y, (float)World.getMap()[(int) x][(int) y]-10);
