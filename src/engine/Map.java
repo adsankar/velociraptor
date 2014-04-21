@@ -9,7 +9,7 @@ package engine;
 public class Map {
 
 	private double[][] map;
-	private final int MAX_HEIGHT = 40;
+	private final int MAX_HEIGHT = 30;
 
 
 	public Map(int size) {

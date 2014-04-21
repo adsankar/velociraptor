@@ -37,14 +37,19 @@ public class Vector3 {
 		Vector3 ce = vectorSubtract(c, e);
 		
 		Vector3 acb = cross(ca,cb);
-		Vector3 bce = cross(cb,ce);
-		Vector3 ecd = cross(ce, cd);
-		Vector3 dca = cross(cd, ca);
+		Vector3 bce = cross(cb,cd);
+		Vector3 ecd = cross(cd, ce);
+		Vector3 dca = cross(ce, ca);
 		
 		float avgX = (acb.getX()+bce.getX()+ecd.getX()+dca.getX())/4;
 		float avgY = (acb.getY()+bce.getY()+ecd.getY()+dca.getY())/4;
 		float avgZ = (acb.getZ()+bce.getZ()+ecd.getZ()+dca.getZ())/4;
-		return new Vector3(avgX, avgY, avgZ);
+		return normalize(new Vector3(avgX, avgY, avgZ));
+	}
+	
+	public static Vector3 normalize(Vector3 a){
+		float d = (float) Math.sqrt(a.getX()*a.getX()+a.getY()*a.getY()+a.getZ()*a.getZ());
+		return new Vector3(a.getX()/d, a.getY()/d, a.getZ()/d);
 	}
 
 	public float getX() {

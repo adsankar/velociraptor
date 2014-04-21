@@ -2,6 +2,7 @@
 package engine;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.Toolkit;
@@ -29,6 +30,7 @@ import javax.media.opengl.GLEventListener;
 import javax.media.opengl.GLException;
 import javax.media.opengl.glu.GLU;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 import com.sun.opengl.util.Animator;
@@ -46,12 +48,19 @@ import com.sun.opengl.util.texture.TextureIO;
 public class Main extends GLCanvas{
 	//TODO fix per vertex normals, crouch, run, enemies, spawn, shoot, help window
 
+	private static Component frame;
+
 	private Texture cross;
+	private Texture wall1;
+	private Texture wall2;
+	private Texture wall3;
+	private Texture wall4;
+	private Texture sky;
 	private FloatBuffer weaponVert;
 	//private BufferedImage crosshairs = new BufferedImage(300, 300, BufferedImage.TYPE_INT_ARGB);
 
 	//private float zoom = 0;
-	private float speed = 40f;
+	private float speed = 80f;
 	private final int crossSize  = 50;
 	private final int ENEMY_DELAY_TIME = 3;
 	private TextRenderer renderer;
@@ -163,15 +172,16 @@ public class Main extends GLCanvas{
 				control.pressKey(e);
 				if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 					System.exit(0);
+					if(e.getKeyCode() == KeyEvent.VK_H) {
+						helpWindow();
+					}
 				}
 			}
 			public void keyReleased(KeyEvent e) {
 				control.releaseKey(e);
 			}
-			public void keyTyped(KeyEvent e) {
-				if (e.getKeyCode()==KeyEvent.VK_H){
-					helpWindow();
-				}
+
+			public void keyTyped(KeyEvent arg0) {				
 			}
 		});
 
@@ -262,7 +272,7 @@ public class Main extends GLCanvas{
 		myGL.glPushMatrix();
 
 		world.makeWorld(myGL);
-
+		setWalls(myGL);
 		myGL.glPopMatrix();
 		drawStatics(myGL);
 		//start the text renderer, set its color and display text
@@ -284,8 +294,8 @@ public class Main extends GLCanvas{
 	 */
 	public void doInit(GL myGL) {
 		renderer = new TextRenderer(new Font("SansSerif", Font.BOLD, 30),true,true);
-		//myGL.glClearColor(0f,0f,0f,1f);//so that not all of the shapes have this color
-		loadVertexData(new File ("ar15.txt"));
+		myGL.glClearColor(0f,0f,0f,1f);//so that not all of the shapes have this color
+		loadVertexData(new File ("axe.txt"));
 		loadTextures(myGL);
 		Lighting.light(myGL);
 	}
@@ -320,7 +330,7 @@ public class Main extends GLCanvas{
 	}
 
 	public void helpWindow(){
-		//joptionpane help screen pop-up
+		JOptionPane.showMessageDialog(frame, "info goes here", "Help", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public void drawStatics(GL myGL){
@@ -338,6 +348,9 @@ public class Main extends GLCanvas{
 
 
 		myGL.glColor3f(1,1,1);
+
+
+
 		myGL.glEnable(GL.GL_TEXTURE_2D);
 
 		cross.enable();
@@ -353,8 +366,10 @@ public class Main extends GLCanvas{
 		myGL.glVertex3f(windowWidth/2+crossSize, windowHeight/2+crossSize, 0);
 		myGL.glTexCoord2f(1, 0);
 		myGL.glVertex3f(windowWidth/2+crossSize, windowHeight/2-crossSize, 0);
-		myGL.glEnd();
 
+		myGL.glEnd();
+		myGL.glTranslated(0, 5, 0);
+		drawWeapon(myGL);
 
 
 		myGL.glDisable(GL.GL_TEXTURE_2D);
@@ -369,7 +384,8 @@ public class Main extends GLCanvas{
 		myGL.glEnable(GL.GL_LIGHTING);
 
 		myGL.glPushMatrix();
-		myGL.glTranslated(0, 5, 0);
+
+		myGL.glTranslated(10, 25, 0);
 
 		drawWeapon(myGL);
 		myGL.glPopMatrix(); 
@@ -377,6 +393,89 @@ public class Main extends GLCanvas{
 
 
 
+	}
+
+	public void setWalls(GL myGL){
+		//TODO fix this
+
+		myGL.glEnable(GL.GL_TEXTURE_2D);
+		myGL.glClearColor(0,0,0,1);
+		//myGL.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT_AND_DIFFUSE,new float[]{1,1,1,1 },0);
+		myGL.glColor3d(1, 1, 1);
+
+		//TODO other wall textures
+
+		wall1.enable();
+		wall1.bind();
+		myGL.glBegin(GL.GL_QUADS);
+
+		myGL.glTexCoord2f(0, 0);
+		myGL.glVertex3f(256, -50, 0);
+		myGL.glTexCoord2f(0, 1);
+		myGL.glVertex3f(0,-50, 0);
+		myGL.glTexCoord2f(1, 1);
+		myGL.glVertex3f(0,120, 0);
+		myGL.glTexCoord2f(1, 0);
+		myGL.glVertex3f(256, 120, 0);
+
+		wall1.disable();
+
+		wall2.enable();
+		wall2.bind();
+		myGL.glTexCoord2f(0, 0);
+		myGL.glVertex3f(0, -50, 256);
+		myGL.glTexCoord2f(0, 1);
+		myGL.glVertex3f(0,-50, 0);
+		myGL.glTexCoord2f(1, 1);
+		myGL.glVertex3f(0,120, 0);
+		myGL.glTexCoord2f(1, 0);
+		myGL.glVertex3f(0,120, 256);
+
+		wall2.disable();
+
+		wall1.enable();
+		wall1.bind();
+		myGL.glTexCoord2f(0, 0);
+		myGL.glVertex3f(0, -50, 256);
+		myGL.glTexCoord2f(0, 1);
+		myGL.glVertex3f(256,-50, 256);
+		myGL.glTexCoord2f(1, 1);
+		myGL.glVertex3f(256,120, 256);
+		myGL.glTexCoord2f(1, 0);
+		myGL.glVertex3f(0, 120, 256);
+
+		wall1.disable();
+
+		wall1.enable();
+		wall1.bind();
+		myGL.glTexCoord2f(0, 0);
+		myGL.glVertex3f(256, -50, 0);
+		myGL.glTexCoord2f(0, 1);
+		myGL.glVertex3f(256,-50, 256);
+		myGL.glTexCoord2f(1, 1);
+		myGL.glVertex3f(256,120, 256);
+		myGL.glTexCoord2f(1, 0);
+		myGL.glVertex3f(256, 120, 0);
+
+		wall1.disable();
+
+		wall1.enable();
+		wall1.bind();
+		myGL.glTexCoord2f(0, 0);
+		myGL.glVertex3f(0, 120, 0);
+		myGL.glTexCoord2f(0, 1);
+		myGL.glVertex3f(256,120, 0);
+		myGL.glTexCoord2f(1, 1);
+		myGL.glVertex3f(256, 120, 256);
+		myGL.glTexCoord2f(1, 0);
+		myGL.glVertex3f(0,120, 256);
+
+		wall1.disable();
+
+		myGL.glEnd();
+
+		myGL.glDisable(GL.GL_TEXTURE_2D);
+		//myGL.glEnable(GL.GL_COLOR_MATERIAL);
 	}
 
 	public void loadVertexData(File myFile){
@@ -395,9 +494,14 @@ public class Main extends GLCanvas{
 			//float f1, f2, f3;
 			temp = myScanner.nextLine().trim();
 			if (temp.substring(0,1).equals("v") && count>36){
-				x.add(Float.parseFloat(temp.substring(2,11)));
-				x.add(Float.parseFloat(temp.substring(12,21)));
-				x.add(Float.parseFloat(temp.substring(22,29)));
+				//String one = temp.substring(2,temp.indexOf(' '));
+				temp = temp.substring(2,temp.length());
+				int firstSpace = temp.indexOf(" ");
+				//TODO fix here
+				int secondSpace = temp.lastIndexOf(" ");
+				x.add(Float.parseFloat(temp.substring(0,firstSpace)));
+				x.add(Float.parseFloat(temp.substring(firstSpace+1,secondSpace)));
+				x.add(Float.parseFloat(temp.substring(secondSpace+1,temp.length())));
 			}
 		}
 
@@ -405,8 +509,9 @@ public class Main extends GLCanvas{
 		weaponVert = BufferUtil.newFloatBuffer(x.size());
 		for(Float f: x){
 			weaponVert.put(f);
-			System.out.println(f);
+			//	System.out.println(f);
 		}
+		weaponVert.rewind();
 	}
 
 	public void drawWeapon(GL myGL){
@@ -422,8 +527,9 @@ public class Main extends GLCanvas{
 
 		//	myGL.glNormalPointer(GL.GL_FLOAT, 0, vert);
 		//	myGL.glColorPointer(3, GL.GL_FLOAT, 0, colors);
+		myGL.glVertexPointer(3, GL.GL_FLOAT, 0, weaponVert);
 
-		myGL.glDrawArrays(GL.GL_QUADS,0,weaponVert.capacity()/3);
+		myGL.glDrawArrays(GL.GL_TRIANGLE_STRIP,0,weaponVert.capacity()/3);
 
 		//disable arrays when done
 		myGL.glDisableClientState(GL.GL_VERTEX_ARRAY);
@@ -432,7 +538,7 @@ public class Main extends GLCanvas{
 		myGL.glVertex3d(0,10,0);
 		myGL.glVertex3d(10,0,0);
 		myGL.glVertex3d(10,10,0);*/
-		weaponVert.rewind();
+
 		myGL.glEnd();
 	}
 
@@ -440,9 +546,16 @@ public class Main extends GLCanvas{
 		myGL.glTexParameterf(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR );
 		myGL.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR_MIPMAP_LINEAR);
 		myGL.glGenerateMipmapEXT(GL.GL_TEXTURE_2D);
+		//myGL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_BORDER_COLOR, GL.GL_REPEAT);
+		//	myGL.glTexEnvi(GL.GL_TEXTURE_ENV, GL.GL_TEXTURE_ENV_MODE, GL.GL_MODULATE);
 		try{
 			//load a TextureData object from a picture and then create a texture from it
 			cross =TextureIO.newTexture(new File("crosshairwhite.png"),true);
+			wall1 =TextureIO.newTexture(new File("mount.jpg"),true);
+			wall2 =TextureIO.newTexture(new File("wal2.jpg"),true);
+			wall3 =TextureIO.newTexture(new File("mount.jpg"),true);
+			wall4 =TextureIO.newTexture(new File("mount.jpg"),true);
+			sky =TextureIO.newTexture(new File("mount.jpg"),true);
 		}//end try
 		catch(IOException e){
 			System.out.println("File not found!");

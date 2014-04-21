@@ -116,7 +116,7 @@ public class KeyFunctions {
 				Player.crouch();
 			}
 
-
+			//TODO edit here to not walk through walls
 			if(moveX / 500 < 0)
 				moveX = 0;
 			if(moveX / 500 > 256)
@@ -173,8 +173,9 @@ public class KeyFunctions {
 		int x = (int) (moveX / 500);
 		int z = (int) (moveZ / 500);
 
+
 		if (x+1 >= map.length || z+1 >= map.length){
-			return;
+			return;  
 		}
 		float bottomLeft = (float) map[x][z];
 		float bottomRight = (float) map[x + 1][z];

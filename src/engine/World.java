@@ -49,12 +49,93 @@ public class World {
 		vert = BufferUtil.newFloatBuffer(12*(height[0].length-1)*(height.length-1));
 		colors = BufferUtil.newFloatBuffer(12*(height[0].length-1)*(height.length-1));
 		norms = BufferUtil.newFloatBuffer(12*(height[0].length-1)*(height.length-1));
-		Vector3 normal;
+		Vector3 normal = new Vector3();
+		Vector3 a, b, c, d, e;
 
 		//TODO, smoother map by repetition, each vertex (length and width-1)
 		for(int i = 0 ; i < height.length-1 ; i++){
 			for(int j = 0 ; j < height[0].length-1 ; j++){
 
+				if (i+2<height.length && j+2<height.length && i>0 && j>0){
+					a = new Vector3(i-1,j, (float)(height[i-1][j]));
+					b = new Vector3(i, j-1, (float)(height[i][j-1]));
+					c = new Vector3(i, j, (float)(height[i][j]));
+					d = new Vector3(i+1, j, (float)(height[i+1][j]));
+					e = new Vector3(i, j+1, (float)(height[i][j+1]));
+					normal = Vector3.calcAvgNormal(a, b, c, d, e);
+					//normal = Vector3.normalize(normal);
+					norms.put(normal.getX());
+					norms.put(normal.getY());
+					norms.put(normal.getZ());
+					
+					//i+1
+					a = new Vector3(i,j, (float)(height[i][j]));
+					b = new Vector3(i+1, j-1, (float)(height[i+1][j-1]));
+					c = new Vector3(i+1, j, (float)(height[i+1][j]));
+					d = new Vector3(i+2, j, (float)(height[i+2][j]));
+					e = new Vector3(i+1, j+1, (float)(height[i+1][j+1]));
+					normal = Vector3.calcAvgNormal(a, b, c, d, e);
+					//normal = Vector3.normalize(normal);
+					norms.put(normal.getX());
+					norms.put(normal.getY());
+					norms.put(normal.getZ());
+					
+					//i+1, j+1
+					a = new Vector3(i,j+1, (float)(height[i][j+1]));
+					b = new Vector3(i+1, j, (float)(height[i+1][j]));
+					c = new Vector3(i+1, j+1, (float)(height[i+1][j+1]));
+					d = new Vector3(i+2, j+1, (float)(height[i+2][j+1]));
+					e = new Vector3(i+1, j+2, (float)(height[i+1][j+2]));
+					normal = Vector3.calcAvgNormal(a, b, c, d, e);
+					//normal = Vector3.normalize(normal);
+					norms.put(normal.getX());
+					norms.put(normal.getY());
+					norms.put(normal.getZ());
+					
+					//j+1
+					a = new Vector3(i-1,j+1, (float)(height[i-1][j+1]));
+					b = new Vector3(i, j, (float)(height[i][j]));
+					c = new Vector3(i, j+1, (float)(height[i][j+1]));
+					d = new Vector3(i+1, j+1, (float)(height[i+1][j+1]));
+					e = new Vector3(i, j+2, (float)(height[i][j+2]));
+					normal = Vector3.calcAvgNormal(a, b, c, d, e);
+					//normal = Vector3.normalize(normal);
+					norms.put(normal.getX());
+					norms.put(normal.getY());
+					norms.put(normal.getZ());
+			
+					
+				/*calculateNormal(i, j, height[i][j], i+1, j, height[i+1][j], i, j+1, height[i][j+1]);
+				norms.put(nextNormals[0]);
+				norms.put(nextNormals[1]);
+				norms.put(nextNormals[2]);
+				
+				calculateNormal(i+1, j, height[i+1][j], i+2, j, height[i+2][j], i+1, j+1, height[i+1][j+1]);
+				norms.put(nextNormals[0]);
+				norms.put(nextNormals[1]);
+				norms.put(nextNormals[2]);
+				
+		
+				
+				calculateNormal(i+1, j+1, height[i+1][j+1], i+2, j+1, height[i+2][j+1], i+2, j+2, height[i+2][j+2]);
+				norms.put(nextNormals[0]);
+				norms.put(nextNormals[1]);
+				norms.put(nextNormals[2]);
+				
+				//calculate surface normals and add them to the normals array
+				calculateNormal(i, j+1, height[i][j+1], i+1, j+1, height[i+1][j+1], i+1, j+2, height[i+1][j+2]);
+				norms.put(nextNormals[0]);
+				norms.put(nextNormals[1]);
+				norms.put(nextNormals[2]);*/
+				}
+				else {
+					//the border
+					//calculateNormal(x1, y1, z1, x2, y2, z2, x3, y3, z3);
+					norms.put(1);
+					norms.put(1);
+					norms.put(1);
+				}
+				
 				//almost the same procedure as before
 				vert.put(i*TILE_SCALE);
 				vert.put((float) height[i][j]);
@@ -62,7 +143,9 @@ public class World {
 
 				getColor(height[i][j]); 
 
-				if (i >0 && i<height.length+1 && j>0 && j<height.length+1){
+			
+				
+			/*	if (i >0 && i<height.length+1 && j>0 && j<height.length+1){
 				Vector3 a = new Vector3(0,0, (float)(height[i][j]));
 				Vector3 b = new Vector3(0, 1, (float)(height[i][j+1]));
 				Vector3 c = new Vector3(1, 0, (float)(height[i+1][j]));
@@ -76,7 +159,7 @@ public class World {
 				
 				norms.put(normal.getX());
 				norms.put(normal.getY());
-				norms.put(normal.getZ());
+				norms.put(normal.getZ());*/
 
 				vert.put((i+1)*TILE_SCALE);
 				vert.put((float) height[i+1][j]);
@@ -84,29 +167,22 @@ public class World {
 
 				getColor(height[i+1][j]);
 
-			/*	calculateNormal(i, j, height[i][j], i+1, j, height[i+1][j], i+1, j+1, height[i+1][j+1]);
-				norms.put(nextNormals[0]);
-				norms.put(nextNormals[1]);
-				norms.put(nextNormals[2]);*/
+			
 				
-				norms.put(normal.getX());
+				/*norms.put(normal.getX());
 				norms.put(normal.getY());
 				norms.put(normal.getZ());
-
+*/
 				vert.put((i+1)*TILE_SCALE);
 				vert.put((float) height[i+1][j+1]);
 				vert.put((j+1)*TILE_SCALE);
 
 				getColor(height[i+1][j+1]);
 
-				//calculate surface normals and add them to the normals array
-		/*		calculateNormal(i, j, height[i][j], i+1, j, height[i+1][j], i+1, j+1, height[i+1][j+1]);
-				norms.put(nextNormals[0]);
-				norms.put(nextNormals[1]);
-				norms.put(nextNormals[2]);*/
-				norms.put(normal.getX());
+				
+			/*	norms.put(normal.getX());
 				norms.put(normal.getY());
-				norms.put(normal.getZ());
+				norms.put(normal.getZ());*/
 
 				vert.put(i*TILE_SCALE);
 				vert.put((float) height[i][j+1]);
@@ -114,13 +190,10 @@ public class World {
 
 				getColor(height[i][j+1]);
 
-				/*calculateNormal(i, j, height[i][j], i+1, j, height[i+1][j], i+1, j+1, height[i+1][j+1]);
-				norms.put(nextNormals[0]);
-				norms.put(nextNormals[1]);
-				norms.put(nextNormals[2]);*/
-				norms.put(normal.getX());
+			
+			/*	norms.put(normal.getX());
 				norms.put(normal.getY());
-				norms.put(normal.getZ());
+				norms.put(normal.getZ());*/
 
 			}//end for
 		}//end for
@@ -128,8 +201,12 @@ public class World {
 		vert.rewind();
 		colors.rewind();
 		norms.rewind();
-		
-		//for (int)
+	
+	for (int i=0; i<norms.capacity()-9; i+=6){
+			norms.put(i, (norms.get(i)+norms.get(i+3)+norms.get(i+6))/3);
+			norms.put(i+1, (norms.get(i+1)+norms.get(i+4)+norms.get(i+7))/3);
+			norms.put(i+2, (norms.get(i+2)+norms.get(i+5)+norms.get(i+8))/3);
+		}
 	}// end setupArrays
 
 	/**
