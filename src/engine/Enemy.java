@@ -122,7 +122,7 @@ public class Enemy {
 		myGL.glBegin(GL.GL_LINE);
 		myGL.glVertex3d(x,(float)World.getMap()[(int) Math.floor(x)][(int) Math.floor(y)]+20, y);
 		myGL.glVertex3d(x,(float)World.getMap()[(int) Math.floor(x)][(int) Math.floor(y)]-20, y);
-		System.out.println("draw");
+		//System.out.println("draw");
 		myGL.glEnd();
 		
 		//myGL.glTranslated(x, y, (float)World.getMap()[(int) x][(int) y]);

@@ -33,7 +33,7 @@ public class Lighting {
 		
 		myGL.glEnable(GL.GL_FOG);
 		myGL.glFogi (GL.GL_FOG_MODE, GL.GL_EXP2);
-		myGL.glFogf (GL.GL_FOG_DENSITY, .02f);
+		myGL.glFogf (GL.GL_FOG_DENSITY, .009f);
 		myGL.glFogfv(GL.GL_FOG_COLOR, new float[]{0,0,0, 1}, 0);
 		myGL.glHint(GL.GL_FOG_HINT, GL.GL_NICEST);
 		

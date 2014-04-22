@@ -51,16 +51,12 @@ public class Main extends GLCanvas{
 	private static Component frame;
 
 	private Texture cross;
-	private Texture wall1;
-	private Texture wall2;
-	private Texture wall3;
-	private Texture wall4;
-	private Texture sky;
+
 	private FloatBuffer weaponVert;
 	//private BufferedImage crosshairs = new BufferedImage(300, 300, BufferedImage.TYPE_INT_ARGB);
 
 	//private float zoom = 0;
-	private float speed = 80f;
+	private float speed = 300f;
 	private final int crossSize  = 50;
 	private final int ENEMY_DELAY_TIME = 30;
 	private TextRenderer renderer;
@@ -130,7 +126,7 @@ public class Main extends GLCanvas{
 				//	Enemy.drawEnemy(250,250,getGL());
 
 				//Enemy.drawEnemy(250,250,getGL());
-				Enemy.drawEnemy(250, 250, getGL());
+			//	Enemy.drawEnemy(250, 250, getGL());
 
 			}
 
@@ -277,7 +273,6 @@ public class Main extends GLCanvas{
 		myGL.glPushMatrix();
 
 		world.makeWorld(myGL);
-		setWalls(myGL);
 		myGL.glPopMatrix();
 		drawStatics(myGL);
 		//start the text renderer, set its color and display text
@@ -373,7 +368,7 @@ public class Main extends GLCanvas{
 		myGL.glVertex3f(windowWidth/2+crossSize, windowHeight/2-crossSize, 0);
 
 		myGL.glEnd();
-		myGL.glTranslated(0, 5, 0);
+		myGL.glTranslated(0, 0, 5);
 		drawWeapon(myGL);
 
 
@@ -390,97 +385,14 @@ public class Main extends GLCanvas{
 
 		myGL.glPushMatrix();
 
-		myGL.glTranslated(10, 25, 0);
+		myGL.glTranslated(0, 25, 0);
 
-		drawWeapon(myGL);
+	drawWeapon(myGL);
 		myGL.glPopMatrix(); 
 		myGL.glEnd();
 
 
 
-	}
-
-	public void setWalls(GL myGL){
-		//TODO fix this
-
-		myGL.glEnable(GL.GL_TEXTURE_2D);
-		myGL.glClearColor(0,0,0,1);
-		//myGL.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT_AND_DIFFUSE,new float[]{1,1,1,1 },0);
-		myGL.glColor3d(1, 1, 1);
-
-		//TODO other wall textures
-
-		wall1.enable();
-		wall1.bind();
-		myGL.glBegin(GL.GL_QUADS);
-
-		myGL.glTexCoord2f(0, 0);
-		myGL.glVertex3f(256, -50, 0);
-		myGL.glTexCoord2f(0, 1);
-		myGL.glVertex3f(0,-50, 0);
-		myGL.glTexCoord2f(1, 1);
-		myGL.glVertex3f(0,120, 0);
-		myGL.glTexCoord2f(1, 0);
-		myGL.glVertex3f(256, 120, 0);
-
-		wall1.disable();
-
-		wall2.enable();
-		wall2.bind();
-		myGL.glTexCoord2f(0, 0);
-		myGL.glVertex3f(0, -50, 256);
-		myGL.glTexCoord2f(0, 1);
-		myGL.glVertex3f(0,-50, 0);
-		myGL.glTexCoord2f(1, 1);
-		myGL.glVertex3f(0,120, 0);
-		myGL.glTexCoord2f(1, 0);
-		myGL.glVertex3f(0,120, 256);
-
-		wall2.disable();
-
-		wall1.enable();
-		wall1.bind();
-		myGL.glTexCoord2f(0, 0);
-		myGL.glVertex3f(0, -50, 256);
-		myGL.glTexCoord2f(0, 1);
-		myGL.glVertex3f(256,-50, 256);
-		myGL.glTexCoord2f(1, 1);
-		myGL.glVertex3f(256,120, 256);
-		myGL.glTexCoord2f(1, 0);
-		myGL.glVertex3f(0, 120, 256);
-
-		wall1.disable();
-
-		wall1.enable();
-		wall1.bind();
-		myGL.glTexCoord2f(0, 0);
-		myGL.glVertex3f(256, -50, 0);
-		myGL.glTexCoord2f(0, 1);
-		myGL.glVertex3f(256,-50, 256);
-		myGL.glTexCoord2f(1, 1);
-		myGL.glVertex3f(256,120, 256);
-		myGL.glTexCoord2f(1, 0);
-		myGL.glVertex3f(256, 120, 0);
-
-		wall1.disable();
-
-		wall1.enable();
-		wall1.bind();
-		myGL.glTexCoord2f(0, 0);
-		myGL.glVertex3f(0, 120, 0);
-		myGL.glTexCoord2f(0, 1);
-		myGL.glVertex3f(256,120, 0);
-		myGL.glTexCoord2f(1, 1);
-		myGL.glVertex3f(256, 120, 256);
-		myGL.glTexCoord2f(1, 0);
-		myGL.glVertex3f(0,120, 256);
-
-		wall1.disable();
-
-		myGL.glEnd();
-
-		myGL.glDisable(GL.GL_TEXTURE_2D);
-		//myGL.glEnable(GL.GL_COLOR_MATERIAL);
 	}
 
 	public void loadVertexData(File myFile){
@@ -550,17 +462,12 @@ public class Main extends GLCanvas{
 	public void loadTextures(GL myGL){
 		myGL.glTexParameterf(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR );
 		myGL.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR_MIPMAP_LINEAR);
-		//	myGL.glGenerateMipmapEXT(GL.GL_TEXTURE_2D);
+		myGL.glGenerateMipmapEXT(GL.GL_TEXTURE_2D);
 		//myGL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_BORDER_COLOR, GL.GL_REPEAT);
 		//	myGL.glTexEnvi(GL.GL_TEXTURE_ENV, GL.GL_TEXTURE_ENV_MODE, GL.GL_MODULATE);
 		try{
 			//load a TextureData object from a picture and then create a texture from it
 			cross =TextureIO.newTexture(new File("crosshairwhite.png"),true);
-			wall1 =TextureIO.newTexture(new File("mount.jpg"),true);
-			wall2 =TextureIO.newTexture(new File("wal2.jpg"),true);
-			wall3 =TextureIO.newTexture(new File("mount.jpg"),true);
-			wall4 =TextureIO.newTexture(new File("mount.jpg"),true);
-			sky =TextureIO.newTexture(new File("mount.jpg"),true);
 		}//end try
 		catch(IOException e){
 			System.out.println("File not found!");

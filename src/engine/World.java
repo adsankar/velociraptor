@@ -1,10 +1,15 @@
 package engine;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.FloatBuffer;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GLException;
 
 import com.sun.opengl.util.BufferUtil;
+import com.sun.opengl.util.texture.Texture;
+import com.sun.opengl.util.texture.TextureIO;
 
 /**
  * 
@@ -20,6 +25,12 @@ public class World {
 	private FloatBuffer norms;
 	private float[] nextNormals = new float[3];
 	private final float TILE_SCALE = 1f;
+	
+	private Texture wall1;
+	private Texture wall2;
+	private Texture wall3;
+	private Texture wall4;
+	private Texture sky;
 
 	/**
 	 * 
@@ -34,7 +45,9 @@ public class World {
 	 * @param myGL
 	 */
 	public void makeWorld(GL myGL) {
+		loadTextures(myGL);
 		setupArrays();
+		setWalls(myGL);
 		drawMap(myGL);
 	}
 
@@ -331,4 +344,113 @@ public class World {
 	public static double[][] getMap() {
 		return map.getMap();
 	}
+	
+	public void setWalls(GL myGL){
+		//TODO fix this
+
+		myGL.glEnable(GL.GL_TEXTURE_2D);
+		myGL.glClearColor(0,0,0,1);
+		//myGL.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT_AND_DIFFUSE,new float[]{1,1,1,1 },0);
+		myGL.glColor3d(1, 1, 1);
+
+		//TODO other wall textures
+
+		wall1.enable();
+		wall1.bind();
+		myGL.glBegin(GL.GL_QUADS);
+
+		myGL.glTexCoord2f(0, 0);
+		myGL.glVertex3f(256, -50, 0);
+		myGL.glTexCoord2f(0, 1);
+		myGL.glVertex3f(0,-50, 0);
+		myGL.glTexCoord2f(1, 1);
+		myGL.glVertex3f(0,120, 0);
+		myGL.glTexCoord2f(1, 0);
+		myGL.glVertex3f(256, 120, 0);
+
+		wall1.disable();
+
+		wall2.enable();
+		wall2.bind();
+		myGL.glTexCoord2f(0, 0);
+		myGL.glVertex3f(0, -50, 256);
+		myGL.glTexCoord2f(0, 1);
+		myGL.glVertex3f(0,-50, 0);
+		myGL.glTexCoord2f(1, 1);
+		myGL.glVertex3f(0,120, 0);
+		myGL.glTexCoord2f(1, 0);
+		myGL.glVertex3f(0,120, 256);
+
+		wall2.disable();
+
+		wall3.enable();
+		wall3.bind();
+		myGL.glTexCoord2f(0, 0);
+		myGL.glVertex3f(0, -50, 256);
+		myGL.glTexCoord2f(0, 1);
+		myGL.glVertex3f(256,-50, 256);
+		myGL.glTexCoord2f(1, 1);
+		myGL.glVertex3f(256,120, 256);
+		myGL.glTexCoord2f(1, 0);
+		myGL.glVertex3f(0, 120, 256);
+
+		wall3.disable();
+
+		wall4.enable();
+		wall4.bind();
+		myGL.glTexCoord2f(0, 0);
+		myGL.glVertex3f(256, -50, 0);
+		myGL.glTexCoord2f(0, 1);
+		myGL.glVertex3f(256,-50, 256);
+		myGL.glTexCoord2f(1, 1);
+		myGL.glVertex3f(256,120, 256);
+		myGL.glTexCoord2f(1, 0);
+		myGL.glVertex3f(256, 120, 0);
+
+		wall4.disable();
+
+		sky.enable();
+		sky.bind();
+		myGL.glTexCoord2f(0, 0);
+		myGL.glVertex3f(0, 120, 0);
+		myGL.glTexCoord2f(0, 1);
+		myGL.glVertex3f(256,120, 0);
+		myGL.glTexCoord2f(1, 1);
+		myGL.glVertex3f(256, 120, 256);
+		myGL.glTexCoord2f(1, 0);
+		myGL.glVertex3f(0,120, 256);
+
+		sky.disable();
+
+		myGL.glEnd();
+
+		myGL.glDisable(GL.GL_TEXTURE_2D);
+		//myGL.glEnable(GL.GL_COLOR_MATERIAL);
+	}
+	
+	public void loadTextures(GL myGL){
+		myGL.glTexParameterf(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR );
+		myGL.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR_MIPMAP_LINEAR);
+		myGL.glGenerateMipmapEXT(GL.GL_TEXTURE_2D);
+		//myGL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_BORDER_COLOR, GL.GL_REPEAT);
+		//	myGL.glTexEnvi(GL.GL_TEXTURE_ENV, GL.GL_TEXTURE_ENV_MODE, GL.GL_MODULATE);
+		try{
+			//load a TextureData object from a picture and then create a texture from it
+			wall1 =TextureIO.newTexture(new File("mount.jpg"),true);
+			wall2 =TextureIO.newTexture(new File("wal2.jpg"),true);
+			wall3 =TextureIO.newTexture(new File("mount.jpg"),true);
+			wall4 =TextureIO.newTexture(new File("mount.jpg"),true);
+			sky =TextureIO.newTexture(new File("Skybaby.png"),true);
+		}//end try
+		catch(IOException e){
+			System.out.println("File not found!");
+			System.exit(1);
+		}//end catch
+		catch(GLException f){
+			System.exit(1);
+		}//end catch
+
+	}//end loadTextures
+
+
 }
