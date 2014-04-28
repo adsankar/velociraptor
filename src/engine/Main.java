@@ -56,7 +56,7 @@ public class Main extends GLCanvas{
 	//private BufferedImage crosshairs = new BufferedImage(300, 300, BufferedImage.TYPE_INT_ARGB);
 
 	//private float zoom = 0;
-	private float speed = 300f;
+	private float speed = 50f;
 	private final int crossSize  = 50;
 	private final int ENEMY_DELAY_TIME = 30;
 	private TextRenderer renderer;
@@ -272,7 +272,7 @@ public class Main extends GLCanvas{
 		 */
 		myGL.glPushMatrix();
 
-		world.makeWorld(myGL);
+		world.drawWorld(myGL);
 		myGL.glPopMatrix();
 		drawStatics(myGL);
 		//start the text renderer, set its color and display text
@@ -295,7 +295,8 @@ public class Main extends GLCanvas{
 	public void doInit(GL myGL) {
 		renderer = new TextRenderer(new Font("SansSerif", Font.BOLD, 30),true,true);
 		myGL.glClearColor(0f,0f,0f,1f);//so that not all of the shapes have this color
-		loadVertexData(new File ("axe.txt"));
+		loadVertexData(new File ("ar15.txt"));
+		world.makeWorld(myGL);
 		loadTextures(myGL);
 		Lighting.light(myGL);
 	}

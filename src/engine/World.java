@@ -25,7 +25,7 @@ public class World {
 	private FloatBuffer norms;
 	private float[] nextNormals = new float[3];
 	private final float TILE_SCALE = 1f;
-	
+
 	private Texture wall1;
 	private Texture wall2;
 	private Texture wall3;
@@ -47,10 +47,13 @@ public class World {
 	public void makeWorld(GL myGL) {
 		loadTextures(myGL);
 		setupArrays();
+
+	}
+
+	public void drawWorld(GL myGL){
 		setWalls(myGL);
 		drawMap(myGL);
 	}
-
 
 
 	/**
@@ -64,37 +67,41 @@ public class World {
 		norms = BufferUtil.newFloatBuffer(12*(height[0].length-1)*(height.length-1));
 		Vector3 normal = new Vector3();
 		Vector3 a, b, c, d, e;
-
-		//TODO simpler calcs (cross product) and smoothing
 		for(int i = 0 ; i < height.length-1 ; i++){
 			for(int j = 0 ; j < height[0].length-1 ; j++){
 
 				if (i+2<height.length && j+2<height.length && i>0 && j>0){
+
+					//i, j
 					a = new Vector3(i-1,j, (float)(height[i-1][j]));
 					b = new Vector3(i, j-1, (float)(height[i][j-1]));
 					c = new Vector3(i, j, (float)(height[i][j]));
 					d = new Vector3(i+1, j, (float)(height[i+1][j]));
 					e = new Vector3(i, j+1, (float)(height[i][j+1]));
+
 					normal = Vector3.calcAvgNormal(a, b, c, d, e);
 					//normal = Vector3.normalize(normal);
 					norms.put(normal.getX());
 					norms.put(normal.getY());
 					norms.put(normal.getZ());
-
+					
+					
 					//i+1
 					a = new Vector3(i,j, (float)(height[i][j]));
 					b = new Vector3(i+1, j-1, (float)(height[i+1][j-1]));
 					c = new Vector3(i+1, j, (float)(height[i+1][j]));
 					d = new Vector3(i+2, j, (float)(height[i+2][j]));
 					e = new Vector3(i+1, j+1, (float)(height[i+1][j+1]));
+
 					normal = Vector3.calcAvgNormal(a, b, c, d, e);
 					//normal = Vector3.normalize(normal);
 					norms.put(normal.getX());
 					norms.put(normal.getY());
 					norms.put(normal.getZ());
-
+					 
+					
 					//i+1, j+1
-					a = new Vector3(i,j+1, (float)(height[i][j+1]));
+						a = new Vector3(i,j+1, (float)(height[i][j+1]));
 					b = new Vector3(i+1, j, (float)(height[i+1][j]));
 					c = new Vector3(i+1, j+1, (float)(height[i+1][j+1]));
 					d = new Vector3(i+2, j+1, (float)(height[i+2][j+1]));
@@ -104,6 +111,8 @@ public class World {
 					norms.put(normal.getX());
 					norms.put(normal.getY());
 					norms.put(normal.getZ());
+
+					
 
 					//j+1
 					a = new Vector3(i-1,j+1, (float)(height[i-1][j+1]));
@@ -116,9 +125,9 @@ public class World {
 					norms.put(normal.getX());
 					norms.put(normal.getY());
 					norms.put(normal.getZ());
-
-
-					/*calculateNormal(i, j, height[i][j], i+1, j, height[i+1][j], i, j+1, height[i][j+1]);
+					
+/*
+				calculateNormal(i, j, height[i][j], i+1, j, height[i+1][j], i, j+1, height[i][j+1]);
 				norms.put(nextNormals[0]);
 				norms.put(nextNormals[1]);
 				norms.put(nextNormals[2]);
@@ -139,7 +148,8 @@ public class World {
 				calculateNormal(i, j+1, height[i][j+1], i+1, j+1, height[i+1][j+1], i+1, j+2, height[i+1][j+2]);
 				norms.put(nextNormals[0]);
 				norms.put(nextNormals[1]);
-				norms.put(nextNormals[2]);*/
+				norms.put(nextNormals[2]);
+				*/
 				}
 				else {
 					//the border
@@ -155,54 +165,12 @@ public class World {
 				vert.put(j*TILE_SCALE);
 
 				getColor(height[i][j]); 
-
-
-
-
-				/*	if (i >0 && i<height.length+1 && j>0 && j<height.length+1){
-				Vector3 a = new Vector3(0,0, (float)(height[i][j]));
-				Vector3 b = new Vector3(0, 1, (float)(height[i][j+1]));
-				Vector3 c = new Vector3(1, 0, (float)(height[i+1][j]));
-				Vector3 d = new Vector3(0, -1, (float)(height[i][j-1]));
-				Vector3 e = new Vector3(-1, 0, (float)(height[i-1][j]));
-				normal = Vector3.calcAvgNormal(a, b, c, d, e);
-
-//TODO fix normals
-				if (isInRange(j+1)&&isInRange(i+1)){
-					Vector3 a = new Vector3(i,j+1,(int)height[i][j+1]);
-					Vector3 b = new Vector3(i+1,j,(int)height[i+1][j]);
-					//normal = Vector3.cross(a, b);
-					normal = calcAvcalcAvgNormal()
-
-				}
-				else normal = new Vector3();
-
-				//calculateNormal(i, j, height[i][j], i+1, j, height[i+1][j], i+1, j+1, height[i+1][j+1]);
-
-
-				norms.put(normal.getX());
-				norms.put(normal.getY());
-				norms.put(normal.getZ());*/
-
 				vert.put((i+1)*TILE_SCALE);
 				vert.put((float) height[i+1][j]);
 				vert.put(j*TILE_SCALE);
 
 				getColor(height[i+1][j]);
 
-
-				/*if (isInRange(j+1)&&isInRange(i+1)){ 
-					Vector3 a = new Vector3(i-1,j,(int)height[i-1][j]);
-					Vector3 b = new Vector3(i-1,j+1,(int)height[i-1][j+1]);
-					normal = Vector3.cross(a, b);
-				}
-				else normal = new Vector3();*/
-
-
-				/*norms.put(normal.getX());
-				norms.put(normal.getY());
-				norms.put(normal.getZ());
-				 */
 				vert.put((i+1)*TILE_SCALE);
 				vert.put((float) height[i+1][j+1]);
 				vert.put((j+1)*TILE_SCALE);
@@ -210,43 +178,11 @@ public class World {
 				getColor(height[i+1][j+1]);
 
 
-
-				/*	norms.put(normal.getX());
-
-
-				if (isInRange(j+1)&&isInRange(i+1)){
-					Vector3 a = new Vector3(i-1,j-1,(int)height[i-1][j-1]);
-					Vector3 b = new Vector3(i,j-1,(int)height[i][j-1]);
-					normal = Vector3.cross(a, b);
-				}
-				else normal = new Vector3();
-
-				norms.put(normal.getX());
-
-				norms.put(normal.getY());
-				norms.put(normal.getZ());*/
-
 				vert.put(i*TILE_SCALE);
 				vert.put((float) height[i][j+1]);
 				vert.put((j+1)*TILE_SCALE);
 
 				getColor(height[i][j+1]);
-
-
-
-				/*	norms.put(normal.getX());
-
-				if (isInRange(j+1)&&isInRange(i+1)){
-					Vector3 a = new Vector3(i-1,j,(int)height[i-1][j]);
-					Vector3 b = new Vector3(i+1,j-1,(int)height[i+1][j-1]);
-					normal = Vector3.cross(a, b);
-				}
-				else normal = new Vector3();
-
-				norms.put(normal.getX());
-
-				norms.put(normal.getY());
-				norms.put(normal.getZ());*/
 
 			}//end for
 		}//end for
@@ -254,12 +190,13 @@ public class World {
 		vert.rewind();
 		colors.rewind();
 		norms.rewind();
-/*
+		
+		//smoothing again
 		for (int i=0; i<norms.capacity()-9; i+=6){
 			norms.put(i, (norms.get(i)+norms.get(i+3)+norms.get(i+6))/3);
 			norms.put(i+1, (norms.get(i+1)+norms.get(i+4)+norms.get(i+7))/3);
 			norms.put(i+2, (norms.get(i+2)+norms.get(i+5)+norms.get(i+8))/3);
-		}*/
+		}
 	}// end setupArrays
 
 	public boolean isInRange(int a){
@@ -344,90 +281,91 @@ public class World {
 	public static double[][] getMap() {
 		return map.getMap();
 	}
-	
-	public void setWalls(GL myGL){
-		//TODO fix this
 
-		myGL.glEnable(GL.GL_TEXTURE_2D);
+	public void setWalls(GL myGL){
+		//TODO rotate walls and add the others+sky
+
+	//	myGL.glEnable(GL.GL_TEXTURE_2D);
 		myGL.glClearColor(0,0,0,1);
 		//myGL.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT_AND_DIFFUSE,new float[]{1,1,1,1 },0);
 		myGL.glColor3d(1, 1, 1);
-
-		//TODO other wall textures
 
 		wall1.enable();
 		wall1.bind();
 		myGL.glBegin(GL.GL_QUADS);
 
-		myGL.glTexCoord2f(0, 0);
-		myGL.glVertex3f(256, -50, 0);
-		myGL.glTexCoord2f(0, 1);
-		myGL.glVertex3f(0,-50, 0);
 		myGL.glTexCoord2f(1, 1);
-		myGL.glVertex3f(0,120, 0);
+		myGL.glVertex3f(256, -50, 0);
 		myGL.glTexCoord2f(1, 0);
+		myGL.glVertex3f(0,-50, 0);
+		myGL.glTexCoord2f(0, 0);
+		myGL.glVertex3f(0,120, 0);
+		myGL.glTexCoord2f(0, 1);
 		myGL.glVertex3f(256, 120, 0);
 
 		wall1.disable();
 
-		wall2.enable();
-		wall2.bind();
-		myGL.glTexCoord2f(0, 0);
-		myGL.glVertex3f(0, -50, 256);
-		myGL.glTexCoord2f(0, 1);
-		myGL.glVertex3f(0,-50, 0);
+		wall1.enable();
+		wall1.bind();
 		myGL.glTexCoord2f(1, 1);
-		myGL.glVertex3f(0,120, 0);
+		myGL.glVertex3f(0, -50, 256);
 		myGL.glTexCoord2f(1, 0);
+		myGL.glVertex3f(0,-50, 0);
+		myGL.glTexCoord2f(0, 0);
+		myGL.glVertex3f(0,120, 0);
+		myGL.glTexCoord2f(0, 1);
 		myGL.glVertex3f(0,120, 256);
 
-		wall2.disable();
+		wall1.disable();
 
-		wall3.enable();
-		wall3.bind();
-		myGL.glTexCoord2f(0, 0);
-		myGL.glVertex3f(0, -50, 256);
-		myGL.glTexCoord2f(0, 1);
-		myGL.glVertex3f(256,-50, 256);
+		wall1.enable();
+		wall1.bind();
 		myGL.glTexCoord2f(1, 1);
-		myGL.glVertex3f(256,120, 256);
+		myGL.glVertex3f(0, -50, 256);
 		myGL.glTexCoord2f(1, 0);
+		myGL.glVertex3f(256,-50, 256);
+		myGL.glTexCoord2f(0, 0);
+		myGL.glVertex3f(256,120, 256);
+		myGL.glTexCoord2f(0, 1);
 		myGL.glVertex3f(0, 120, 256);
 
-		wall3.disable();
+		wall1.disable();
 
-		wall4.enable();
-		wall4.bind();
-		myGL.glTexCoord2f(0, 0);
-		myGL.glVertex3f(256, -50, 0);
-		myGL.glTexCoord2f(0, 1);
-		myGL.glVertex3f(256,-50, 256);
+		wall1.enable();
+		wall1.bind();
 		myGL.glTexCoord2f(1, 1);
-		myGL.glVertex3f(256,120, 256);
+		myGL.glVertex3f(256, -50, 0);
 		myGL.glTexCoord2f(1, 0);
+		myGL.glVertex3f(256,-50, 256);
+		myGL.glTexCoord2f(0, 0);
+		myGL.glVertex3f(256,120, 256);
+		myGL.glTexCoord2f(0, 1);
 		myGL.glVertex3f(256, 120, 0);
 
-		wall4.disable();
+		wall1.disable();
 
-		sky.enable();
-		sky.bind();
-		myGL.glTexCoord2f(0, 0);
+	/*	sky.enable();
+		sky.bind();*/
+		wall1.enable();
+		wall1.bind();
+		myGL.glTexCoord2f(1, 0);
 		myGL.glVertex3f(0, 120, 0);
-		myGL.glTexCoord2f(0, 1);
+		myGL.glTexCoord2f(1, 0);
 		myGL.glVertex3f(256,120, 0);
 		myGL.glTexCoord2f(1, 1);
 		myGL.glVertex3f(256, 120, 256);
-		myGL.glTexCoord2f(1, 0);
+		myGL.glTexCoord2f(0, 1);
 		myGL.glVertex3f(0,120, 256);
 
-		sky.disable();
-
+		//sky.disable();
+		wall1.disable();
+		
 		myGL.glEnd();
 
 		myGL.glDisable(GL.GL_TEXTURE_2D);
 		//myGL.glEnable(GL.GL_COLOR_MATERIAL);
 	}
-	
+
 	public void loadTextures(GL myGL){
 		myGL.glTexParameterf(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR );
 		myGL.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR_MIPMAP_LINEAR);
@@ -436,11 +374,13 @@ public class World {
 		//	myGL.glTexEnvi(GL.GL_TEXTURE_ENV, GL.GL_TEXTURE_ENV_MODE, GL.GL_MODULATE);
 		try{
 			//load a TextureData object from a picture and then create a texture from it
-			wall1 =TextureIO.newTexture(new File("mount.jpg"),true);
-			wall2 =TextureIO.newTexture(new File("wal2.jpg"),true);
+		wall1 =TextureIO.newTexture(new File("mount.jpg"),true);
+			/*
+			 * 
+		wall2 =TextureIO.newTexture(new File("wal2.jpg"),true);
 			wall3 =TextureIO.newTexture(new File("mount.jpg"),true);
 			wall4 =TextureIO.newTexture(new File("mount.jpg"),true);
-			sky =TextureIO.newTexture(new File("Skybaby.png"),true);
+			sky =TextureIO.newTexture(new File("Skybaby.png"),true);*/
 		}//end try
 		catch(IOException e){
 			System.out.println("File not found!");
