@@ -348,7 +348,8 @@ public class Main extends GLCanvas{
 
 
 		myGL.glColor3f(1,1,1);
-
+		//TODO here
+		drawWeapon(myGL);
 
 
 		myGL.glEnable(GL.GL_TEXTURE_2D);
@@ -368,8 +369,8 @@ public class Main extends GLCanvas{
 		myGL.glVertex3f(windowWidth/2+crossSize, windowHeight/2-crossSize, 0);
 
 		myGL.glEnd();
-		myGL.glTranslated(0, 0, 5);
-		drawWeapon(myGL);
+	/*	myGL.glTranslated(0, 0, 5);
+		drawWeapon(myGL);*/
 
 
 		myGL.glDisable(GL.GL_TEXTURE_2D);

@@ -65,7 +65,7 @@ public class World {
 		Vector3 normal = new Vector3();
 		Vector3 a, b, c, d, e;
 
-		//TODO, smoother map by repetition, each vertex (length and width-1)
+		//TODO simpler calcs (cross product) and smoothing
 		for(int i = 0 ; i < height.length-1 ; i++){
 			for(int j = 0 ; j < height[0].length-1 ; j++){
 
@@ -254,12 +254,12 @@ public class World {
 		vert.rewind();
 		colors.rewind();
 		norms.rewind();
-
+/*
 		for (int i=0; i<norms.capacity()-9; i+=6){
 			norms.put(i, (norms.get(i)+norms.get(i+3)+norms.get(i+6))/3);
 			norms.put(i+1, (norms.get(i+1)+norms.get(i+4)+norms.get(i+7))/3);
 			norms.put(i+2, (norms.get(i+2)+norms.get(i+5)+norms.get(i+8))/3);
-		}
+		}*/
 	}// end setupArrays
 
 	public boolean isInRange(int a){
