@@ -295,7 +295,7 @@ public class Main extends GLCanvas{
 	public void doInit(GL myGL) {
 		renderer = new TextRenderer(new Font("SansSerif", Font.BOLD, 30),true,true);
 		myGL.glClearColor(0f,0f,0f,1f);//so that not all of the shapes have this color
-		loadVertexData(new File ("ar15.txt"));
+		loadVertexData(new File ("axe.txt"));
 		world.makeWorld(myGL);
 		loadTextures(myGL);
 		Lighting.light(myGL);
@@ -350,6 +350,7 @@ public class Main extends GLCanvas{
 
 		myGL.glColor3f(1,1,1);
 		//TODO here
+		//myGL.gltran
 		drawWeapon(myGL);
 
 
@@ -416,7 +417,6 @@ public class Main extends GLCanvas{
 				//String one = temp.substring(2,temp.indexOf(' '));
 				temp = temp.substring(2,temp.length());
 				int firstSpace = temp.indexOf(" ");
-				//TODO fix here
 				int secondSpace = temp.lastIndexOf(" ");
 				x.add(Float.parseFloat(temp.substring(0,firstSpace)));
 				x.add(Float.parseFloat(temp.substring(firstSpace+1,secondSpace)));

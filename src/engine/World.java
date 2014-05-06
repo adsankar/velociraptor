@@ -283,7 +283,7 @@ public class World {
 	}
 
 	public void setWalls(GL myGL){
-		//TODO rotate walls and add the others+sky
+		
 
 	//	myGL.glEnable(GL.GL_TEXTURE_2D);
 		myGL.glClearColor(0,0,0,1);
@@ -304,9 +304,11 @@ public class World {
 		myGL.glVertex3f(256, 120, 0);
 
 		wall1.disable();
-
-		wall1.enable();
-		wall1.bind();
+		myGL.glEnd();
+		
+		wall2.enable();
+		wall2.bind();
+		myGL.glBegin(GL.GL_QUADS);
 		myGL.glTexCoord2f(1, 1);
 		myGL.glVertex3f(0, -50, 256);
 		myGL.glTexCoord2f(1, 0);
@@ -316,10 +318,12 @@ public class World {
 		myGL.glTexCoord2f(0, 1);
 		myGL.glVertex3f(0,120, 256);
 
-		wall1.disable();
-
-		wall1.enable();
-		wall1.bind();
+		wall2.disable();
+		myGL.glEnd();
+		
+		wall3.enable();
+		wall3.bind();
+		myGL.glBegin(GL.GL_QUADS);
 		myGL.glTexCoord2f(1, 1);
 		myGL.glVertex3f(0, -50, 256);
 		myGL.glTexCoord2f(1, 0);
@@ -329,10 +333,12 @@ public class World {
 		myGL.glTexCoord2f(0, 1);
 		myGL.glVertex3f(0, 120, 256);
 
-		wall1.disable();
-
-		wall1.enable();
-		wall1.bind();
+		wall3.disable();
+		myGL.glEnd();
+		
+		wall4.enable();
+		wall4.bind();
+		myGL.glBegin(GL.GL_QUADS);
 		myGL.glTexCoord2f(1, 1);
 		myGL.glVertex3f(256, -50, 0);
 		myGL.glTexCoord2f(1, 0);
@@ -342,23 +348,27 @@ public class World {
 		myGL.glTexCoord2f(0, 1);
 		myGL.glVertex3f(256, 120, 0);
 
-		wall1.disable();
-
-	/*	sky.enable();
-		sky.bind();*/
-		wall1.enable();
-		wall1.bind();
+		wall4.disable();
+		myGL.glEnd();
+		
+		sky.enable();
+		sky.bind();
+/*		myGL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, GL.GL_MIRRORED_REPEAT);
+		myGL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, GL.GL_MIRRORED_REPEAT);*/
+		myGL.glBegin(GL.GL_QUADS);
+	/*	wall1.enable();
+		wall1.bind();*/
 		myGL.glTexCoord2f(1, 0);
 		myGL.glVertex3f(0, 120, 0);
-		myGL.glTexCoord2f(1, 0);
-		myGL.glVertex3f(256,120, 0);
 		myGL.glTexCoord2f(1, 1);
-		myGL.glVertex3f(256, 120, 256);
+		myGL.glVertex3f(256,120, 0);
 		myGL.glTexCoord2f(0, 1);
+		myGL.glVertex3f(256, 120, 256);
+		myGL.glTexCoord2f(0, 0);
 		myGL.glVertex3f(0,120, 256);
 
-		//sky.disable();
-		wall1.disable();
+		sky.disable();
+		//myGLwall1.disable();
 		
 		myGL.glEnd();
 
@@ -375,12 +385,12 @@ public class World {
 		try{
 			//load a TextureData object from a picture and then create a texture from it
 		wall1 =TextureIO.newTexture(new File("mount.jpg"),true);
-			/*
-			 * 
+		
 		wall2 =TextureIO.newTexture(new File("wal2.jpg"),true);
 			wall3 =TextureIO.newTexture(new File("mount.jpg"),true);
 			wall4 =TextureIO.newTexture(new File("mount.jpg"),true);
-			sky =TextureIO.newTexture(new File("Skybaby.png"),true);*/
+		
+			sky =TextureIO.newTexture(new File("Skybaby.png"),true);
 		}//end try
 		catch(IOException e){
 			System.out.println("File not found!");
