@@ -85,16 +85,20 @@ public class KeyFunctions {
 				moveZ -= 1.8*cos;
 				moveX += 1.8*sin;
 			}
-			if(keys.get(i) == KeyEvent.VK_SPACE && !fly) {
+			if(keys.get(i) == KeyEvent.VK_SPACE ) {
+			//TODO fix here
+				
+				moveY+=gravity;
 				if(landed && !jump) {
 					jump = true;
-					gravity = .15f * (speed / 20);
+					gravity = .15f * (speed -0.20f);
 				}
 				if(!landed && !jump) {
 					jump = true;
 					gravity = 0;
 					jet.close();
 				}
+				
 			}
 
 			if(keys.get(i) == KeyEvent.VK_S ) {

@@ -387,8 +387,8 @@ public class World {
 		wall1 =TextureIO.newTexture(new File("mount.jpg"),true);
 		
 		wall2 =TextureIO.newTexture(new File("wal2.jpg"),true);
-			wall3 =TextureIO.newTexture(new File("mount.jpg"),true);
-			wall4 =TextureIO.newTexture(new File("mount.jpg"),true);
+			wall3 =TextureIO.newTexture(new File("ocean.jpg"),true);
+			wall4 =TextureIO.newTexture(new File("Volcano.jpg"),true);
 		
 			sky =TextureIO.newTexture(new File("Skybaby.png"),true);
 		}//end try

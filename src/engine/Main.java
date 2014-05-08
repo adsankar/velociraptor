@@ -346,14 +346,7 @@ public class Main extends GLCanvas{
 
 		myGL.glLoadIdentity();
 		myGL.glDisable(GL.GL_LIGHTING);
-
-
 		myGL.glColor3f(1,1,1);
-		//TODO here
-		//myGL.gltran
-		drawWeapon(myGL);
-
-
 		myGL.glEnable(GL.GL_TEXTURE_2D);
 
 		cross.enable();
@@ -369,13 +362,17 @@ public class Main extends GLCanvas{
 		myGL.glVertex3f(windowWidth/2+crossSize, windowHeight/2+crossSize, 0);
 		myGL.glTexCoord2f(1, 0);
 		myGL.glVertex3f(windowWidth/2+crossSize, windowHeight/2-crossSize, 0);
-
 		myGL.glEnd();
-	/*	myGL.glTranslated(0, 0, 5);
-		drawWeapon(myGL);*/
-
-
+	
 		myGL.glDisable(GL.GL_TEXTURE_2D);
+		myGL.glPopMatrix();
+
+		
+		//TODO here
+		myGL.glPushMatrix();
+		myGL.glTranslated(-5,-5,5);
+		drawWeapon(myGL);
+		//System.out.println("test");
 		myGL.glPopMatrix();
 
 
@@ -386,12 +383,6 @@ public class Main extends GLCanvas{
 		myGL.glMatrixMode(GL.GL_MODELVIEW);
 		myGL.glEnable(GL.GL_LIGHTING);
 
-		myGL.glPushMatrix();
-
-		myGL.glTranslated(0, 25, 0);
-
-	drawWeapon(myGL);
-		myGL.glPopMatrix(); 
 		myGL.glEnd();
 
 
