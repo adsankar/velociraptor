@@ -186,14 +186,14 @@ public class Enemy {
 		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
 		*/
 		//TODO fix here
-		myGL.glBegin(GL.GL_TRIANGLES);
+		/*myGL.glBegin(GL.GL_TRIANGLES);
 		myGL.glVertex3d(1,1,1);
 		myGL.glVertex3d(2,1,1);
 		myGL.glVertex3d(1,2,2);
 		//System.out.println("draw");
-		myGL.glEnd();
+		myGL.glEnd();*/
 		
-		/*********************************
+	
 		//myGL.glTranslated(x, y, (float)World.getMap()[(int) x][(int) y]);
 		myGL.glColor3f(0.8f, 0,0);
 
@@ -209,7 +209,7 @@ public class Enemy {
 		//	myGL.glColorPointer(3, GL.GL_FLOAT, 0, colors);
 		myGL.glVertexPointer(3, GL.GL_FLOAT, 0, enemyVert);
 
-		myGL.glDrawArrays(GL.GL_TRIANGLES,0,enemyVert.capacity()/3);
+		myGL.glDrawArrays(GL.GL_TRIANGLE_STRIP,0,enemyVert.capacity()/3);
 
 		//disable arrays when done
 		myGL.glDisableClientState(GL.GL_VERTEX_ARRAY);
