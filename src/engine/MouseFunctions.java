@@ -35,7 +35,6 @@ public class MouseFunctions {
 	/**
 	 * Moves the camera position in regards to the mouse.
 	 * @param player
-	 * @return
 	 */
 	public void eye(Player player) {
 		player.setView((float) (player.getXPosition() + (Math.sin(mx * .01f) * 3)),

@@ -52,10 +52,19 @@ public class World {
 
 	public void drawWorld(GL myGL){
 		setWalls(myGL);
+		drawAllTrees(myGL);
 		drawMap(myGL);
 	}
 
 
+	public void drawAllTrees(GL myGL){
+		
+	}
+	
+	public void drawTree(GL myGL, int x, int y){
+		//TODO here and all trees
+	}
+	
 	/**
 	 * Add the vertices of the appropriate shapes to the vertex, color and normal arrays.
 	 */

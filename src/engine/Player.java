@@ -8,6 +8,7 @@ package engine;
  */
 public class Player {
 
+	private static int clip;
 	private static int ammo;
 	private static int health;
 	private static int weaponNumber;
@@ -26,7 +27,8 @@ public class Player {
 	
 	
 	public Player(){
-		ammo=100;
+		clip = 3;
+		ammo=10;
 		health=100;
 		weaponNumber=1;
 		isRunning=false;
@@ -39,6 +41,7 @@ public class Player {
 	 * Shoot or melee with the current weapon
 	 */
 	public void fire(){
+		
 		if (ammo>0){
 		ammo--;
 		}
@@ -70,9 +73,80 @@ public class Player {
 	 * Reload the current weapon
 	 */
 	public void reload(){
-		ammo=100;
+		if (clip>0){
+			clip--;
+			ammo += (10-ammo);
+		}
 	}
 	
+	public static int getClip() {
+		return clip;
+	}
+
+	public static void setClip(int clip) {
+		Player.clip = clip;
+	}
+
+	public static boolean isCanShoot() {
+		return canShoot;
+	}
+
+	public static void setCanShoot(boolean canShoot) {
+		Player.canShoot = canShoot;
+	}
+
+	public float getAtX() {
+		return atX;
+	}
+
+	public void setAtX(float atX) {
+		this.atX = atX;
+	}
+
+	public float getAtY() {
+		return atY;
+	}
+
+	public void setAtY(float atY) {
+		this.atY = atY;
+	}
+
+	public float getAtZ() {
+		return atZ;
+	}
+
+	public void setAtZ(float atZ) {
+		this.atZ = atZ;
+	}
+
+	public float getLookX() {
+		return lookX;
+	}
+
+	public void setLookX(float lookX) {
+		this.lookX = lookX;
+	}
+
+	public float getLookY() {
+		return lookY;
+	}
+
+	public void setLookY(float lookY) {
+		this.lookY = lookY;
+	}
+
+	public float getLookZ() {
+		return lookZ;
+	}
+
+	public void setLookZ(float lookZ) {
+		this.lookZ = lookZ;
+	}
+
+	public void setHeight(float height) {
+		this.height = height;
+	}
+
 	/**
 	 * Crouch down, lowering the view of the camera and slowing the player's speed
 	 */

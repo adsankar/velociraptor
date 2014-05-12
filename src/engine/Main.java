@@ -2,7 +2,6 @@
 package engine;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.Toolkit;
@@ -30,7 +29,6 @@ import javax.media.opengl.GLEventListener;
 import javax.media.opengl.GLException;
 import javax.media.opengl.glu.GLU;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 import com.sun.opengl.util.Animator;
@@ -46,18 +44,20 @@ import com.sun.opengl.util.texture.TextureIO;
  *
  */
 public class Main extends GLCanvas{
-	//TODO fix per vertex normals, crouch, run, enemies, spawn, shoot, help window
-
-	private static Component frame;
+	//TODO crouch, run, enemies, spawn, shoot
 
 	private Texture cross;
+	private Texture help;
+	private Texture fire;
 
 	private FloatBuffer weaponVert;
 	//private BufferedImage crosshairs = new BufferedImage(300, 300, BufferedImage.TYPE_INT_ARGB);
 
 	//private float zoom = 0;
 	private float speed = 50f;
+	private final int fireSize = 60;
 	private final int crossSize  = 50;
+	private final int helpWindowSize  = 500;
 	private final int ENEMY_DELAY_TIME = 30;
 	private TextRenderer renderer;
 	private String currentTrack = "";
@@ -71,6 +71,8 @@ public class Main extends GLCanvas{
 	private Player p;
 	private static Animator an;
 	private Timer enemyTimer;
+	private boolean showHelp = false;
+	private boolean shoot= false;
 
 	/**
 	 * Creates a new window and displays to the user. Makes it visible.
@@ -143,6 +145,7 @@ public class Main extends GLCanvas{
 			public void mousePressed(MouseEvent e) {
 				///control.click(e);
 				p.fire();
+				shoot=true;
 			}
 		});
 
@@ -173,9 +176,9 @@ public class Main extends GLCanvas{
 				control.pressKey(e);
 				if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 					System.exit(0);
-					if(e.getKeyCode() == KeyEvent.VK_H) {
-						helpWindow();
-					}
+				}
+				if(e.getKeyCode() == KeyEvent.VK_H) {
+					showHelp =!showHelp;
 				}
 			}
 			public void keyReleased(KeyEvent e) {
@@ -246,10 +249,10 @@ public class Main extends GLCanvas{
 	 * Sets up mouse movement to correspond with character, sets up perspective matrix, calibrates camera movement
 	 */
 	public void doDisplay(GL myGL, int w, int h) {
-		kFunc.setMouse(control.getMouseX(), control.getMouseY());
+		kFunc.setMouse(control.getMouseX()/2, control.getMouseY()/2);
 		kFunc.processKeys(control.getKeysDown());
 		kFunc.moveEye(p);
-		mFunc.setMouse(control.getMouseX(), control.getMouseY());
+		mFunc.setMouse(control.getMouseX()/2, control.getMouseY()/2);
 		mFunc.eye(p);
 		GLU glu = new GLU();
 
@@ -275,12 +278,15 @@ public class Main extends GLCanvas{
 		world.drawWorld(myGL);
 		myGL.glPopMatrix();
 		drawStatics(myGL);
+		Enemy.drawEnemy(30, 30, myGL);
+		
 		//start the text renderer, set its color and display text
 		renderer.setColor(1,1,.6f,.7f);//RGBA colors
 		renderer.beginRendering(w, h);
 		//display some basic information
 		renderer.draw("Health: "+Player.getHealth(), windowWidth-300, windowHeight-80); //get player health
-		renderer.draw("Ammo: "+Player.getAmmo(),windowWidth-300,windowHeight-120); //get ammo
+		renderer.draw("Ammo: "+Player.getAmmo()+" ("+(Player.getClip())*10+")",windowWidth-300,windowHeight-120); //get ammo
+		renderer.draw("GPS: ("+(int)p.getXPosition()+", "+(int)p.getZPosition()+", "+(int)p.getYPosition()+")",windowWidth-300,windowHeight-160); //get ammo
 		myGL.glClearColor(0f,0f,0f,1f);//so that not all of the shapes have this color
 		renderer.endRendering();
 	}
@@ -296,6 +302,7 @@ public class Main extends GLCanvas{
 		renderer = new TextRenderer(new Font("SansSerif", Font.BOLD, 30),true,true);
 		myGL.glClearColor(0f,0f,0f,1f);//so that not all of the shapes have this color
 		loadVertexData(new File ("axe.txt"));
+		Enemy.loadEnemyData(new File("vel.txt"));
 		world.makeWorld(myGL);
 		loadTextures(myGL);
 		Lighting.light(myGL);
@@ -330,11 +337,10 @@ public class Main extends GLCanvas{
 		currentTrack = "";
 	}
 
-	public void helpWindow(){
-		JOptionPane.showMessageDialog(frame, "info goes here", "Help", JOptionPane.INFORMATION_MESSAGE);
-	}
+	
 
 	public void drawStatics(GL myGL){
+		myGL.glPushMatrix();
 		myGL.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 		myGL.glMatrixMode(GL.GL_PROJECTION);
 		myGL.glPushMatrix();
@@ -349,6 +355,38 @@ public class Main extends GLCanvas{
 		myGL.glColor3f(1,1,1);
 		myGL.glEnable(GL.GL_TEXTURE_2D);
 
+		if (showHelp){
+			help.enable();
+			help.bind();
+			myGL.glBegin(GL.GL_QUADS);
+
+			myGL.glTexCoord2f(0, 0);
+			myGL.glVertex3f(windowWidth/2-helpWindowSize, windowHeight/2-helpWindowSize, 0);
+			myGL.glTexCoord2f(0, 1);
+			myGL.glVertex3f(windowWidth/2-helpWindowSize, windowHeight/2+helpWindowSize, 0);
+			myGL.glTexCoord2f(1, 1);
+			myGL.glVertex3f(windowWidth/2+helpWindowSize, windowHeight/2+helpWindowSize, 0);
+			myGL.glTexCoord2f(1, 0);
+			myGL.glVertex3f(windowWidth/2+helpWindowSize, windowHeight/2-helpWindowSize, 0);
+			myGL.glEnd();
+		}
+		else{
+			if (shoot){
+				fire.enable();
+				fire.bind();
+				myGL.glBegin(GL.GL_QUADS);
+
+				myGL.glTexCoord2f(0, 0);
+				myGL.glVertex3f(windowWidth/2-fireSize, windowHeight/2-fireSize, 0);
+				myGL.glTexCoord2f(0, 1);
+				myGL.glVertex3f(windowWidth/2-fireSize, windowHeight/2+fireSize, 0);
+				myGL.glTexCoord2f(1, 1);
+				myGL.glVertex3f(windowWidth/2+fireSize, windowHeight/2+fireSize, 0);
+				myGL.glTexCoord2f(1, 0);
+				myGL.glVertex3f(windowWidth/2+fireSize, windowHeight/2-fireSize, 0);
+				myGL.glEnd();
+				shoot = false;
+			}
 		cross.enable();
 		cross.bind();
 		// Draw a textured quad
@@ -363,10 +401,10 @@ public class Main extends GLCanvas{
 		myGL.glTexCoord2f(1, 0);
 		myGL.glVertex3f(windowWidth/2+crossSize, windowHeight/2-crossSize, 0);
 		myGL.glEnd();
-	
+		}
 		myGL.glDisable(GL.GL_TEXTURE_2D);
 		myGL.glPopMatrix();
-
+		myGL.glPopMatrix();
 		
 		//TODO here
 		myGL.glPushMatrix();
@@ -460,7 +498,9 @@ public class Main extends GLCanvas{
 		//	myGL.glTexEnvi(GL.GL_TEXTURE_ENV, GL.GL_TEXTURE_ENV_MODE, GL.GL_MODULATE);
 		try{
 			//load a TextureData object from a picture and then create a texture from it
-			cross =TextureIO.newTexture(new File("crosshairwhite.png"),true);
+			cross = TextureIO.newTexture(new File("crosshairwhite.png"),true);
+			help = TextureIO.newTexture(new File("testTiel.png"),true);
+			fire = TextureIO.newTexture(new File("shot.png"),true);
 		}//end try
 		catch(IOException e){
 			System.out.println("File not found!");

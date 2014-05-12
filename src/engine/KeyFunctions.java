@@ -2,10 +2,13 @@
 
 package engine;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
 
+import javax.swing.Timer;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 /**
@@ -15,8 +18,15 @@ import javax.sound.sampled.Clip;
  */
 public class KeyFunctions {
 
+	//TODO timers for movements
+
 	private final float MOVE_SMOOTH = 0.4f;
+	private final int walkDelay = 400;
+	private final int runDelay = 300;
 	//private boolean move = true;
+
+	private boolean run = false;
+
 	private float step = 0;
 	public float speed = 1;
 	public float moveX = 25000;
@@ -24,18 +34,34 @@ public class KeyFunctions {
 	public float moveZ = 25000;
 	public float mx = 0;
 	public float my = 0;
-	public float gravity =0;
+	public float gravity =-2f;
 	private boolean landed = true;
 	private boolean jump = false;
 	double[][] map;
 	Player refer = new Player();
 	MP3 jet = new MP3("/Soundtrack/Jet.mp3");
+	private Timer sounds;
+
 	/**
 	 * Creates a new instance of KeyFunctions
 	 */
 	public KeyFunctions() {
 		//do nothing
+		sounds = new Timer (walkDelay, new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(refer.getHeight() > 5 &&landed &&!jump)
+					walk("Walk");
+				else
+					walk("Swim");
+			}
+
+		});
+
+		//sounds.start();
 	}
+
 	/**
 	 * Sets the moving speed of the character in regard to keys being pressed
 	 * @param f
@@ -55,30 +81,31 @@ public class KeyFunctions {
 	 * @param keys
 	 */
 	public void processKeys(ArrayList<Integer> keys) {
-		boolean run = false;
-		boolean fly = false;
-		boolean crouched = false;
+		float jumpSpeed =2;
 		for(int i = 0; i < keys.size(); i++) {
 			float sin = (float) Math.sin(mx * .01) * 3 * speed;
 			float cos = (float) Math.cos(mx * .01) * 3 * speed;
+			if(refer.getHeight()<5) {
+				sin /= 4;
+				cos /= 4;
+			}
 			for (int j = 0; j < keys.size(); j++){
 				if(keys.get(j) == KeyEvent.VK_SHIFT) {
+					//TODO run sounds
+					sin *= 2;
+					cos *= 2;
 					run = true;
+					sounds.setDelay(runDelay);
 				}
+				run=false;
 			}
-			if(run) {
-				sin *= 2;
-				cos *= 2;
-			}
+
 			for (int j = 0; j < keys.size(); j++){
 				if(keys.get(j) == KeyEvent.VK_C) {
-					crouched = true;
+					sin /= 2;
+					cos /= 2;
+					moveY/=2;
 				}
-			}
-			if(crouched) {
-				sin /= 2;
-				cos /= 2;
-				moveY -= 10;
 			}
 			//else moveY = 0;
 			if(keys.get(i) == KeyEvent.VK_W || keys.get(i) == KeyEvent.VK_UP) {
@@ -86,20 +113,24 @@ public class KeyFunctions {
 				moveX += 1.8*sin;
 			}
 			if(keys.get(i) == KeyEvent.VK_SPACE ) {
-			//TODO fix here
-				
-				moveY+=gravity;
+				//TODO fix here
 				if(landed && !jump) {
 					jump = true;
-					gravity = .15f * (speed -0.20f);
+					landed=false;
+					//gravity = -.2f;
+					jumpSpeed=2;
 				}
 				if(!landed && !jump) {
 					jump = true;
-					gravity = 0;
+					jumpSpeed+=gravity;
 					jet.close();
 				}
-				
+				if (jump && !landed){
+					moveY+=jumpSpeed;
+					System.out.println(jumpSpeed);
+				}
 			}
+			//jumpSpeed=0;
 
 			if(keys.get(i) == KeyEvent.VK_S ) {
 				moveZ += 1.8*cos;
@@ -115,21 +146,28 @@ public class KeyFunctions {
 			}
 
 			if(keys.get(i) == KeyEvent.VK_R) {
-				Player.setAmmo(100);
+				if (Player.getClip()>0){
+					Player.setAmmo(10);
+					Player.setClip(Player.getClip()-1);
+				}
 			}
 
-			if(keys.get(i) == KeyEvent.VK_E) {
+			/*if (keys.get(i) == KeyEvent.VK_H){
+				showHelp = !showHelp;
+			}*/
+
+			/*	if(keys.get(i) == KeyEvent.VK_E) {
 				moveY += speed * .005;
 				landed = false;
 				if(!jet.isPlaying())
 					jet.play();
-			}
-			if(keys.get(i) == KeyEvent.VK_Q)
-				moveY -= speed * .005;
+			}*/
+			/*	if(keys.get(i) == KeyEvent.VK_Q)
+				moveY -= speed * .005;*/
 
-			if (keys.get(i)== KeyEvent.VK_C){
+			/*	if (keys.get(i)== KeyEvent.VK_C){
 				Player.crouch();
-			}
+			}*/
 
 			//TODO edit here to not walk through walls
 			if(moveX / 500 < 0)
@@ -151,12 +189,17 @@ public class KeyFunctions {
 				if((keys.get(i) == KeyEvent.VK_W ||
 				keys.get(i) == KeyEvent.VK_S ||
 				keys.get(i) == KeyEvent.VK_D ||
-				keys.get(i) == KeyEvent.VK_A) &&landed && !jump)
-					if(refer.getHeight() > -1)
+				keys.get(i) == KeyEvent.VK_A) && landed && !jump){
+					/*if(refer.getHeight() > 5)
 						walk("Walk");
 					else
-						walk("Swim");
+						walk("Swim");*/
+					sounds.start();
+				}
+			//sounds.stop();
 		}
+		//	sounds.stop();
+
 	}
 	/**
 	 * Allows character to jump
@@ -164,6 +207,7 @@ public class KeyFunctions {
 	public void jump(){	
 		//	moveY += speed * .005;	
 	}
+
 	/**
 	 * Allows character to crouch down
 	 */
@@ -202,16 +246,16 @@ public class KeyFunctions {
 			height = -40f;
 		player.setHeight(height);
 
-		if(moveY < player.getHeight() && (!landed ||jump)) {
+		if(moveY < player.getHeight() && (!landed || jump)) {
 			landed = true;
 			jump =false;
 			jet.close();
-			if(height > -1)
+			if(height > 5)
 				walk("Land");
 			else
 				walk("Splash");
 		}
-		if(landed && !jump)
+		if(!jump && landed)
 			moveY = player.getHeight();
 
 		player.setPosition(moveX / 500, moveY, (moveZ / 500));
@@ -224,7 +268,10 @@ public class KeyFunctions {
 	 */
 	public void walk(String str) {
 		play(str + ".wav");
-		step = 20;
+		if (run){
+			step=30;
+		}
+		else step = 20;
 	}
 	/**
 	 * Plays the music
