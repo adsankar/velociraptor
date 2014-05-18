@@ -1,5 +1,3 @@
-
-
 package engine;
 
 import java.awt.event.ActionEvent;
@@ -8,13 +6,15 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
 
-import javax.swing.Timer;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.swing.Timer;
+
 /**
  * Handles key functions used during program
- * @author 930983
- *
+ * @author Aleksander Sankar and Sohum Dalal
+ * Software Design Pd. 7
+ * Mr. Fowler
  */
 public class KeyFunctions {
 
@@ -201,19 +201,7 @@ public class KeyFunctions {
 		//	sounds.stop();
 
 	}
-	/**
-	 * Allows character to jump
-	 */
-	public void jump(){	
-		//	moveY += speed * .005;	
-	}
 
-	/**
-	 * Allows character to crouch down
-	 */
-	public void crouch(){
-
-	}
 	/**
 	 * Sets the position of the mouse
 	 * @param x

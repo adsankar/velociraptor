@@ -12,9 +12,10 @@ import com.sun.opengl.util.texture.Texture;
 import com.sun.opengl.util.texture.TextureIO;
 
 /**
- * 
- * @author Aleksander
- *
+ * The class that sets up the 3D environment
+ * @author Aleksander Sankar and Sohum Dalal
+ * Software Design Pd. 7
+ * Mr. Fowler
  */
 public class World {
 
@@ -33,7 +34,7 @@ public class World {
 	private Texture sky;
 
 	/**
-	 * 
+	 * Constructor which makes a map of a certain size
 	 */
 	public World() {
 		map = new Map(size);
@@ -41,7 +42,7 @@ public class World {
 	}
 
 	/**
-	 * 
+	 * Loads necessary vertices and textures before drawing them
 	 * @param myGL
 	 */
 	public void makeWorld(GL myGL) {
@@ -50,21 +51,16 @@ public class World {
 
 	}
 
+	/**
+	 * Draw the 3D environment
+	 * @param myGL
+	 */
 	public void drawWorld(GL myGL){
 		setWalls(myGL);
-		drawAllTrees(myGL);
 		drawMap(myGL);
 	}
 
 
-	public void drawAllTrees(GL myGL){
-		
-	}
-	
-	public void drawTree(GL myGL, int x, int y){
-		//TODO here and all trees
-	}
-	
 	/**
 	 * Add the vertices of the appropriate shapes to the vertex, color and normal arrays.
 	 */
@@ -89,12 +85,12 @@ public class World {
 					e = new Vector3(i, j+1, (float)(height[i][j+1]));
 
 					normal = Vector3.calcAvgNormal(a, b, c, d, e);
-					//normal = Vector3.normalize(normal);
+	
 					norms.put(normal.getX());
 					norms.put(normal.getY());
 					norms.put(normal.getZ());
-					
-					
+
+
 					//i+1
 					a = new Vector3(i,j, (float)(height[i][j]));
 					b = new Vector3(i+1, j-1, (float)(height[i+1][j-1]));
@@ -107,10 +103,10 @@ public class World {
 					norms.put(normal.getX());
 					norms.put(normal.getY());
 					norms.put(normal.getZ());
-					 
-					
+
+
 					//i+1, j+1
-						a = new Vector3(i,j+1, (float)(height[i][j+1]));
+					a = new Vector3(i,j+1, (float)(height[i][j+1]));
 					b = new Vector3(i+1, j, (float)(height[i+1][j]));
 					c = new Vector3(i+1, j+1, (float)(height[i+1][j+1]));
 					d = new Vector3(i+2, j+1, (float)(height[i+2][j+1]));
@@ -121,7 +117,7 @@ public class World {
 					norms.put(normal.getY());
 					norms.put(normal.getZ());
 
-					
+
 
 					//j+1
 					a = new Vector3(i-1,j+1, (float)(height[i-1][j+1]));
@@ -134,8 +130,8 @@ public class World {
 					norms.put(normal.getX());
 					norms.put(normal.getY());
 					norms.put(normal.getZ());
-					
-/*
+
+					/*
 				calculateNormal(i, j, height[i][j], i+1, j, height[i+1][j], i, j+1, height[i][j+1]);
 				norms.put(nextNormals[0]);
 				norms.put(nextNormals[1]);
@@ -158,7 +154,7 @@ public class World {
 				norms.put(nextNormals[0]);
 				norms.put(nextNormals[1]);
 				norms.put(nextNormals[2]);
-				*/
+					 */
 				}
 				else {
 					//the border
@@ -199,7 +195,7 @@ public class World {
 		vert.rewind();
 		colors.rewind();
 		norms.rewind();
-		
+
 		//smoothing again
 		for (int i=0; i<norms.capacity()-9; i+=6){
 			norms.put(i, (norms.get(i)+norms.get(i+3)+norms.get(i+6))/3);
@@ -207,14 +203,6 @@ public class World {
 			norms.put(i+2, (norms.get(i+2)+norms.get(i+5)+norms.get(i+8))/3);
 		}
 	}// end setupArrays
-
-	public boolean isInRange(int a){
-		if (a>1 && a<size-1 ){
-			return true;
-		}
-
-		else return false;
-	}
 
 	/**
 	 * Calculate the surface normal given two lines, defined by a total of 9 values
@@ -291,10 +279,14 @@ public class World {
 		return map.getMap();
 	}
 
+	/**
+	 * Set the textures for each of the bounding walls
+	 * @param myGL
+	 */
 	public void setWalls(GL myGL){
-		
 
-	//	myGL.glEnable(GL.GL_TEXTURE_2D);
+
+		//	myGL.glEnable(GL.GL_TEXTURE_2D);
 		myGL.glClearColor(0,0,0,1);
 		//myGL.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT_AND_DIFFUSE,new float[]{1,1,1,1 },0);
 		myGL.glColor3d(1, 1, 1);
@@ -314,7 +306,7 @@ public class World {
 
 		wall1.disable();
 		myGL.glEnd();
-		
+
 		wall2.enable();
 		wall2.bind();
 		myGL.glBegin(GL.GL_QUADS);
@@ -329,7 +321,7 @@ public class World {
 
 		wall2.disable();
 		myGL.glEnd();
-		
+
 		wall3.enable();
 		wall3.bind();
 		myGL.glBegin(GL.GL_QUADS);
@@ -344,7 +336,7 @@ public class World {
 
 		wall3.disable();
 		myGL.glEnd();
-		
+
 		wall4.enable();
 		wall4.bind();
 		myGL.glBegin(GL.GL_QUADS);
@@ -359,13 +351,13 @@ public class World {
 
 		wall4.disable();
 		myGL.glEnd();
-		
+
 		sky.enable();
 		sky.bind();
-/*		myGL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, GL.GL_MIRRORED_REPEAT);
+		/*		myGL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, GL.GL_MIRRORED_REPEAT);
 		myGL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, GL.GL_MIRRORED_REPEAT);*/
 		myGL.glBegin(GL.GL_QUADS);
-	/*	wall1.enable();
+		/*	wall1.enable();
 		wall1.bind();*/
 		myGL.glTexCoord2f(1, 0);
 		myGL.glVertex3f(0, 120, 0);
@@ -378,13 +370,17 @@ public class World {
 
 		sky.disable();
 		//myGLwall1.disable();
-		
+
 		myGL.glEnd();
 
 		myGL.glDisable(GL.GL_TEXTURE_2D);
 		//myGL.glEnable(GL.GL_COLOR_MATERIAL);
 	}
 
+	/**
+	 * Load the necessary textures for the environment
+	 * @param myGL
+	 */
 	public void loadTextures(GL myGL){
 		myGL.glTexParameterf(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR );
 		myGL.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR_MIPMAP_LINEAR);
@@ -393,12 +389,12 @@ public class World {
 		//	myGL.glTexEnvi(GL.GL_TEXTURE_ENV, GL.GL_TEXTURE_ENV_MODE, GL.GL_MODULATE);
 		try{
 			//load a TextureData object from a picture and then create a texture from it
-		wall1 =TextureIO.newTexture(new File("mount.jpg"),true);
-		
-		wall2 =TextureIO.newTexture(new File("wal2.jpg"),true);
+			wall1 =TextureIO.newTexture(new File("mount.jpg"),true);
+
+			wall2 =TextureIO.newTexture(new File("wal2.jpg"),true);
 			wall3 =TextureIO.newTexture(new File("ocean.jpg"),true);
 			wall4 =TextureIO.newTexture(new File("Volcano.jpg"),true);
-		
+
 			sky =TextureIO.newTexture(new File("Skybaby.png"),true);
 		}//end try
 		catch(IOException e){

@@ -1,10 +1,10 @@
 package engine;
 
 /**
- * look here
- * Interface for Player methods, how the player interacts with the environment, etc.
- * @author 929837
- *
+ * Interface for Player methods, how the player interacts with the environment, camera controls etc.
+ * @author Aleksander Sankar and Sohum Dalal
+ * Software Design Pd. 7
+ * Mr. Fowler
  */
 public class Player {
 
@@ -13,9 +13,7 @@ public class Player {
 	private static int health;
 	private static int weaponNumber;
 	private static boolean isRunning;
-	private static boolean canInteract;
 	private static boolean isCrouched;
-	private static boolean canShoot;
 	public float atX = 0;
 	public float atY = 0;
 	public float atZ = 0;
@@ -25,16 +23,18 @@ public class Player {
 	public float height = 0;
 	public float force = 0;
 	
-	
+	/**
+	 * Spawn the player with a specific amount of ammo and health
+	 */
 	public Player(){
 		clip = 3;
 		ammo=10;
 		health=100;
 		weaponNumber=1;
 		isRunning=false;
-		canInteract=false;
+
 		isCrouched=false;
-		canShoot=true;
+
 	}
 	
 	/**
@@ -87,13 +87,6 @@ public class Player {
 		Player.clip = clip;
 	}
 
-	public static boolean isCanShoot() {
-		return canShoot;
-	}
-
-	public static void setCanShoot(boolean canShoot) {
-		Player.canShoot = canShoot;
-	}
 
 	public float getAtX() {
 		return atX;
@@ -154,24 +147,6 @@ public class Player {
 		isCrouched = !isCrouched;
 	}
 	
-	/**
-	 * Temporarily move faster but you cannot shoot
-	 */
-	public void run(){
-		isRunning = !isRunning;
-		canShoot = !canShoot;
-	}
-	
-	/**
-	 * Perform a special action, such as opening a door (not available at all times)
-	 */
-	public void interact(){
-		if (canInteract){
-			//something
-		}
-		canShoot=false;
-	}
-	
 	public static int getAmmo() {
 		return ammo;
 	}
@@ -194,30 +169,6 @@ public class Player {
 
 	public static void setWeaponNumber(int weaponNumber) {
 		Player.weaponNumber = weaponNumber;
-	}
-
-	public static boolean isRunning() {
-		return isRunning;
-	}
-
-	public static void setRunning(boolean isRunning) {
-		Player.isRunning = isRunning;
-	}
-
-	public static boolean isCanInteract() {
-		return canInteract;
-	}
-
-	public static void setCanInteract(boolean canInteract) {
-		Player.canInteract = canInteract;
-	}
-
-	public static boolean isCrouched() {
-		return isCrouched;
-	}
-
-	public static void setCrouched(boolean isCrouched) {
-		Player.isCrouched = isCrouched;
 	}
 	
 	/**

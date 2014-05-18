@@ -2,16 +2,22 @@
 package engine;
 
 /**
- * Program that holds the values for the height map
- * @author 930983
- *
+ * Class that holds the values for the height map
+ * @author Aleksander Sankar and Sohum Dalal
+ * Software Design Pd. 7
+ * Mr. Fowler
  */
 public class Map {
 
+	//stores the height values in a 2D array
 	private double[][] map;
 	private final int MAX_HEIGHT = 30;
 
 
+	/**
+	 * Constructor which loads in all of the height values for the map
+	 * @param size
+	 */
 	public Map(int size) {
 		map = new double[size][size];
 		
@@ -20,14 +26,28 @@ public class Map {
 
 
 
+	/**
+	 * Find the height of a specific point on the map
+	 * @param x the x coordinate
+	 * @param z the z coordinate
+	 * @return the height there
+	 */
 	public double getPoint(int x, int z) {
 		return map[x][z];
 	}
 
+	/**
+	 * Getter for the map
+	 * @return map
+	 */
 	public double[][] getMap() {
 		return map;
 	}
 	
+	/**
+	 * Setter for the map
+	 * @param m the map you want loaded
+	 */
 	public void setMap(double[][] m){
 		map =m;
 	}

@@ -1,4 +1,3 @@
-
 package engine;
 
 import java.awt.AWTException;
@@ -8,7 +7,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-
+/**
+ * Handles the holding down of keys and mouse movements
+ * @author Aleksander Sankar and Sohum Dalal
+ * Software Design Pd. 7
+ * Mr. Fowler
+ */
 public class Control {
 
 	public ArrayList<Integer> keysDown = new ArrayList<Integer>(0);
@@ -51,7 +55,7 @@ public class Control {
 		}
 	}
 	/**
-	 * handles key events when key is released by user
+	 * Handles key events when key is released by user
 	 * @param e
 	 */
 	public void releaseKey(KeyEvent e) {
@@ -74,15 +78,15 @@ public class Control {
 	}
 	/**
 	 * Returns what keys are being pressed down
-	 * @return
+	 * @return keysDown the list of keys pressed down
 	 */
 	public ArrayList<Integer> getKeysDown() {
 		return keysDown;
 	}
 	/**
-	 * Returns position of mouse
-	 * @param x
-	 * @param y
+	 * Sets the position of mouse
+	 * @param x the x coordinate
+	 * @param y the y coordinate
 	 */
 	public void setMouse(float x, float y) {
 		mouseX = x;
@@ -96,17 +100,17 @@ public class Control {
 		mouseX += e.getX()  - midX;
 		mouseY += e.getY() - midY;
 		rob.mouseMove((int) midX,(int) midY);
-		}
+	}
 	/**
 	 * Gets the X position of the mouse
-	 * @return
+	 * @return the x position of the mouse
 	 */
 	public float getMouseX() {
 		return mouseX;
 	}
 	/**
 	 * Returns the Y postion of the mouse
-	 * @return
+	 * @return the y position of the mouse
 	 */
 	public float getMouseY() {
 		return mouseY;

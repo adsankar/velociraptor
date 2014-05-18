@@ -6,8 +6,9 @@ import java.io.InputStream;
 import javazoom.jl.player.Player;
 /**
  * Plays music as the user plays the game
- * @author 930983
- *
+ * @author Aleksander Sankar and Sohum Dalal
+ * Software Design Pd. 7
+ * Mr. Fowler
  */
 public class MP3 {
 	private boolean playing = false;
@@ -95,7 +96,7 @@ public class MP3 {
 	}
 	/**
 	 * Checks if the music is playing
-	 * @return
+	 * @return playing
 	 */
 	public boolean isPlaying() {
 		return playing;

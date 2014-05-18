@@ -39,9 +39,10 @@ import com.sun.opengl.util.texture.Texture;
 import com.sun.opengl.util.texture.TextureIO;
 
 /**
- * 
- * @author 929837
- *
+ * Main class and runner which sets up the game and displays it
+ * @author Aleksander Sankar and Sohum Dalal
+ * Software Design Pd. 7
+ * Mr. Fowler
  */
 public class Main extends GLCanvas{
 	//TODO crouch, run, enemies, spawn, shoot
@@ -207,6 +208,9 @@ public class Main extends GLCanvas{
 		addGLEventListener(new GLEventListener(){
 
 			@Override
+			/**
+			 * Call the doDisplay method
+			 */
 			public void display(GLAutoDrawable drawable) {
 
 				doDisplay(drawable.getGL(), drawable.getWidth(),
@@ -339,6 +343,10 @@ public class Main extends GLCanvas{
 
 	
 
+	/**
+	 * Draw all of the parts that do not move relative to the player (crosshairs, help screen)
+	 * @param myGL
+	 */
 	public void drawStatics(GL myGL){
 		myGL.glPushMatrix();
 		myGL.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
@@ -427,6 +435,11 @@ public class Main extends GLCanvas{
 
 	}
 
+	
+	/**
+	 * Load vertex data for the weapon from a file
+	 * @param myFile
+	 */
 	public void loadVertexData(File myFile){
 		ArrayList<Float> x = new ArrayList<Float>();
 		FileInputStream myStream =null;
@@ -462,6 +475,10 @@ public class Main extends GLCanvas{
 		weaponVert.rewind();
 	}
 
+	/**
+	 * Draw the weapon using the pre-loaded vertex data
+	 * @param myGL
+	 */
 	public void drawWeapon(GL myGL){
 		//	myGL.glBegin(GL.GL_TRIANGLES);
 		myGL.glColor3f(0.8f, 0.8f, 0.8f);
@@ -490,6 +507,10 @@ public class Main extends GLCanvas{
 		myGL.glEnd();
 	}
 
+	/**
+	 * Load the necessary textures
+	 * @param myGL
+	 */
 	public void loadTextures(GL myGL){
 		myGL.glTexParameterf(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR );
 		myGL.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR_MIPMAP_LINEAR);

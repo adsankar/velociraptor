@@ -3,7 +3,6 @@ package engine;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.ObjectInputStream.GetField;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -14,8 +13,9 @@ import com.sun.opengl.util.BufferUtil;
 
 /**
  * The object that represents characters trying to attack the player
- * @author 929837
- *
+ * @author Aleksander Sankar and Sohum Dalal
+ * Software Design Pd. 7
+ * Mr. Fowler
  */
 public class Enemy {
 
@@ -26,7 +26,6 @@ public class Enemy {
 	private int attackRate;
 	private boolean zigzag;
 	private int health;
-	private boolean gold;
 	private static FloatBuffer enemyVert;
 	private static FloatBuffer enemyNVert;
 
@@ -38,7 +37,7 @@ public class Enemy {
 	public int getDamage() {
 		return damage;
 	}
-	
+
 	/**
 	 * Set the damage of the enemy
 	 * @param damage the damage to set
@@ -46,7 +45,7 @@ public class Enemy {
 	public void setDamage(int damage) {
 		this.damage = damage;
 	}
-	
+
 	/**
 	 * Gets the speed of the enemy
 	 * @return speed
@@ -54,7 +53,7 @@ public class Enemy {
 	public int getSpeed() {
 		return speed;
 	}
-	
+
 	/**
 	 * Sets the speed of the enemy
 	 * @param speed
@@ -62,43 +61,91 @@ public class Enemy {
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
+
+	/**
+	 * Get the x position of the enemy
+	 * @return the x positon of the enemy
+	 */
 	public int getxPosition() {
 		return xPosition;
 	}
+
+	/**
+	 * Set the x position of the enemy
+	 * @param xPosition the new x position
+	 */
 	public void setxPosition(int xPosition) {
 		this.xPosition = xPosition;
 	}
+
+	/**
+	 * Get the y position of the enemy
+	 * @return the y position of the enemy
+	 */
 	public int getyPosition() {
 		return yPosition;
 	}
+
+	/**
+	 * Set the y postion of the enemy
+	 * @param yPosition the new y position
+	 */
 	public void setyPosition(int yPosition) {
 		this.yPosition = yPosition;
 	}
+
+	/**
+	 * Get the attack rate
+	 * @return attackRate
+	 */
 	public int getAttackRate() {
 		return attackRate;
 	}
+
+	/**
+	 * Set the attack rate
+	 * @param attackRate
+	 */
 	public void setAttackRate(int attackRate) {
 		this.attackRate = attackRate;
 	}
+
+	/**
+	 * Check to see if the enemy is zigzagging
+	 * @return zigzag
+	 */
 	public boolean isZigzag() {
 		return zigzag;
 	}
+
+	/**
+	 * Turn the zigzag on or off
+	 * @param zigzag
+	 */
 	public void setZigzag(boolean zigzag) {
 		this.zigzag = zigzag;
 	}
+
+	/**
+	 * Get the health of the enemy
+	 * @return health
+	 */
 	public int getHealth() {
 		return health;
 	}
+
+	/**
+	 * Set the health of the enemy
+	 * @param health
+	 */
 	public void setHealth(int health) {
 		this.health = health;
 	}
-	public boolean isGold() {
-		return gold;
-	}
-	public void setGold(boolean gold) {
-		this.gold = gold;
-	}
 
+	/**
+	 * Load the enemy vertex data from a file
+	 * @param myFile
+	 */
 	public static void loadEnemyData(File myFile){
 		ArrayList<Float> x = new ArrayList<Float>();
 		ArrayList<Float> n = new ArrayList<Float>();
@@ -113,10 +160,9 @@ public class Enemy {
 		while (myScanner.hasNext()){
 			count++;
 			String temp;
-			//float f1, f2, f3;
 			temp = myScanner.nextLine().trim();
 			if (temp.substring(0,2).equals("v ") && count>36){
-				//String one = temp.substring(2,temp.indexOf(' '));
+
 				temp = temp.substring(2,temp.length());
 				int firstSpace = temp.indexOf(" ");
 				int secondSpace = temp.lastIndexOf(" ");
@@ -125,7 +171,7 @@ public class Enemy {
 				x.add(Float.parseFloat(temp.substring(secondSpace+1,temp.length())));
 			}
 			if (temp.substring(0,3).equals("vn ") && count>36){
-				//String one = temp.substring(2,temp.indexOf(' '));
+
 				temp = temp.substring(3,temp.length());
 				int firstSpace = temp.indexOf(" ");
 				int secondSpace = temp.lastIndexOf(" ");
@@ -139,74 +185,37 @@ public class Enemy {
 		enemyVert = BufferUtil.newFloatBuffer(x.size());
 		for(Float f: x){
 			enemyVert.put(f);
-			//	System.out.println(f);
+
 		}
 		enemyVert.rewind();
-		
+
 		enemyNVert = BufferUtil.newFloatBuffer(n.size());
 		for(Float f: n){
 			enemyNVert.put(f);
-			//	System.out.println(f);
+
 		}
 		enemyNVert.rewind();
 	}
-	
+
+	/**
+	 * Draw the enemy at a specific location on the map
+	 * @param x the x location
+	 * @param y the y location
+	 * @param myGL 
+	 */
 	public static void drawEnemy(double x, double y, GL myGL){
-		//TODO make velociraptor here
+
 		myGL.glColor3d(1,0,0);
-		
+
 		myGL.glTranslated(x, 5+(float)World.getMap()[(int) x][(int) y], y);
-		
-		
-		/*
-		myGL.glBegin(GL.GL_QUADS);
-		myGL.glVertex3d(x,y, (float)World.getMap()[(int) x][(int) y]-10);
-		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
-		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
-		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
-		
-		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
-		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
-		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
-		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
-		
-		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
-		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
-		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
-		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
-		
-		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
-		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
-		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
-		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
-		
-		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
-		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
-		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
-		myGL.glVertex3d(x+5,y, (float)World.getMap()[(int) x][(int) y]-10);
-		*/
-		//TODO fix here
-		/*myGL.glBegin(GL.GL_TRIANGLES);
-		myGL.glVertex3d(1,1,1);
-		myGL.glVertex3d(2,1,1);
-		myGL.glVertex3d(1,2,2);
-		//System.out.println("draw");
-		myGL.glEnd();*/
-		
-	
-		//myGL.glTranslated(x, y, (float)World.getMap()[(int) x][(int) y]);
+
+
 		myGL.glColor3f(0.8f, 0,0);
 
-
-		//	FloatBuffer colors = BufferUtil.newFloatBuffer(12*(height[0].length-1)*(height.length-1));
-		//	FloatBuffer norms = BufferUtil.newFloatBuffer(12*(height[0].length-1)*(height.length-1));
-
-		//	myGL.glEnableClientState(GL.GL_COLOR_ARRAY);
 		myGL.glEnableClientState(GL.GL_VERTEX_ARRAY);
 		myGL.glEnableClientState(GL.GL_NORMAL_ARRAY);
 
-			myGL.glNormalPointer(GL.GL_FLOAT, 0, enemyNVert);
-		//	myGL.glColorPointer(3, GL.GL_FLOAT, 0, colors);
+		myGL.glNormalPointer(GL.GL_FLOAT, 0, enemyNVert);
 		myGL.glVertexPointer(3, GL.GL_FLOAT, 0, enemyVert);
 
 		myGL.glDrawArrays(GL.GL_TRIANGLE_STRIP,0,enemyVert.capacity()/3);
@@ -215,14 +224,8 @@ public class Enemy {
 		myGL.glDisableClientState(GL.GL_VERTEX_ARRAY);
 		myGL.glDisableClientState(GL.GL_NORMAL_ARRAY);
 
-		/*	myGL.glVertex3d(0,0,0);
-		myGL.glVertex3d(0,10,0);
-		myGL.glVertex3d(10,0,0);
-		myGL.glVertex3d(10,10,0);*/
-		
-
 		myGL.glEnd();
-		
+
 	}
 
 
