@@ -23,7 +23,6 @@ public class KeyFunctions {
 	private final float MOVE_SMOOTH = 0.4f;
 	private final int walkDelay = 400;
 	private final int runDelay = 300;
-	//private boolean move = true;
 
 	private boolean run = false;
 
@@ -55,12 +54,12 @@ public class KeyFunctions {
 					walk("Walk");
 				else
 					walk("Swim");
-			}
+			}//end actionPerformed
 
-		});
+		});//end timer
 
 		//sounds.start();
-	}
+	}//end constructor
 
 	/**
 	 * Sets the moving speed of the character in regard to keys being pressed
@@ -88,7 +87,7 @@ public class KeyFunctions {
 			if(refer.getHeight()<5) {
 				sin /= 4;
 				cos /= 4;
-			}
+			}//end if
 			for (int j = 0; j < keys.size(); j++){
 				if(keys.get(j) == KeyEvent.VK_SHIFT) {
 					//TODO run sounds
@@ -96,61 +95,60 @@ public class KeyFunctions {
 					cos *= 2;
 					run = true;
 					sounds.setDelay(runDelay);
-				}
+				}//end if
 				run=false;
-			}
+			}//end for
 
 			for (int j = 0; j < keys.size(); j++){
 				if(keys.get(j) == KeyEvent.VK_C) {
 					sin /= 2;
 					cos /= 2;
 					moveY/=2;
-				}
-			}
+				}//end if
+			}//end for
 			//else moveY = 0;
 			if(keys.get(i) == KeyEvent.VK_W || keys.get(i) == KeyEvent.VK_UP) {
 				moveZ -= 1.8*cos;
 				moveX += 1.8*sin;
-			}
+			}//end if
 			if(keys.get(i) == KeyEvent.VK_SPACE ) {
-				//TODO fix here
 				if(landed && !jump) {
 					jump = true;
 					landed=false;
 					//gravity = -.2f;
 					jumpSpeed=2;
-				}
+				}//end if
 				if(!landed && !jump) {
 					jump = true;
 					jumpSpeed+=gravity;
 					jet.close();
-				}
+				}//end if
 				if (jump && !landed){
 					moveY+=jumpSpeed;
 					System.out.println(jumpSpeed);
-				}
-			}
+				}//end if
+			}//end if
 			//jumpSpeed=0;
 
 			if(keys.get(i) == KeyEvent.VK_S ) {
 				moveZ += 1.8*cos;
 				moveX -= 1.8*sin;
-			}
+			}//end if
 			if(keys.get(i) == KeyEvent.VK_D ) {
 				moveZ += sin;
 				moveX += cos;
-			}
+			}//end if
 			if(keys.get(i) == KeyEvent.VK_A) {
 				moveZ -= sin;
 				moveX -= cos;
-			}
+			}//end if
 
 			if(keys.get(i) == KeyEvent.VK_R) {
 				if (Player.getClip()>0){
 					Player.setAmmo(10);
 					Player.setClip(Player.getClip()-1);
-				}
-			}
+				}//end if
+			}//end if
 
 			/*if (keys.get(i) == KeyEvent.VK_H){
 				showHelp = !showHelp;
@@ -169,7 +167,6 @@ public class KeyFunctions {
 				Player.crouch();
 			}*/
 
-			//TODO edit here to not walk through walls
 			if(moveX / 500 < 0)
 				moveX = 0;
 			if(moveX / 500 > 256)
@@ -182,7 +179,7 @@ public class KeyFunctions {
 			if(step > 0) {
 				step -= 1;
 				//move = false;
-			}
+			}//end if
 			if(step == 0)
 				//move = true;
 
@@ -194,13 +191,14 @@ public class KeyFunctions {
 						walk("Walk");
 					else
 						walk("Swim");*/
-					sounds.start();
-				}
+					//sounds.start();
+				}//end if
 			//sounds.stop();
-		}
+		}//end for
 		//	sounds.stop();
 
-	}
+	}//end processKeys
+
 
 	/**
 	 * Sets the position of the mouse
@@ -228,7 +226,7 @@ public class KeyFunctions {
 		float topLeft = (float) map[x][z + 1];
 		float topRight = (float) map[x + 1][z + 1];
 		float height = MOVE_SMOOTH*((bottomLeft+bottomRight+topLeft+topRight)/4 +5)+
-				(1-MOVE_SMOOTH)*player.getHeight();
+				(1-MOVE_SMOOTH)*player.getHeight();//smooth out the changes in altitude
 
 		if(height < -40)
 			height = -40f;
@@ -239,17 +237,17 @@ public class KeyFunctions {
 			jump =false;
 			jet.close();
 			if(height > 5)
-				walk("Land");
+				walk("Land");//play walk sound  when on land
 			else
-				walk("Splash");
-		}
+				walk("Splash"); //play splash sound on water
+		}//end if
 		if(!jump && landed)
 			moveY = player.getHeight();
 
-		player.setPosition(moveX / 500, moveY, (moveZ / 500));
+		player.setPosition(moveX / 500, moveY, (moveZ / 500));//set the position of the player
 
 		refer = player;
-	}
+	}//end moveEye
 	/**
 	 * Plays the music and allows the character to walk
 	 * @param str
@@ -274,5 +272,5 @@ public class KeyFunctions {
 		catch (Exception exc) {
 			exc.printStackTrace(System.out);
 		}
-	}
-}	 
+	}//end play
+}//end class

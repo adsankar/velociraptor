@@ -12,7 +12,8 @@ public class Player {
 	private static int ammo;
 	private static int health;
 	private static int weaponNumber;
-	private static boolean isRunning;
+
+//	private static boolean isRunning;
 	private static boolean isCrouched;
 	public float atX = 0;
 	public float atY = 0;
@@ -22,7 +23,7 @@ public class Player {
 	public float lookZ = 0;
 	public float height = 0;
 	public float force = 0;
-	
+
 	/**
 	 * Spawn the player with a specific amount of ammo and health
 	 */
@@ -31,23 +32,21 @@ public class Player {
 		ammo=10;
 		health=100;
 		weaponNumber=1;
-		isRunning=false;
-
+		//isRunning=false;
 		isCrouched=false;
-
 	}
-	
+
 	/**
 	 * Shoot or melee with the current weapon
 	 */
 	public void fire(){
-		
+
 		if (ammo>0){
-		ammo--;
+			ammo--;
 		}
 	}
-	
-	
+
+
 	/**
 	 * Switch weapons
 	 */
@@ -59,16 +58,16 @@ public class Player {
 			weaponNumber--;
 		}
 	}
-	
+
 
 
 	/**
 	 * Throw grenade or apply a powerup, such as a health pack
 	 */
 	public void useSpecial(){
-		
+
 	}
-	
+
 	/**
 	 * Reload the current weapon
 	 */
@@ -78,7 +77,7 @@ public class Player {
 			ammo += (10-ammo);
 		}
 	}
-	
+
 	public static int getClip() {
 		return clip;
 	}
@@ -146,7 +145,7 @@ public class Player {
 	public static void crouch(){
 		isCrouched = !isCrouched;
 	}
-	
+
 	public static int getAmmo() {
 		return ammo;
 	}
@@ -170,7 +169,7 @@ public class Player {
 	public static void setWeaponNumber(int weaponNumber) {
 		Player.weaponNumber = weaponNumber;
 	}
-	
+
 	/**
 	 * Sets the position of the camera
 	 * @param x
@@ -268,4 +267,4 @@ public class Player {
 	public float getForce() {
 		return force;
 	}
-}
+}//end class

@@ -30,7 +30,6 @@ public class Lighting {
 		float diffuse[] = {0.8f,0.8f,0.8f,1};
 		float specular[]= {1, 1, 1, 1};
 
-
 		myGL.glEnable(GL.GL_FOG);
 		myGL.glFogi (GL.GL_FOG_MODE, GL.GL_EXP2);
 		myGL.glFogf (GL.GL_FOG_DENSITY, .009f);
@@ -39,14 +38,13 @@ public class Lighting {
 
 		myGL.glLightModelfv(GL.GL_LIGHT_MODEL_AMBIENT , ambient, 0);
 
-
-
 		myGL.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, diffuse, 0);
 		myGL.glLightfv(GL.GL_LIGHT0, GL.GL_SPECULAR, specular, 0);
 
 		myGL.glEnable(GL.GL_COLOR_MATERIAL);
 		myGL.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT_AND_DIFFUSE);
-	}
+
+	}//end light
 
 	/**
 	 * Set the location of the light source
@@ -55,5 +53,6 @@ public class Lighting {
 	 */
 	public static void setLightPosition(GL myGL, float[] pos){
 		myGL.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, pos, 0);
-	}
-}
+	}//end setLightPosition
+
+}//end class

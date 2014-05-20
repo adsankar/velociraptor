@@ -20,11 +20,8 @@ public class Map {
 	 */
 	public Map(int size) {
 		map = new double[size][size];
-		
 		map = makeHeightMap((int)(Math.log(size)/Math.log(2)), MAX_HEIGHT*Math.random(), MAX_HEIGHT*Math.random(), MAX_HEIGHT*Math.random(), MAX_HEIGHT*Math.random(), MAX_HEIGHT);
 	}
-
-
 
 	/**
 	 * Find the height of a specific point on the map
@@ -43,7 +40,7 @@ public class Map {
 	public double[][] getMap() {
 		return map;
 	}
-	
+
 	/**
 	 * Setter for the map
 	 * @param m the map you want loaded
@@ -235,5 +232,4 @@ public class Map {
 		return Math.random();
 	}//end betterRandom
 
-
-}
+}//end class

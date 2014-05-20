@@ -39,20 +39,26 @@ import com.sun.opengl.util.texture.Texture;
 import com.sun.opengl.util.texture.TextureIO;
 
 /**
+<<<<<<< HEAD
+ * The Runner Class
+ * @author Aleksander Sankar & Sohum Dalal
+ * Software Design Pd. 7
+=======
  * Main class and runner which sets up the game and displays it
  * @author Aleksander Sankar and Sohum Dalal
  * Software Design Pd. 7
  * Mr. Fowler
+>>>>>>> branch 'master' of https://github.com/adsankar/velociraptor.git
  */
 public class Main extends GLCanvas{
-	//TODO crouch, run, enemies, spawn, shoot
 
+	//Textures for images used in the Main class
 	private Texture cross;
 	private Texture help;
 	private Texture fire;
 
+	//holds the vertices of the weapons
 	private FloatBuffer weaponVert;
-	//private BufferedImage crosshairs = new BufferedImage(300, 300, BufferedImage.TYPE_INT_ARGB);
 
 	//private float zoom = 0;
 	private float speed = 50f;
@@ -79,11 +85,11 @@ public class Main extends GLCanvas{
 	 * Creates a new window and displays to the user. Makes it visible.
 	 * @param args
 	 */
-	public static void main(String[] args) 
-	{
+	public static void main(String[] args){
+		//intialize opengl components
 		GLCapabilities glCap = new GLCapabilities();  
 		Main m = new Main(glCap);
-		JFrame jf = new JFrame("Velociraptor Hunter 3D");
+		JFrame jf = new JFrame("Velociraptor Hunter 3D");//set the title
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jf.setBackground(Color.gray);
 		jf.setSize(windowWidth,windowHeight);
@@ -95,48 +101,34 @@ public class Main extends GLCanvas{
 		jf.setVisible(true);//show the frame
 		an=new FPSAnimator(m, 60);//create animator, add it to the <code>TextureRunner</code> object and set it to 60 frames/second   
 		an.start();//start the animator;
+	}//end main
 
-	}
 	/**
 	 * Titles the program, sets the Window Size to full screen, imports and sets up JOGL graphics
 	 * Adds listeners to the window pane
 	 */
 	public Main(GLCapabilities glc) {
 		super(glc);
+		//set the dimensions to fullscreen
 		windowWidth = (int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth());
 		windowHeight = (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+
+		//initialize objects from other classes
 		world = new World();
 		control = new Control();
 		kFunc = new KeyFunctions();
 		mFunc = new MouseFunctions();
 		p = new Player();
 
-
-		/*try {
-			crosshairs = ImageIO.read(new File("crosshairwhite.png"));
-		} catch (IOException e) {
-			System.err.println("File Not Found!");
-			e.printStackTrace();
-			System.exit(1);
-		}*/
-
+		//timer for spawning enemies
 		enemyTimer = new Timer (ENEMY_DELAY_TIME, new ActionListener(){
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//Enemy.drawEnemy(256*Math.random(),256*Math.random(),getGL());
-
-				//	Enemy.drawEnemy(250,250,getGL());
-
-				//Enemy.drawEnemy(250,250,getGL());
-			//	Enemy.drawEnemy(250, 250, getGL());
 
 			}
 
-		});
+		});//end timer
 		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB) , new Point(0,0), "none"));
-
-		//setCursor(Toolkit.getDefaultToolkit().createCustomCursor(crosshairs, new Point(0,0), "cross"));
 
 		setSize(windowWidth, windowHeight);
 		this.addMouseListener(new MouseAdapter() {
@@ -147,8 +139,8 @@ public class Main extends GLCanvas{
 				///control.click(e);
 				p.fire();
 				shoot=true;
-			}
-		});
+			}//end mousePressed
+		});//end mouseAdapter
 
 
 		this.addMouseMotionListener(new MouseAdapter() {
@@ -158,7 +150,7 @@ public class Main extends GLCanvas{
 			public void mouseMoved(MouseEvent e) {
 				control.move(e);
 			}
-		});
+		});//end mouseAdapter
 
 		this.addMouseWheelListener(new MouseAdapter() {
 			/**
@@ -167,7 +159,7 @@ public class Main extends GLCanvas{
 			public void mouseWheelMoved(MouseWheelEvent e) {
 				p.switchWeapons(e.getWheelRotation());
 			}
-		});
+		});//end mouseAdapter
 
 		this.addKeyListener(new KeyListener() {
 			/**
@@ -181,28 +173,19 @@ public class Main extends GLCanvas{
 				if(e.getKeyCode() == KeyEvent.VK_H) {
 					showHelp =!showHelp;
 				}
-			}
+			}//end keyPressed
 			public void keyReleased(KeyEvent e) {
 				control.releaseKey(e);
 			}
 
 			public void keyTyped(KeyEvent arg0) {				
 			}
-		});
-
-		/*this.addFocusListener(new WindowAdapter() {
-		 *//**
-		 * Controls are inactive when window loses focus
-		 *//*
-			public void windowLostFocus(WindowEvent e) {
-				control.stopKeys();
-			}
-		});*/
+		});//end keyAdapter
 
 		kFunc.setSpeed(speed);
 		kFunc.setMap(World.getMap());
 		mFunc.setSpeed(speed);
-		//setMusic("What I'm Made Of");
+		this.setMusic("sax loop");
 		enemyTimer.start();
 
 		addGLEventListener(new GLEventListener(){
@@ -247,7 +230,7 @@ public class Main extends GLCanvas{
 
 		});//end GLEventListener
 
-	}
+	}//end constructor
 
 	/**
 	 * Sets up mouse movement to correspond with character, sets up perspective matrix, calibrates camera movement
@@ -260,13 +243,10 @@ public class Main extends GLCanvas{
 		mFunc.eye(p);
 		GLU glu = new GLU();
 
-
 		myGL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 		myGL.glMatrixMode(GL.GL_MODELVIEW);
 		myGL.glLoadIdentity();
 
-
-		//	myGL.glRotated(90,0,0,1);
 		/**
 		 * Moves the camera to where viewer is looking
 		 */
@@ -282,8 +262,8 @@ public class Main extends GLCanvas{
 		world.drawWorld(myGL);
 		myGL.glPopMatrix();
 		drawStatics(myGL);
-		Enemy.drawEnemy(30, 30, myGL);
-		
+		//Enemy.drawEnemy(30, 30, myGL);
+
 		//start the text renderer, set its color and display text
 		renderer.setColor(1,1,.6f,.7f);//RGBA colors
 		renderer.beginRendering(w, h);
@@ -293,24 +273,25 @@ public class Main extends GLCanvas{
 		renderer.draw("GPS: ("+(int)p.getXPosition()+", "+(int)p.getZPosition()+", "+(int)p.getYPosition()+")",windowWidth-300,windowHeight-160); //get ammo
 		myGL.glClearColor(0f,0f,0f,1f);//so that not all of the shapes have this color
 		renderer.endRendering();
-	}
+	}//end doDisplay
 	/**
 	 *Calls if you change resolution or monitors
 	 */
 	public void displayChanged(GLAutoDrawable arg0, boolean arg1, boolean arg2) {
+
 	}
 	/**
-	 * Initializes lighting
+	 * Initializes lighting and loads the screen
 	 */
 	public void doInit(GL myGL) {
 		renderer = new TextRenderer(new Font("SansSerif", Font.BOLD, 30),true,true);
 		myGL.glClearColor(0f,0f,0f,1f);//so that not all of the shapes have this color
-		loadVertexData(new File ("axe.txt"));
-		Enemy.loadEnemyData(new File("vel.txt"));
+		//loadVertexData(new File ("axe.txt"));
+		//Enemy.loadEnemyData(new File("vel.txt"));
 		world.makeWorld(myGL);
 		loadTextures(myGL);
 		Lighting.light(myGL);
-	}
+	}//end doInit
 	/**
 	 * Called when window is resized (which it won't be)
 	 */
@@ -320,7 +301,7 @@ public class Main extends GLCanvas{
 		myGL.glLoadIdentity();
 		glu.gluPerspective(60, 1, 1, 500000); 	
 
-	}
+	}//end doReshape
 
 	/**
 	 * Jam to your bad background music while you kill velociraptors
@@ -331,8 +312,8 @@ public class Main extends GLCanvas{
 			mp3 = new MP3("/Soundtrack/" + str + ".mp3");
 			mp3.play();
 			currentTrack = str;
-		}
-	}
+		}//
+	}//end setMusic
 	/**
 	 * Stops the music
 	 */
@@ -340,8 +321,6 @@ public class Main extends GLCanvas{
 		mp3.close();
 		currentTrack = "";
 	}
-
-	
 
 	/**
 	 * Draw all of the parts that do not move relative to the player (crosshairs, help screen)
@@ -377,7 +356,7 @@ public class Main extends GLCanvas{
 			myGL.glTexCoord2f(1, 0);
 			myGL.glVertex3f(windowWidth/2+helpWindowSize, windowHeight/2-helpWindowSize, 0);
 			myGL.glEnd();
-		}
+		}//end if
 		else{
 			if (shoot){
 				fire.enable();
@@ -394,34 +373,30 @@ public class Main extends GLCanvas{
 				myGL.glVertex3f(windowWidth/2+fireSize, windowHeight/2-fireSize, 0);
 				myGL.glEnd();
 				shoot = false;
-			}
-		cross.enable();
-		cross.bind();
-		// Draw a textured quad
-		myGL.glBegin(GL.GL_QUADS);
+			}//end if
+			cross.enable();
+			cross.bind();
+			// Draw a textured quad
+			myGL.glBegin(GL.GL_QUADS);
 
-		myGL.glTexCoord2f(0, 0);
-		myGL.glVertex3f(windowWidth/2-crossSize, windowHeight/2-crossSize, 0);
-		myGL.glTexCoord2f(0, 1);
-		myGL.glVertex3f(windowWidth/2-crossSize, windowHeight/2+crossSize, 0);
-		myGL.glTexCoord2f(1, 1);
-		myGL.glVertex3f(windowWidth/2+crossSize, windowHeight/2+crossSize, 0);
-		myGL.glTexCoord2f(1, 0);
-		myGL.glVertex3f(windowWidth/2+crossSize, windowHeight/2-crossSize, 0);
-		myGL.glEnd();
-		}
+			myGL.glTexCoord2f(0, 0);
+			myGL.glVertex3f(windowWidth/2-crossSize, windowHeight/2-crossSize, 0);
+			myGL.glTexCoord2f(0, 1);
+			myGL.glVertex3f(windowWidth/2-crossSize, windowHeight/2+crossSize, 0);
+			myGL.glTexCoord2f(1, 1);
+			myGL.glVertex3f(windowWidth/2+crossSize, windowHeight/2+crossSize, 0);
+			myGL.glTexCoord2f(1, 0);
+			myGL.glVertex3f(windowWidth/2+crossSize, windowHeight/2-crossSize, 0);
+			myGL.glEnd();
+		}//end else
 		myGL.glDisable(GL.GL_TEXTURE_2D);
 		myGL.glPopMatrix();
 		myGL.glPopMatrix();
-		
-		//TODO here
+
 		myGL.glPushMatrix();
 		myGL.glTranslated(-5,-5,5);
-		drawWeapon(myGL);
-		//System.out.println("test");
+		//drawWeapon(myGL);
 		myGL.glPopMatrix();
-
-
 
 		myGL.glMatrixMode(GL.GL_PROJECTION);
 		myGL.glPopMatrix();
@@ -430,12 +405,10 @@ public class Main extends GLCanvas{
 		myGL.glEnable(GL.GL_LIGHTING);
 
 		myGL.glEnd();
+	}//end drawStatics
 
 
 
-	}
-
-	
 	/**
 	 * Load vertex data for the weapon from a file
 	 * @param myFile
@@ -463,18 +436,16 @@ public class Main extends GLCanvas{
 				x.add(Float.parseFloat(temp.substring(0,firstSpace)));
 				x.add(Float.parseFloat(temp.substring(firstSpace+1,secondSpace)));
 				x.add(Float.parseFloat(temp.substring(secondSpace+1,temp.length())));
-			}
-		}
-
+			}//end if
+		}//end while
 
 		weaponVert = BufferUtil.newFloatBuffer(x.size());
 		for(Float f: x){
 			weaponVert.put(f);
 			//	System.out.println(f);
-		}
+		}//end for
 		weaponVert.rewind();
 	}
-
 	/**
 	 * Draw the weapon using the pre-loaded vertex data
 	 * @param myGL
@@ -483,15 +454,8 @@ public class Main extends GLCanvas{
 		//	myGL.glBegin(GL.GL_TRIANGLES);
 		myGL.glColor3f(0.8f, 0.8f, 0.8f);
 
-
-		//	FloatBuffer colors = BufferUtil.newFloatBuffer(12*(height[0].length-1)*(height.length-1));
-		//	FloatBuffer norms = BufferUtil.newFloatBuffer(12*(height[0].length-1)*(height.length-1));
-
-		//	myGL.glEnableClientState(GL.GL_COLOR_ARRAY);
 		myGL.glEnableClientState(GL.GL_VERTEX_ARRAY);
 
-		//	myGL.glNormalPointer(GL.GL_FLOAT, 0, vert);
-		//	myGL.glColorPointer(3, GL.GL_FLOAT, 0, colors);
 		myGL.glVertexPointer(3, GL.GL_FLOAT, 0, weaponVert);
 
 		myGL.glDrawArrays(GL.GL_TRIANGLE_STRIP,0,weaponVert.capacity()/3);
@@ -499,28 +463,22 @@ public class Main extends GLCanvas{
 		//disable arrays when done
 		myGL.glDisableClientState(GL.GL_VERTEX_ARRAY);
 
-		/*	myGL.glVertex3d(0,0,0);
-		myGL.glVertex3d(0,10,0);
-		myGL.glVertex3d(10,0,0);
-		myGL.glVertex3d(10,10,0);*/
-
 		myGL.glEnd();
-	}
+	}//end drawWeapon
 
 	/**
 	 * Load the necessary textures
 	 * @param myGL
 	 */
 	public void loadTextures(GL myGL){
+		myGL.glEnable(GL.GL_TEXTURE_2D);
 		myGL.glTexParameterf(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR );
 		myGL.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR_MIPMAP_LINEAR);
-		myGL.glGenerateMipmapEXT(GL.GL_TEXTURE_2D);
-		//myGL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_BORDER_COLOR, GL.GL_REPEAT);
-		//	myGL.glTexEnvi(GL.GL_TEXTURE_ENV, GL.GL_TEXTURE_ENV_MODE, GL.GL_MODULATE);
+		//myGL.glGenerateMipmapEXT(GL.GL_TEXTURE_2D);
 		try{
 			//load a TextureData object from a picture and then create a texture from it
 			cross = TextureIO.newTexture(new File("crosshairwhite.png"),true);
-			help = TextureIO.newTexture(new File("testTiel.png"),true);
+			help = TextureIO.newTexture(new File("HELP SCREEN.png"),true);
 			fire = TextureIO.newTexture(new File("shot.png"),true);
 		}//end try
 		catch(IOException e){
@@ -533,5 +491,4 @@ public class Main extends GLCanvas{
 
 	}//end loadTextures
 
-
-}
+}//end class

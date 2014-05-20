@@ -40,7 +40,6 @@ public class Vector3 {
 	 * @return the cross product of the two vectors
 	 */
 	public static Vector3 cross(Vector3 a, Vector3 b){
-
 		return new Vector3(a.getY()*b.getZ()-a.getZ()*b.getY(),
 				a.getZ()*b.getX()-a.getX()*b.getZ(),
 				a.getX()*b.getY()-a.getY()*b.getX());
@@ -85,7 +84,8 @@ public class Vector3 {
 		float avgY = (acb.getY()+bce.getY()+ecd.getY()+dca.getY())/4;
 		float avgZ = (acb.getZ()+bce.getZ()+ecd.getZ()+dca.getZ())/4;
 		return normalize(new Vector3(avgX, avgY, avgZ));
-	}
+
+	}//end calcAvgNormal
 
 	/**
 	 * Normalize a vector
@@ -95,7 +95,7 @@ public class Vector3 {
 	public static Vector3 normalize(Vector3 a){
 		float d = (float) Math.sqrt(a.getX()*a.getX()+a.getY()*a.getY()+a.getZ()*a.getZ());
 		return new Vector3(a.getX()/d, a.getY()/d, a.getZ()/d);
-	}
+	}//end normalize
 
 	/**
 	 * Get the x component of the vector
@@ -145,4 +145,4 @@ public class Vector3 {
 		this.z = z;
 	}
 
-}
+}//end class

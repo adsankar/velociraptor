@@ -30,8 +30,9 @@ public class Control {
 			rob=new Robot();
 		} catch (AWTException e) {
 			e.printStackTrace();
-		}
-	}
+		}//end catch
+	}//end constructor
+
 	/**
 	 * Handles keyEvents including when keys are pressed, or held down
 	 * @param e
@@ -43,17 +44,17 @@ public class Control {
 			if (keysDown.get(i) == e.getKeyCode()) {
 				add = false;
 				break;
-			}
+			}//end if	
 			newDown.add(keysDown.get(i));
-		}
+		}//end for
 		for (int i = 0; i < keysOff.size(); i++)
 			if (keysOff.get(i) == e.getKeyCode())
 				add = false;
 		if (add) {
 			newDown.add(e.getKeyCode());
 			keysDown = newDown;
-		}
-	}
+		}//end if
+	}//end pressKey
 	/**
 	 * Handles key events when key is released by user
 	 * @param e
@@ -69,20 +70,20 @@ public class Control {
 			if (keysOff.get(i) != e.getKeyCode())
 				newDown.add(keysOff.get(i));
 		keysOff = newDown;
-	}
+	}//end releaseKey
 	/**
 	 * Stops the keys from functioning (when game has ended) or when screen loses focus
 	 */
 	public void stopKeys() {
 		keysDown = new ArrayList<Integer>(0);
-	}
+	}//end stopKeys
 	/**
 	 * Returns what keys are being pressed down
 	 * @return keysDown the list of keys pressed down
 	 */
 	public ArrayList<Integer> getKeysDown() {
 		return keysDown;
-	}
+	}//end getKeysDown
 	/**
 	 * Sets the position of mouse
 	 * @param x the x coordinate
@@ -91,7 +92,7 @@ public class Control {
 	public void setMouse(float x, float y) {
 		mouseX = x;
 		mouseY = y;
-	}
+	}//end setMouse
 	/**
 	 * Updates new location/position of camera and moves mouse back to center
 	 * @param e
@@ -100,19 +101,20 @@ public class Control {
 		mouseX += e.getX()  - midX;
 		mouseY += e.getY() - midY;
 		rob.mouseMove((int) midX,(int) midY);
-	}
+	}//end move
+
 	/**
 	 * Gets the X position of the mouse
 	 * @return the x position of the mouse
 	 */
 	public float getMouseX() {
 		return mouseX;
-	}
+	}//end getMouseX
 	/**
 	 * Returns the Y postion of the mouse
 	 * @return the y position of the mouse
 	 */
 	public float getMouseY() {
 		return mouseY;
-	}
-}
+	}//end getMouseY
+}//end class

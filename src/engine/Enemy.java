@@ -154,7 +154,7 @@ public class Enemy {
 		}catch (FileNotFoundException ex){
 			System.out.println("No File Here!");
 			System.exit(0);//end process
-		}
+		}//end catch
 		int count =0;
 		Scanner myScanner = new Scanner(myStream);
 		while (myScanner.hasNext()){
@@ -169,7 +169,7 @@ public class Enemy {
 				x.add(Float.parseFloat(temp.substring(0,firstSpace)));
 				x.add(Float.parseFloat(temp.substring(firstSpace+1,secondSpace)));
 				x.add(Float.parseFloat(temp.substring(secondSpace+1,temp.length())));
-			}
+			}//end if
 			if (temp.substring(0,3).equals("vn ") && count>36){
 
 				temp = temp.substring(3,temp.length());
@@ -178,24 +178,27 @@ public class Enemy {
 				n.add(Float.parseFloat(temp.substring(0,firstSpace)));
 				n.add(Float.parseFloat(temp.substring(firstSpace+1,secondSpace)));
 				n.add(Float.parseFloat(temp.substring(secondSpace+1,temp.length())));
-			}
-		}
+			}//end if
+		}//end while
 
-
+		//create vertex buffer and add elements to it
 		enemyVert = BufferUtil.newFloatBuffer(x.size());
 		for(Float f: x){
 			enemyVert.put(f);
 
-		}
+		}//end for
+
 		enemyVert.rewind();
 
 		enemyNVert = BufferUtil.newFloatBuffer(n.size());
 		for(Float f: n){
 			enemyNVert.put(f);
 
-		}
-		enemyNVert.rewind();
-	}
+		}//end for
+
+
+	}//end loadEnemyData
+
 
 	/**
 	 * Draw the enemy at a specific location on the map
@@ -226,7 +229,5 @@ public class Enemy {
 
 		myGL.glEnd();
 
-	}
-
-
-}
+	}//end drawEnemy
+}//end class

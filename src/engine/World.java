@@ -48,7 +48,6 @@ public class World {
 	public void makeWorld(GL myGL) {
 		loadTextures(myGL);
 		setupArrays();
-
 	}
 
 	/**
@@ -85,7 +84,7 @@ public class World {
 					e = new Vector3(i, j+1, (float)(height[i][j+1]));
 
 					normal = Vector3.calcAvgNormal(a, b, c, d, e);
-	
+
 					norms.put(normal.getX());
 					norms.put(normal.getY());
 					norms.put(normal.getZ());
@@ -131,34 +130,11 @@ public class World {
 					norms.put(normal.getY());
 					norms.put(normal.getZ());
 
-					/*
-				calculateNormal(i, j, height[i][j], i+1, j, height[i+1][j], i, j+1, height[i][j+1]);
-				norms.put(nextNormals[0]);
-				norms.put(nextNormals[1]);
-				norms.put(nextNormals[2]);
-
-				calculateNormal(i+1, j, height[i+1][j], i+2, j, height[i+2][j], i+1, j+1, height[i+1][j+1]);
-				norms.put(nextNormals[0]);
-				norms.put(nextNormals[1]);
-				norms.put(nextNormals[2]);
 
 
-
-				calculateNormal(i+1, j+1, height[i+1][j+1], i+2, j+1, height[i+2][j+1], i+2, j+2, height[i+2][j+2]);
-				norms.put(nextNormals[0]);
-				norms.put(nextNormals[1]);
-				norms.put(nextNormals[2]);
-
-				//calculate surface normals and add them to the normals array
-				calculateNormal(i, j+1, height[i][j+1], i+1, j+1, height[i+1][j+1], i+1, j+2, height[i+1][j+2]);
-				norms.put(nextNormals[0]);
-				norms.put(nextNormals[1]);
-				norms.put(nextNormals[2]);
-					 */
 				}
 				else {
 					//the border
-					//calculateNormal(x1, y1, z1, x2, y2, z2, x3, y3, z3);
 					norms.put(1);
 					norms.put(1);
 					norms.put(1);
@@ -201,7 +177,7 @@ public class World {
 			norms.put(i, (norms.get(i)+norms.get(i+3)+norms.get(i+6))/3);
 			norms.put(i+1, (norms.get(i+1)+norms.get(i+4)+norms.get(i+7))/3);
 			norms.put(i+2, (norms.get(i+2)+norms.get(i+5)+norms.get(i+8))/3);
-		}
+		}//end for
 	}// end setupArrays
 
 	/**
@@ -272,7 +248,7 @@ public class World {
 
 
 	/**
-	 * 
+	 * Get the map
 	 * @return map
 	 */
 	public static double[][] getMap() {
@@ -284,11 +260,7 @@ public class World {
 	 * @param myGL
 	 */
 	public void setWalls(GL myGL){
-
-
-		//	myGL.glEnable(GL.GL_TEXTURE_2D);
 		myGL.glClearColor(0,0,0,1);
-		//myGL.glMaterialfv(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT_AND_DIFFUSE,new float[]{1,1,1,1 },0);
 		myGL.glColor3d(1, 1, 1);
 
 		wall1.enable();
@@ -354,11 +326,8 @@ public class World {
 
 		sky.enable();
 		sky.bind();
-		/*		myGL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, GL.GL_MIRRORED_REPEAT);
-		myGL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, GL.GL_MIRRORED_REPEAT);*/
+
 		myGL.glBegin(GL.GL_QUADS);
-		/*	wall1.enable();
-		wall1.bind();*/
 		myGL.glTexCoord2f(1, 0);
 		myGL.glVertex3f(0, 120, 0);
 		myGL.glTexCoord2f(1, 1);
@@ -369,12 +338,10 @@ public class World {
 		myGL.glVertex3f(0,120, 256);
 
 		sky.disable();
-		//myGLwall1.disable();
 
 		myGL.glEnd();
 
 		myGL.glDisable(GL.GL_TEXTURE_2D);
-		//myGL.glEnable(GL.GL_COLOR_MATERIAL);
 	}
 
 	/**
@@ -384,9 +351,6 @@ public class World {
 	public void loadTextures(GL myGL){
 		myGL.glTexParameterf(GL.GL_TEXTURE_2D,GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR );
 		myGL.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR_MIPMAP_LINEAR);
-		myGL.glGenerateMipmapEXT(GL.GL_TEXTURE_2D);
-		//myGL.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_BORDER_COLOR, GL.GL_REPEAT);
-		//	myGL.glTexEnvi(GL.GL_TEXTURE_ENV, GL.GL_TEXTURE_ENV_MODE, GL.GL_MODULATE);
 		try{
 			//load a TextureData object from a picture and then create a texture from it
 			wall1 =TextureIO.newTexture(new File("mount.jpg"),true);
@@ -407,5 +371,4 @@ public class World {
 
 	}//end loadTextures
 
-
-}
+}//end class

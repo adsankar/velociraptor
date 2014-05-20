@@ -42,5 +42,5 @@ public class MouseFunctions {
 		player.setView((float) (player.getXPosition() + (Math.sin(mx * .01f) * 3)),
 				(-my * .01f) + player.getYPosition(),
 				(float) (player.getZPosition() - (Math.cos(mx * .01f) * 3)));
-	}
-}
+	}//end eye
+}//end class

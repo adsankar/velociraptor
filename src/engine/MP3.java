@@ -57,23 +57,24 @@ public class MP3 {
 						if(mode == 1){
 							fis = new FileInputStream(file);
 							playMP3 = new Player(fis);
-						}
+						}//end if
 						if(mode == 2){
 							InputStream is = getClass().getResourceAsStream(filename);
 							bis = new BufferedInputStream(is);
 							playMP3 = new Player(bis);
-						}
+						}//end if
 						playMP3.play();
 						playMP3.close();
 						loops++;
 						if(loop > 0 && loops == loop)
 							playing = false;
-					}
+					}//end while
 				} catch (Exception e) {
-				}
-			}
+				}//end catch
+			}//end run
 		}.start();
-	}
+	}//end play
+	
 	/**
 	 * Checks to see if the file is valid and starts to play it if it is
 	 */
@@ -83,8 +84,8 @@ public class MP3 {
 				fis = new FileInputStream(file);
 				playing = true;
 			} catch (Exception e) {
-			}
-	}
+			}//end catch
+	}//end verifyFile
 	/**
 	 * Stops the music from playing
 	 */
@@ -92,8 +93,8 @@ public class MP3 {
 		if (playMP3 != null) {
 			playing = false;
 			playMP3.close();
-		}
-	}
+		}//end if
+	}//end close
 	/**
 	 * Checks if the music is playing
 	 * @return playing
@@ -101,4 +102,4 @@ public class MP3 {
 	public boolean isPlaying() {
 		return playing;
 	}
-}
+}//end class
