@@ -39,16 +39,10 @@ import com.sun.opengl.util.texture.Texture;
 import com.sun.opengl.util.texture.TextureIO;
 
 /**
-<<<<<<< HEAD
- * The Runner Class
- * @author Aleksander Sankar & Sohum Dalal
- * Software Design Pd. 7
-=======
  * Main class and runner which sets up the game and displays it
  * @author Aleksander Sankar and Sohum Dalal
  * Software Design Pd. 7
  * Mr. Fowler
->>>>>>> branch 'master' of https://github.com/adsankar/velociraptor.git
  */
 public class Main extends GLCanvas{
 
@@ -185,7 +179,7 @@ public class Main extends GLCanvas{
 		kFunc.setSpeed(speed);
 		kFunc.setMap(World.getMap());
 		mFunc.setSpeed(speed);
-		this.setMusic("sax loop");
+	//	this.setMusic("What I'm Made Of");
 		enemyTimer.start();
 
 		addGLEventListener(new GLEventListener(){
@@ -265,12 +259,13 @@ public class Main extends GLCanvas{
 		//Enemy.drawEnemy(30, 30, myGL);
 
 		//start the text renderer, set its color and display text
-		renderer.setColor(1,1,.6f,.7f);//RGBA colors
+		renderer.setColor(1,0,.69f,1f);//RGBA colors
 		renderer.beginRendering(w, h);
 		//display some basic information
 		renderer.draw("Health: "+Player.getHealth(), windowWidth-300, windowHeight-80); //get player health
 		renderer.draw("Ammo: "+Player.getAmmo()+" ("+(Player.getClip())*10+")",windowWidth-300,windowHeight-120); //get ammo
 		renderer.draw("GPS: ("+(int)p.getXPosition()+", "+(int)p.getZPosition()+", "+(int)p.getYPosition()+")",windowWidth-300,windowHeight-160); //get ammo
+		renderer.draw("H: Help", windowWidth-300, windowHeight-200);
 		myGL.glClearColor(0f,0f,0f,1f);//so that not all of the shapes have this color
 		renderer.endRendering();
 	}//end doDisplay
@@ -347,13 +342,15 @@ public class Main extends GLCanvas{
 			help.bind();
 			myGL.glBegin(GL.GL_QUADS);
 
-			myGL.glTexCoord2f(0, 0);
-			myGL.glVertex3f(windowWidth/2-helpWindowSize, windowHeight/2-helpWindowSize, 0);
-			myGL.glTexCoord2f(0, 1);
-			myGL.glVertex3f(windowWidth/2-helpWindowSize, windowHeight/2+helpWindowSize, 0);
-			myGL.glTexCoord2f(1, 1);
-			myGL.glVertex3f(windowWidth/2+helpWindowSize, windowHeight/2+helpWindowSize, 0);
 			myGL.glTexCoord2f(1, 0);
+			
+			myGL.glVertex3f(windowWidth/2-helpWindowSize, windowHeight/2-helpWindowSize, 0);
+			myGL.glTexCoord2f(1, 1);
+			myGL.glVertex3f(windowWidth/2-helpWindowSize, windowHeight/2+helpWindowSize, 0);
+			myGL.glTexCoord2f(0, 1);
+			myGL.glVertex3f(windowWidth/2+helpWindowSize, windowHeight/2+helpWindowSize, 0);
+		
+			myGL.glTexCoord2f(0, 0);
 			myGL.glVertex3f(windowWidth/2+helpWindowSize, windowHeight/2-helpWindowSize, 0);
 			myGL.glEnd();
 		}//end if

@@ -18,8 +18,6 @@ import javax.swing.Timer;
  */
 public class KeyFunctions {
 
-	//TODO timers for movements
-
 	private final float MOVE_SMOOTH = 0.4f;
 	private final int walkDelay = 400;
 	private final int runDelay = 300;
@@ -39,26 +37,12 @@ public class KeyFunctions {
 	double[][] map;
 	Player refer = new Player();
 	MP3 jet = new MP3("/Soundtrack/Jet.mp3");
-	private Timer sounds;
 
 	/**
 	 * Creates a new instance of KeyFunctions
 	 */
 	public KeyFunctions() {
 		//do nothing
-		sounds = new Timer (walkDelay, new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if(refer.getHeight() > 5 &&landed &&!jump)
-					walk("Walk");
-				else
-					walk("Swim");
-			}//end actionPerformed
-
-		});//end timer
-
-		//sounds.start();
 	}//end constructor
 
 	/**
@@ -80,7 +64,6 @@ public class KeyFunctions {
 	 * @param keys
 	 */
 	public void processKeys(ArrayList<Integer> keys) {
-		float jumpSpeed =2;
 		for(int i = 0; i < keys.size(); i++) {
 			float sin = (float) Math.sin(mx * .01) * 3 * speed;
 			float cos = (float) Math.cos(mx * .01) * 3 * speed;
@@ -94,7 +77,6 @@ public class KeyFunctions {
 					sin *= 2;
 					cos *= 2;
 					run = true;
-					sounds.setDelay(runDelay);
 				}//end if
 				run=false;
 			}//end for
@@ -111,7 +93,7 @@ public class KeyFunctions {
 				moveZ -= 1.8*cos;
 				moveX += 1.8*sin;
 			}//end if
-			if(keys.get(i) == KeyEvent.VK_SPACE ) {
+			/*if(keys.get(i) == KeyEvent.VK_SPACE ) {
 				if(landed && !jump) {
 					jump = true;
 					landed=false;
@@ -125,14 +107,13 @@ public class KeyFunctions {
 				}//end if
 				if (jump && !landed){
 					moveY+=jumpSpeed;
-					System.out.println(jumpSpeed);
 				}//end if
 			}//end if
-			//jumpSpeed=0;
+			 */			//jumpSpeed=0;
 
 			if(keys.get(i) == KeyEvent.VK_S ) {
-				moveZ += 1.8*cos;
-				moveX -= 1.8*sin;
+				moveZ += .8*cos;
+				moveX -= .8*sin;
 			}//end if
 			if(keys.get(i) == KeyEvent.VK_D ) {
 				moveZ += sin;
@@ -142,30 +123,6 @@ public class KeyFunctions {
 				moveZ -= sin;
 				moveX -= cos;
 			}//end if
-
-			if(keys.get(i) == KeyEvent.VK_R) {
-				if (Player.getClip()>0){
-					Player.setAmmo(10);
-					Player.setClip(Player.getClip()-1);
-				}//end if
-			}//end if
-
-			/*if (keys.get(i) == KeyEvent.VK_H){
-				showHelp = !showHelp;
-			}*/
-
-			/*	if(keys.get(i) == KeyEvent.VK_E) {
-				moveY += speed * .005;
-				landed = false;
-				if(!jet.isPlaying())
-					jet.play();
-			}*/
-			/*	if(keys.get(i) == KeyEvent.VK_Q)
-				moveY -= speed * .005;*/
-
-			/*	if (keys.get(i)== KeyEvent.VK_C){
-				Player.crouch();
-			}*/
 
 			if(moveX / 500 < 0)
 				moveX = 0;
@@ -178,24 +135,26 @@ public class KeyFunctions {
 
 			if(step > 0) {
 				step -= 1;
-				//move = false;
 			}//end if
 			if(step == 0)
-				//move = true;
+
 
 				if((keys.get(i) == KeyEvent.VK_W ||
 				keys.get(i) == KeyEvent.VK_S ||
 				keys.get(i) == KeyEvent.VK_D ||
 				keys.get(i) == KeyEvent.VK_A) && landed && !jump){
-					/*if(refer.getHeight() > 5)
+					if(refer.getHeight() > 5){
 						walk("Walk");
-					else
-						walk("Swim");*/
-					//sounds.start();
+						step = 20;
+					}
+					else{
+						walk("Swim");
+						step = 40;
+					}
+			
 				}//end if
-			//sounds.stop();
+			
 		}//end for
-		//	sounds.stop();
 
 	}//end processKeys
 
@@ -254,10 +213,6 @@ public class KeyFunctions {
 	 */
 	public void walk(String str) {
 		play(str + ".wav");
-		if (run){
-			step=30;
-		}
-		else step = 20;
 	}
 	/**
 	 * Plays the music

@@ -78,63 +78,26 @@ public class Player {
 		}
 	}
 
+	/**
+	 * Get the clip of the player
+	 * @return clip
+	 */
 	public static int getClip() {
 		return clip;
 	}
 
+	/**
+	 * Set the clip of the player
+	 * @param clip
+	 */
 	public static void setClip(int clip) {
 		Player.clip = clip;
 	}
 
-
-	public float getAtX() {
-		return atX;
-	}
-
-	public void setAtX(float atX) {
-		this.atX = atX;
-	}
-
-	public float getAtY() {
-		return atY;
-	}
-
-	public void setAtY(float atY) {
-		this.atY = atY;
-	}
-
-	public float getAtZ() {
-		return atZ;
-	}
-
-	public void setAtZ(float atZ) {
-		this.atZ = atZ;
-	}
-
-	public float getLookX() {
-		return lookX;
-	}
-
-	public void setLookX(float lookX) {
-		this.lookX = lookX;
-	}
-
-	public float getLookY() {
-		return lookY;
-	}
-
-	public void setLookY(float lookY) {
-		this.lookY = lookY;
-	}
-
-	public float getLookZ() {
-		return lookZ;
-	}
-
-	public void setLookZ(float lookZ) {
-		this.lookZ = lookZ;
-	}
-
+	/**
+	 * Set the height of the player
+	 * @param height
+	 */
 	public void setHeight(float height) {
 		this.height = height;
 	}
@@ -146,26 +109,50 @@ public class Player {
 		isCrouched = !isCrouched;
 	}
 
+	/**
+	 * Get the ammo of the player
+	 * @return ammo
+	 */
 	public static int getAmmo() {
 		return ammo;
 	}
 
+	/**
+	 * Set the ammo of the player
+	 * @param ammo
+	 */
 	public static void setAmmo(int ammo) {
 		Player.ammo = ammo;
 	}
 
+	/**
+	 * Get the health of the player
+	 * @return health 
+	 */
 	public static int getHealth() {
 		return health;
 	}
 
+	/**
+	 * Set the health of the player
+	 * @param health
+	 */
 	public static void setHealth(int health) {
 		Player.health = health;
 	}
 
+	/**
+	 * Get the weapon number of the player
+	 * @return weaponNumber
+	 */
 	public static int getWeaponNumber() {
 		return weaponNumber;
 	}
 
+	/**
+	 * Set the weapon number of the player
+	 * @param weaponNumber
+	 */
 	public static void setWeaponNumber(int weaponNumber) {
 		Player.weaponNumber = weaponNumber;
 	}
@@ -208,21 +195,21 @@ public class Player {
 	}
 	/**
 	 * Finds the X-Position of the camera
-	 * @return
+	 * @return atX
 	 */
 	public float getXPosition() {
 		return atX;
 	}
 	/**
 	 * Finds the Y position of the character
-	 * @return
+	 * @return atY
 	 */
 	public float getYPosition() {
 		return atY;
 	}
 	/**
 	 * Finds the Z position of the character
-	 * @return
+	 * @return atZ
 	 */
 	public float getZPosition() {
 		return atZ;
@@ -230,7 +217,7 @@ public class Player {
 
 	/**
 	 * Finds the X position of where the character is looking
-	 * @return
+	 * @return lookX
 	 */
 	public float getXView() {
 		return lookX;
@@ -238,7 +225,7 @@ public class Player {
 
 	/**
 	 * Finds the Y position of where the character is looking
-	 * @return
+	 * @return lookY
 	 */
 	public float getYView() {
 		return lookY;
@@ -246,7 +233,7 @@ public class Player {
 
 	/**
 	 * Finds the Z position of where the character is looking
-	 * @return
+	 * @return lookZ
 	 */
 	public float getZView() {
 		return lookZ;
@@ -254,7 +241,7 @@ public class Player {
 
 	/**
 	 * Finds the height of the camera
-	 * @return
+	 * @return height
 	 */
 	public float getHeight() {
 		return height;
@@ -262,7 +249,7 @@ public class Player {
 
 	/**
 	 * Finds the force (like gravity)
-	 * @return
+	 * @return force
 	 */
 	public float getForce() {
 		return force;
