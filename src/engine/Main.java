@@ -80,7 +80,7 @@ public class Main extends GLCanvas{
 	 * @param args
 	 */
 	public static void main(String[] args){
-		//intialize opengl components
+		//initialize opengl components
 		GLCapabilities glCap = new GLCapabilities();  
 		Main m = new Main(glCap);
 		JFrame jf = new JFrame("Velociraptor Hunter 3D");//set the title

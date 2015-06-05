@@ -3,6 +3,7 @@
 	<name>Velociraptor</name>
 	<comment></comment>
 	<projects>
+		<project>JOGL-JARS</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
